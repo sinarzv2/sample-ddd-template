@@ -1,12 +1,12 @@
-﻿using Domain.SharedKernel.ValueObjects;
+﻿using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.Users.Events
 {
-    public sealed class UserPasswordChangedEvent : object, Dtat.Ddd.IDomainEvent
+    public sealed class UserPasswordChangedEvent : IDomainEvent
 	{
-		public UserPasswordChangedEvent
-			(FullName fullName, EmailAddress emailAddress) : base()
-		{
+		public UserPasswordChangedEvent(FullName fullName, EmailAddress emailAddress)
+        {
 			FullName = fullName;
 			EmailAddress = emailAddress;
 		}
