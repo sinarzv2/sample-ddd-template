@@ -12,7 +12,7 @@ namespace Domain.Aggregates.Customers
 		}
 
 		public Customer
-			(SharedKernel.FullName fullName,
+			(FullName fullName,
 			EmailAddress emailAddress,
 			SharedKernel.NationalCode nationalCode) : this()
 		{
@@ -36,7 +36,7 @@ namespace Domain.Aggregates.Customers
 			EmailAddress = emailAddress;
 		}
 
-		public virtual SharedKernel.FullName FullName { get; private set; }
+		public virtual FullName FullName { get; private set; }
 
 		public virtual EmailAddress EmailAddress { get; private set; }
 

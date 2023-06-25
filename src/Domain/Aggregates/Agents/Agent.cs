@@ -1,6 +1,8 @@
-﻿namespace Domain.Aggregates.Agents
+﻿using Domain.SharedKernel.ValueObjects;
+
+namespace Domain.Aggregates.Agents
 {
-	public class Agent : SeedWork.AggregateRoot
+    public class Agent : SeedWork.AggregateRoot
 	{
 		/// <summary>
 		/// For EF Core!
@@ -9,7 +11,7 @@
 		{
 		}
 
-		public Agent(SharedKernel.FullName fullName) : this()
+		public Agent(FullName fullName) : this()
 		{
 			if (fullName is null)
 			{
@@ -19,6 +21,6 @@
 			FullName = fullName;
 		}
 
-		public SharedKernel.FullName FullName { get; private set; }
+		public FullName FullName { get; private set; }
 	}
 }

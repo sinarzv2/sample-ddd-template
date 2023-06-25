@@ -3,10 +3,11 @@ using Common.Models;
 using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
+using Domain.SeedWork;
 
 namespace Domain.SharedKernel.ValueObjects
 {
-    public class EmailAddress : SeedWork.ValueObject
+    public class EmailAddress : ValueObject
     {
        
         public const int MaxLength = 250;

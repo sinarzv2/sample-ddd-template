@@ -50,7 +50,7 @@ namespace Domain.Aggregates.Users
 
 			// **************************************************
 			var fullNameResult =
-				SharedKernel.FullName.Create
+				FullName.Create
 				(gender: gender, firstName: firstName, lastName: lastName);
 
 			result.WithErrors(errors: fullNameResult.Errors);
@@ -82,7 +82,7 @@ namespace Domain.Aggregates.Users
 			EmailAddress emailAddress,
 			CellPhoneNumber cellPhoneNumber,
 			ValueObjects.Role role,
-			SharedKernel.FullName fullName) : this()
+			FullName fullName) : this()
 		{
 			Role = role;
 			FullName = fullName;
@@ -98,7 +98,7 @@ namespace Domain.Aggregates.Users
 
 		public ValueObjects.Password Password { get; private set; }
 
-		public SharedKernel.FullName FullName { get; private set; }
+		public FullName FullName { get; private set; }
 
 		public EmailAddress EmailAddress { get; private set; }
 

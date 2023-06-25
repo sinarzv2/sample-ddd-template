@@ -126,8 +126,23 @@
   <data name="EmailAddress" xml:space="preserve">
     <value>نشانی پست الکترونیکی</value>
   </data>
+  <data name="Female" xml:space="preserve">
+    <value>خانم</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>نام</value>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>نام و نام خانوادگی</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>جنسیت</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>نام خانوادگی</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>آقا</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>کلمه عبور</value>
