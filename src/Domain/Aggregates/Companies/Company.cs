@@ -1,44 +1,34 @@
-﻿namespace Domain.Aggregates.Companies
+﻿using Common.Utilities;
+using Domain.Aggregates.Companies.ValueObjects;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.Companies
 {
-	public class Company : SeedWork.AggregateRoot
+	public class Company : AggregateRoot
 	{
-		private Company() : base()
-		{
+		private Company()
+        {
 		}
 
-		public Company(ValueObjects.CompanyName name,
-			ValueObjects.NationalIdentity nationalIdentity, string address, string description) : this()
+		public Company(CompanyName name, NationalIdentity nationalIdentity, string address, string description) : this()
 		{
-			if (name is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(name));
-			}
+            Name = name ?? throw new ArgumentNullException(nameof(name));
 
-			if (name is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(nationalIdentity));
-			}
+            NationalIdentity = nationalIdentity ?? throw new ArgumentNullException(paramName: nameof(nationalIdentity));
+           
+            Address = address.Fix() ?? string.Empty;
 
-			Address =
-				Dtat.String.Fix(text: address);
+			Description = description.Fix() ?? string.Empty;
+        }
 
-			Description =
-				Dtat.String.Fix(text: description);
+		public string Address { get; } = string.Empty;
 
-			Name = name;
-			NationalIdentity = nationalIdentity;
-		}
+		public string Description { get; } = string.Empty;
 
-		public string Address { get; set; }
+		public CompanyName Name { get; } = CompanyName.Default;
 
-		public string Description { get; private set; }
+        public NationalIdentity NationalIdentity { get; } = NationalIdentity.Default;
 
-		public ValueObjects.CompanyName Name { get; private set; }
-
-		public ValueObjects.NationalIdentity NationalIdentity { get; private set; }
-
-		//public void Update(string name, string description)
-		//{
-		//}
-	}
+      
+    }
 }

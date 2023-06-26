@@ -1,73 +1,59 @@
-﻿namespace Domain.Aggregates.Cities
+﻿using Common.Models;
+using Domain.Aggregates.Provinces;
+using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
+
+namespace Domain.Aggregates.Cities
 {
-	public class City : SeedWork.AggregateRoot
+	public sealed class City : AggregateRoot
 	{
-		#region Static Member(s)
-		public static FluentResults.Result<City>
-			Create(Provinces.Province province, string name)
+		public static FluentResult<City> Create(Province province, string name)
 		{
-			var result =
-				new FluentResults.Result<City>();
+			var result = new FluentResult<City>();
 
-			// **************************************************
-			if (province is null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required,
-					Resources.DataDictionary.Province);
+			
+			var nameResult = Name.Create(value: name);
 
-				result.WithError(errorMessage: errorMessage);
-			}
-			// **************************************************
+			result.AddErrors(nameResult.Errors);
 
-			// **************************************************
-			var nameResult =
-				SharedKernel.Name.Create(value: name);
-
-			result.WithErrors(errors: nameResult.Errors);
-			// **************************************************
-
-			if (result.IsFailed)
+			if (result.Errors.Any())
 			{
 				return result;
 			}
 
-			var returnValue =
-				new City(province: province, name: nameResult.Value);
+			var returnValue = new City(province,  nameResult.Data);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		private City() : base()
-		{
-		}
+		private City()
+        {
+        }
 
-		private City(Provinces.Province province, SharedKernel.Name name) : this()
+		private City(Province province, Name name) : this()
 		{
 			Name = name;
 			Province = province;
 		}
 
-		public SharedKernel.Name Name { get; private set; }
+        public Name Name { get; private set; } = Name.Default;
 
-		public virtual Provinces.Province Province { get; private set; }
+        public Province Province { get; init; } 
 
-		public FluentResults.Result Update(string name)
+        public FluentResult Update(string name)
 		{
-			var result =
-				Create(province: Province, name: name);
+			var result = Create(Province, name);
 
-			if (result.IsFailed)
+			if (result.Errors.Any())
 			{
-				return result.ToResult();
+				return result;
 			}
 
-			Name = result.Value.Name;
+			Name = result.Data.Name;
 
-			return result.ToResult();
+			return result;
 		}
 	}
 }

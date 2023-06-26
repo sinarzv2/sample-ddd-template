@@ -1,4 +1,6 @@
-﻿namespace Domain.Aggregates.Packages
+﻿using Domain.Aggregates.Features.ValueObjects;
+
+namespace Domain.Aggregates.Packages
 {
 	public class Feature : SeedWork.AggregateRoot
 	{
@@ -7,7 +9,7 @@
 		{
 		}
 
-		public Feature(ValueObjects.FeatureName name, ValueObjects.PackageName packageName, Feature parent)
+		public Feature(FeatureName name, ValueObjects.PackageName packageName, Feature parent)
 		{
 			if (name is null)
 			{
@@ -28,7 +30,7 @@
 
 		public Feature Parent { get; private set; }
 
-		public ValueObjects.FeatureName Name { get; private set; }
+		public FeatureName Name { get; private set; }
 
 		public ValueObjects.PackageName PackageName { get; private set; }
 	}

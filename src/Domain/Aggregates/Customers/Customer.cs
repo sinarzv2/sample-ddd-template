@@ -1,78 +1,50 @@
-﻿using System.Linq;
+﻿using Domain.Aggregates.Companies;
+using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.Customers
 {
-    public class Customer : SeedWork.AggregateRoot
+    public class Customer : AggregateRoot
 	{
-		protected Customer() : base()
-		{
-			_relations =
-				new System.Collections.Generic.List<Relation>();
+		protected Customer()
+        {
+			_relations = new List<Relation>();
 		}
 
-		public Customer
-			(FullName fullName,
-			EmailAddress emailAddress,
-			SharedKernel.NationalCode nationalCode) : this()
+		public Customer(FullName fullName, EmailAddress emailAddress, NationalCode nationalCode) : this()
 		{
-			if (fullName is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(fullName));
-			}
-
-			if (emailAddress is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(emailAddress));
-			}
-
-			if (nationalCode is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(nationalCode));
-			}
-
-			FullName = fullName;
-			NationalCode = nationalCode;
-			EmailAddress = emailAddress;
+            FullName = fullName ?? throw new ArgumentNullException(paramName: nameof(fullName));
+			NationalCode = nationalCode ?? throw new ArgumentNullException(paramName: nameof(nationalCode));
+			EmailAddress = emailAddress ?? throw new ArgumentNullException(paramName: nameof(emailAddress));
 		}
 
-		public virtual FullName FullName { get; private set; }
+		public virtual FullName FullName { get; } = FullName.Default;
 
-		public virtual EmailAddress EmailAddress { get; private set; }
+		public virtual EmailAddress EmailAddress { get; } = EmailAddress.Default;
 
-		public virtual SharedKernel.NationalCode NationalCode { get; private set; }
+		public virtual NationalCode NationalCode { get; } = NationalCode.Default;
 
-		// **********
-		private readonly System.Collections.Generic.List<Relation> _relations;
+		
+		private readonly List<Relation> _relations;
 
-		public virtual System.Collections.Generic.IReadOnlyList<Relation> Relations
-		{
-			get
-			{
-				return _relations;
-			}
-		}
-		// **********
+		public virtual IReadOnlyList<Relation> Relations => _relations;
+       
 
-		public void AssignToCompany(Companies.Company company)
+		public void AssignToCompany(Company company)
 		{
 			if (company is null)
 			{
-				throw new System.ArgumentNullException(paramName: nameof(company));
+				throw new ArgumentNullException(paramName: nameof(company));
 			}
 
-			var hasAny =
-				_relations
-				.Where(current => current.Company == company)
-				.Any();
+			var hasAny = _relations.Any(current => current.Company == company);
 
 			if (hasAny)
 			{
 				return;
 			}
 
-			var relation =
-				new Relation(customer: this, company: company);
+			var relation = new Relation(this, company);
 
 			_relations.Add(relation);
 		}

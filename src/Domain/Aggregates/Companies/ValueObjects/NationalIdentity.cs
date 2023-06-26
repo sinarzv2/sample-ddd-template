@@ -1,68 +1,64 @@
-﻿namespace Domain.Aggregates.Companies.ValueObjects
+﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Common.Utilities;
+using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
+
+namespace Domain.Aggregates.Companies.ValueObjects
 {
-	public class NationalIdentity : SeedWork.ValueObject
+	public class NationalIdentity : ValueObject
 	{
-		#region Constant(s)
 		public const int FixLength = 10;
 
 		public const string RegularExpression = "^[0-9]{10}$";
-		#endregion /Constant(s)
 
-		#region Static Member(s)
-		public static FluentResults.Result<NationalIdentity> Create(string value)
+        public static NationalIdentity Default = new(string.Empty);
+
+        public static FluentResult<NationalIdentity> Create(string? value)
 		{
-			var result =
-				new FluentResults.Result<NationalIdentity>();
+			var result = new FluentResult<NationalIdentity>();
 
-			value =
-				Dtat.String.Fix(text: value);
+			value = value.Fix();
 
 			if (value is null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required, Resources.DataDictionary.NationalIdentity);
+				var errorMessage = string.Format
+					(Validations.Required, DataDictionary.NationalIdentity);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
 			if (value.Length != FixLength)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.FixLengthNumeric,
-					Resources.DataDictionary.NationalIdentity, FixLength);
+				var errorMessage = string.Format(Validations.FixLengthNumeric, DataDictionary.NationalIdentity, FixLength);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			if (System.Text.RegularExpressions.Regex.IsMatch
-				(input: value, pattern: RegularExpression) == false)
+			if (System.Text.RegularExpressions.Regex.IsMatch(value, RegularExpression) == false)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.RegularExpression, Resources.DataDictionary.NationalIdentity);
+				var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.NationalIdentity);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue =
-				new NationalIdentity(value: value);
+			var returnValue = new NationalIdentity(value);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private NationalIdentity() : base()
-		{
+	
+		private NationalIdentity()
+        {
 		}
 
 		protected NationalIdentity(string value) : this()
@@ -70,10 +66,9 @@
 			Value = value;
 		}
 
-		public string Value { get; private set; }
+		public string Value { get; } = string.Empty;
 
-		protected override
-			System.Collections.Generic.IEnumerable<object> GetEqualityComponents()
+		protected override IEnumerable<object> GetEqualityComponents()
 		{
 			yield return Value;
 		}

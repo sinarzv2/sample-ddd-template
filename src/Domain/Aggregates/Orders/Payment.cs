@@ -1,19 +1,20 @@
-﻿namespace Domain.Aggregates.Orders
+﻿using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
+
+namespace Domain.Aggregates.Orders
 {
-	public class Payment : SeedWork.Entity
+	public class Payment : Entity
 	{
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private Payment() : base()
-		{
+
+		private Payment()
+        {
 		}
 
-		public Payment(SharedKernel.Money amount) : this()
+		public Payment(Price amount) : this()
 		{
 			Amount = amount;
 		}
 
-		public SharedKernel.Money Amount { get; private set; }
+		public Price Amount { get; } = Price.Default;
 	}
 }

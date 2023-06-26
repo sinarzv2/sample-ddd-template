@@ -4,23 +4,23 @@ using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
 
-namespace Domain.Aggregates.Products.ValueObjects
+namespace Domain.SharedKernel.ValueObjects
 {
-    public class ProductName : ValueObject
+	public class Name : ValueObject
 	{
-		public const int MaxLength = 100;
+		public const int MaxLength = 50;
 
-        public static ProductName Default = new(string.Empty);
+        public static Name Default = new(string.Empty);
 
-        public static FluentResult<ProductName> Create(string? value)
+        public static FluentResult<Name> Create(string? value)
 		{
-			var result = new FluentResult<ProductName>();
+			var result = new FluentResult<Name>();
 
 			value = value.Fix();
 
 			if (value is null)
 			{
-				var errorMessage = string.Format(Validations.Required, DataDictionary.ProductName);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.Name);
 
 				result.AddError(errorMessage);
 
@@ -29,25 +29,26 @@ namespace Domain.Aggregates.Products.ValueObjects
 
 			if (value.Length > MaxLength)
 			{
-				var errorMessage = string.Format(Validations.MaxLength, DataDictionary.ProductName, MaxLength);
+				var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Name, MaxLength);
 
 				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue = new ProductName(value);
+			var returnValue = new Name(value: value);
 
 			result.SetData(returnValue);
 
 			return result;
 		}
+		
 
-		private ProductName()
+		private Name()
         {
 		}
 
-		private ProductName(string value) : this()
+		private Name(string value) : this()
 		{
 			Value = value;
 		}

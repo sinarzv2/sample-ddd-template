@@ -11,7 +11,7 @@ namespace Domain.SharedKernel.ValueObjects
         
         public const int MaxLength = 50;
         
-
+        public static FirstName Default = new(string.Empty);
         
         public static FluentResult<FirstName> Create(string? value)
         {

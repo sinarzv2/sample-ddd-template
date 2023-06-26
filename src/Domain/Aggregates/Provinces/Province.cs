@@ -1,152 +1,119 @@
-﻿using System.Linq;
+﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Domain.Aggregates.Cities;
+using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.Provinces
 {
-	public class Province : SeedWork.AggregateRoot
+	public class Province : AggregateRoot
 	{
-		#region Static Member(s)
-		public static FluentResults.Result<Province> Create(string name)
+		public static FluentResult<Province> Create(string name)
 		{
-			var result =
-				new FluentResults.Result<Province>();
+			var result = new FluentResult<Province>();
 
-			// **************************************************
-			var nameResult =
-				SharedKernel.Name.Create(value: name);
+			var nameResult = Name.Create(name);
 
-			result.WithErrors(errors: nameResult.Errors);
-			// **************************************************
+			result.AddErrors(nameResult.Errors);
 
-			if (result.IsFailed)
+			if (result.Errors.Any())
 			{
 				return result;
 			}
 
-			var returnValue =
-				new Province(name: nameResult.Value);
+			var returnValue = new Province(nameResult.Data);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		private Province() : base()
-		{
-			_cities =
-				new System.Collections.Generic.List<Cities.City>();
+		private Province()
+        {
+			_cities = new List<City>();
 		}
 
-		private Province(SharedKernel.Name name) : this()
+		private Province(Name name) : this()
 		{
 			Name = name;
 		}
 
-		public SharedKernel.Name Name { get; private set; }
+		public Name Name { get; private set; } = Name.Default;
 
-		// **********
-		private readonly System.Collections.Generic.List<Cities.City> _cities;
+		private readonly List<City> _cities;
 
-		public virtual System.Collections.Generic.IReadOnlyList<Cities.City> Cities
+		public virtual IReadOnlyList<City> Cities => _cities;
+
+		public FluentResult Update(string name)
 		{
-			get
+			var result = Create(name);
+
+			if (result.Errors.Any())
 			{
-				return _cities;
-			}
-		}
-		// **********
-
-		public FluentResults.Result Update(string name)
-		{
-			var result =
-				Create(name: name);
-
-			if (result.IsFailed)
-			{
-				return result.ToResult();
-			}
-
-			Name = result.Value.Name;
-
-			return result.ToResult();
-		}
-
-		public FluentResults.Result<Cities.City> AddCity(string cityName)
-		{
-			var result =
-				new FluentResults.Result<Cities.City>();
-
-			// **************************************************
-			var cityResult =
-				Aggregates.Cities.City.Create(province: this, name: cityName);
-
-			if (cityResult.IsFailed)
-			{
-				result.WithErrors(errors: cityResult.Errors);
-
 				return result;
 			}
-			// **************************************************
 
-			// **************************************************
-			var hasAny =
-				_cities
-				.Where(current => current.Name.Value.ToLower()
-					== cityResult.Value.Name.Value.ToLower())
-				.Any();
-
-			if (hasAny)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Repetitive,
-					Resources.DataDictionary.CityName);
-
-				result.WithError(errorMessage: errorMessage);
-
-				return result;
-			}
-			// **************************************************
-
-			_cities.Add(cityResult.Value);
-
-			result.WithValue(cityResult.Value);
+			Name = result.Data.Name;
 
 			return result;
 		}
 
-		public FluentResults.Result RemoveCity(string cityName)
+		public FluentResult<City> AddCity(string cityName)
 		{
-			var result =
-				new FluentResults.Result();
+			var result = new FluentResult<City>();
 
-			// **************************************************
-			var cityResult =
-				Aggregates.Cities.City.Create(province: this, name: cityName);
+			var cityResult = City.Create(this, cityName);
 
-			if (cityResult.IsFailed)
+			if (cityResult.Errors.Any())
 			{
-				result.WithErrors(errors: cityResult.Errors);
+				result.AddErrors(cityResult.Errors);
 
 				return result;
 			}
-			// **************************************************
 
-			// **************************************************
-			var foundedCity =
-				_cities
-				.Where(current => current.Name.Value.ToLower() == cityResult.Value.Name.Value.ToLower())
-				.FirstOrDefault();
+			var hasAny = _cities.Any(current => current.Name.Value.ToLower() == cityResult.Data.Name.Value.ToLower());
+
+			if (hasAny)
+			{
+				var errorMessage = string.Format(Validations.Repetitive, DataDictionary.CityName);
+
+				result.AddError(errorMessage);
+
+				return result;
+			}
+
+			_cities.Add(cityResult.Data);
+
+			result.SetData(cityResult.Data);
+
+			return result;
+		}
+
+		public FluentResult RemoveCity(string cityName)
+		{
+			var result = new FluentResult();
+
+			
+			var cityResult = City.Create(this, cityName);
+
+			if (cityResult.Errors.Any())
+			{
+				result.AddErrors(cityResult.Errors);
+
+				return result;
+			}
+	
+			var foundedCity = _cities.FirstOrDefault(current => current.Name.Value.ToLower() == cityResult.Data.Name.Value.ToLower());
 
 			if (foundedCity == null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.NotFound, Resources.DataDictionary.City);
+				var errorMessage = string.Format(Validations.NotFound, DataDictionary.City);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
-			// **************************************************
 
 			_cities.Remove(foundedCity);
 

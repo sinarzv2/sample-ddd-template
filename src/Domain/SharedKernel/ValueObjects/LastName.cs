@@ -10,9 +10,9 @@ namespace Domain.SharedKernel.ValueObjects
     {
        
         public const int MaxLength = 50;
-        
 
-        
+        public static LastName Default = new(string.Empty);
+
         public static FluentResult<LastName> Create(string? value)
         {
             var result = new FluentResult<LastName>();

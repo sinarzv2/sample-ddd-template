@@ -1,21 +1,23 @@
-﻿namespace Domain.Aggregates.Products
+﻿using Domain.Aggregates.Products.ValueObjects;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.Products
 {
-	public class Product : SeedWork.AggregateRoot
+	public class Product : AggregateRoot
 	{
-		private Product() : base()
-		{
+		private Product()
+        {
 		}
 
-		public Product(ValueObjects.ProductName productName, ValueObjects.SerialNumber serialNumber) : base()
-		{
+		public Product(ProductName productName, SerialNumber serialNumber)
+        {
 			ProductName = productName;
 			SerialNumber = serialNumber;
 		}
 
-		public ValueObjects.ProductName ProductName { get; private set; }
+		public ProductName ProductName { get; } = ProductName.Default;
 
-		public ValueObjects.SerialNumber SerialNumber { get; private set; }
+		public SerialNumber SerialNumber { get; } = SerialNumber.Default;
 	}
 }
 
-//https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/net-core-microservice-domain-model

@@ -1,26 +1,20 @@
-﻿using Domain.SharedKernel.ValueObjects;
+﻿using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.Agents
 {
-    public class Agent : SeedWork.AggregateRoot
+    public class Agent : AggregateRoot
 	{
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private Agent() : base()
-		{
+		
+		private Agent()
+        {
 		}
 
 		public Agent(FullName fullName) : this()
 		{
-			if (fullName is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(fullName));
-			}
-
-			FullName = fullName;
+            FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
 		}
 
-		public FullName FullName { get; private set; }
-	}
+        public FullName FullName { get; } = FullName.Default;
+    }
 }

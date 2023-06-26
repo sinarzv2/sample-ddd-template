@@ -123,6 +123,18 @@
   <data name="Age" xml:space="preserve">
     <value>سن</value>
   </data>
+  <data name="City" xml:space="preserve">
+    <value>شهر</value>
+  </data>
+  <data name="CityName" xml:space="preserve">
+    <value>نام شهر</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>نام شرکت</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>تعداد</value>
+  </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>نشانی پست الکترونیکی</value>
   </data>
@@ -144,11 +156,26 @@
   <data name="Male" xml:space="preserve">
     <value>آقا</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="NationalCode" xml:space="preserve">
+    <value>کد ملی</value>
+  </data>
+  <data name="NationalIdentity" xml:space="preserve">
+    <value>شناسه ملی شرکت</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>کلمه عبور</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>شماره تلفن همراه</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>مبلغ</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>استان</value>
   </data>
   <data name="RefreshToken" xml:space="preserve">
     <value>RefreshToken</value>

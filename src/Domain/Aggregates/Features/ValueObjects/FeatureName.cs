@@ -1,19 +1,21 @@
-﻿namespace Domain.Aggregates.Packages.ValueObjects
+﻿using Common.Models;
+using Common.Utilities;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.Features.ValueObjects
 {
-	public class FeatureName : SeedWork.ValueObject
+	public class FeatureName : ValueObject
 	{
-		#region Constant(s)
+		
 		public const int MaxLength = 100;
-		#endregion /Constant(s)
+	
 
-		#region Static Member(s)
-		public static FluentResults.Result<FeatureName> Create(string value)
+		
+		public static FluentResult<FeatureName> Create(string value)
 		{
-			var result =
-				new FluentResults.Result<FeatureName>();
+			var result = new FluentResult<FeatureName>();
 
-			value =
-				Dtat.String.Fix(text: value);
+			value = value.Fix();
 
 			if (value is null)
 			{

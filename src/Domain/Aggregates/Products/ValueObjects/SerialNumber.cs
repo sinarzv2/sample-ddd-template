@@ -1,65 +1,63 @@
-﻿namespace Domain.Aggregates.Products.ValueObjects
+﻿using System.Text.RegularExpressions;
+using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Common.Utilities;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.Products.ValueObjects
 {
-	public class SerialNumber : SeedWork.ValueObject
+	public class SerialNumber : ValueObject
 	{
-		#region Constant(s)
 		public const int FixLength = 20;
 
 		public const string RegularExpression = "^[0-9]{20}$";
-		#endregion /Constant(s)
 
-		#region Static Member(s)
-		public static FluentResults.Result<SerialNumber> Create(string value)
+        public static SerialNumber Default = new(string.Empty);
+
+        public static FluentResult<SerialNumber> Create(string? value)
 		{
-			var result =
-				new FluentResults.Result<SerialNumber>();
+			var result = new FluentResult<SerialNumber>();
 
-			value =
-				Dtat.String.Fix(text: value);
+			value = value.Fix();
 
 			if (value is null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required, Resources.DataDictionary.SerialNumber);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.SerialNumber);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
 			if (value.Length != FixLength)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.FixLengthNumeric,
-					Resources.DataDictionary.SerialNumber, FixLength);
+				var errorMessage = string.Format(Validations.FixLengthNumeric, DataDictionary.SerialNumber, FixLength);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			if (System.Text.RegularExpressions.Regex.IsMatch
-				(input: value, pattern: RegularExpression) == false)
+			if (Regex.IsMatch(value, RegularExpression) == false)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.RegularExpression, Resources.DataDictionary.SerialNumber);
+				var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.SerialNumber);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage: errorMessage);
 
 				return result;
 			}
 
-			var returnValue =
-				new SerialNumber(value: value);
+			var returnValue = new SerialNumber(value);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
+		
 
-		private SerialNumber() : base()
-		{
+		private SerialNumber()
+        {
 		}
 
 		private SerialNumber(string value) : this()
@@ -67,10 +65,9 @@
 			Value = value;
 		}
 
-		public string Value { get; private set; }
+		public string Value { get; } = string.Empty;
 
-		protected override
-			System.Collections.Generic.IEnumerable<object> GetEqualityComponents()
+		protected override IEnumerable<object> GetEqualityComponents()
 		{
 			yield return Value;
 		}

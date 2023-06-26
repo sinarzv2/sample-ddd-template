@@ -13,9 +13,9 @@ namespace Domain.SharedKernel.ValueObjects
         public const int MaxLength = 250;
 
         public const int VerificationKeyFixLength = 32;
-       
 
-       
+        public static EmailAddress Default = new(string.Empty);
+
         public static FluentResult<EmailAddress> Create(string? value)
         {
             var result = new FluentResult<EmailAddress>();

@@ -6,6 +6,7 @@ namespace Domain.SharedKernel.ValueObjects
 {
     public class FullName : ValueObject
     {
+        public static FullName Default = new(Gender.Male, FirstName.Default,LastName.Default);
         public static FluentResult<FullName> Create(int? gender, string firstName, string lastName)
         {
             var result = new FluentResult<FullName>();
@@ -47,9 +48,9 @@ namespace Domain.SharedKernel.ValueObjects
             FirstName = firstName;
         }
 
-        public LastName? LastName { get; } 
+        public LastName? LastName { get; }
 
-        public FirstName? FirstName { get; }
+        public FirstName FirstName { get; } = FirstName.Default;
 
         public virtual Gender? Gender { get; }
 

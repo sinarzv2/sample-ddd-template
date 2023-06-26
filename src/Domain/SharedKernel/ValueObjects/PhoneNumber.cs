@@ -15,6 +15,8 @@ namespace Domain.SharedKernel.ValueObjects
 
         public const string RegularExpression = @"09\d{9}";
 
+        public static PhoneNumber Default = new(string.Empty);
+
         public static FluentResult<PhoneNumber> Create(string? value)
         {
             var result = new FluentResult<PhoneNumber>();
