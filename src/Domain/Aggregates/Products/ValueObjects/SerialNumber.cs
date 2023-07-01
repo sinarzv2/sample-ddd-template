@@ -43,7 +43,7 @@ namespace Domain.Aggregates.Products.ValueObjects
 			{
 				var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.SerialNumber);
 
-				result.AddError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}

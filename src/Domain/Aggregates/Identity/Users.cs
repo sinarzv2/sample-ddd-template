@@ -1,10 +1,11 @@
 ﻿//using Common.Models;
 //using Domain.SeedWork;
 //using Domain.SharedKernel.ValueObjects;
+//using Microsoft.AspNetCore.Identity;
 
 //namespace Domain.Aggregates.Users
 //{
-//    public class User : AggregateRoot
+//	public class User : IdentityUser
 //	{
 //		public static FluentResult<User> Create
 //			(string username, string password, string emailAddress,
@@ -67,7 +68,7 @@
 
 //			return result;
 //		}
-//		#endregion /Static Member(s)
+//#endregion /Static Member(s)
 
 //		private User() : base()
 //		{

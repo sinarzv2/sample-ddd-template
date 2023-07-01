@@ -1,5 +1,8 @@
 ﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
 using Common.Utilities;
+using Domain.Aggregates.Companies.ValueObjects;
 using Domain.SeedWork;
 
 namespace Domain.Aggregates.Features.ValueObjects
@@ -8,10 +11,11 @@ namespace Domain.Aggregates.Features.ValueObjects
 	{
 		
 		public const int MaxLength = 100;
-	
 
-		
-		public static FluentResult<FeatureName> Create(string value)
+
+        public static FeatureName Default = new(string.Empty);
+
+        public static FluentResult<FeatureName> Create(string? value)
 		{
 			var result = new FluentResult<FeatureName>();
 
@@ -19,39 +23,32 @@ namespace Domain.Aggregates.Features.ValueObjects
 
 			if (value is null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required, Resources.DataDictionary.FeatureName);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.FeatureName);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
 			if (value.Length > MaxLength)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.MaxLength,
-					Resources.DataDictionary.FeatureName, MaxLength);
+				var errorMessage = string.Format(Validations.MaxLength, DataDictionary.FeatureName, MaxLength);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue =
-				new FeatureName(value: value);
+			var returnValue = new FeatureName(value);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private FeatureName() : base()
-		{
+    
+		private FeatureName()
+        {
 		}
 
 		protected FeatureName(string value) : this()
@@ -59,10 +56,9 @@ namespace Domain.Aggregates.Features.ValueObjects
 			Value = value;
 		}
 
-		public string Value { get; private set; }
+		public string Value { get; } = string.Empty;
 
-		protected override
-			System.Collections.Generic.IEnumerable<object> GetEqualityComponents()
+		protected override IEnumerable<object> GetEqualityComponents()
 		{
 			yield return Value;
 		}

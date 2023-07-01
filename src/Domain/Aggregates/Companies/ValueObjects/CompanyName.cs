@@ -2,10 +2,11 @@
 using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
+using Domain.SeedWork;
 
 namespace Domain.Aggregates.Companies.ValueObjects
 {
-	public class CompanyName : SeedWork.ValueObject
+	public class CompanyName : ValueObject
 	{
 		public const int MaxLength = 10;
 

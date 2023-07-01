@@ -1,76 +1,69 @@
-﻿namespace Domain.Aggregates.DiscountCoupons.ValueObjects
+﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.DiscountCoupons.ValueObjects
 {
-	public class DiscountPercent : SeedWork.ValueObject
+	public class DiscountPercent : ValueObject
 	{
-		#region Constant(s)
 		public const int Minimum = 0;
 
 		public const int Maximum = 100;
-		#endregion /Constant(s)
 
-		#region Static Member(s)
-		public static FluentResults.Result<DiscountPercent> Create(int? value)
+        public static DiscountPercent Default = new(0);
+
+        public static FluentResult<DiscountPercent> Create(int? value)
 		{
 			var result =
-				new FluentResults.Result<DiscountPercent>();
+				new FluentResult<DiscountPercent>();
 
 			if (value is null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required, Resources.DataDictionary.DiscountPercent);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.DiscountPercent);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
 			if ((value < Minimum) || (value > Maximum))
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Range,
-					Resources.DataDictionary.DiscountPercent, Minimum, Maximum);
+				var errorMessage = string.Format(Validations.Range, DataDictionary.DiscountPercent, Minimum, Maximum);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue =
-				new DiscountPercent(value: value);
+			var returnValue = new DiscountPercent(value);
 
-			result.WithValue(value: returnValue);
-
-			return result;
-		}
-
-		public static FluentResults.Result<DiscountPercent> operator +(DiscountPercent left, DiscountPercent right)
-		{
-			int? value =
-				left.Value + right.Value;
-
-			var result =
-				Create(value: value);
+			result.SetData(returnValue);
 
 			return result;
 		}
 
-		public static FluentResults.Result<DiscountPercent> operator -(DiscountPercent left, DiscountPercent right)
+		public static FluentResult<DiscountPercent> operator +(DiscountPercent left, DiscountPercent right)
 		{
-			int? value =
-				left.Value - right.Value;
+			var value = left.Value + right.Value;
 
-			var result =
-				Create(value: value);
+			var result = Create(value);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private DiscountPercent() : base()
+		public static FluentResult<DiscountPercent> operator -(DiscountPercent left, DiscountPercent right)
 		{
+			var value = left.Value - right.Value;
+
+			var result = Create(value: value);
+
+			return result;
+		}
+
+	
+		private DiscountPercent()
+        {
 		}
 
 		private DiscountPercent(int? value) : this()
@@ -80,22 +73,14 @@
 
 		public int? Value { get; }
 
-		protected override
-			System.Collections.Generic.IEnumerable<object> GetEqualityComponents()
+		protected override IEnumerable<object?> GetEqualityComponents()
 		{
 			yield return Value;
 		}
 
-		public override string ToString()
-		{
-			if(Value is null)
-			{
-				return "-----";
-			}
-			else
-			{
-				return Value.ToString();
-			}
-		}
+		public override string? ToString()
+        {
+            return Value is null ? "-----" : Value.ToString();
+        }
 	}
 }

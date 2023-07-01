@@ -1,158 +1,87 @@
-﻿namespace Domain.Aggregates.DiscountCoupons
+﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Domain.Aggregates.DiscountCoupons.ValueObjects;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.DiscountCoupons
 {
-	public class DiscountCoupon : SeedWork.AggregateRoot
+	public class DiscountCoupon : AggregateRoot
 	{
-		#region Static Member(s)
-		public static FluentResults.Result<DiscountCoupon> Create
-			(int? discountPercent, System.DateTime? validDateFrom, System.DateTime? validDateTo)
+		public static FluentResult<DiscountCoupon> Create(int? discountPercent, DateTime? validDateFrom, DateTime? validDateTo)
 		{
-			var result =
-				new FluentResults.Result<DiscountCoupon>();
+			var result = new FluentResult<DiscountCoupon>();
 
-			// **************************************************
-			var discountPercentResult =
-				ValueObjects.DiscountPercent.Create(value: discountPercent);
+			var discountPercentResult = DiscountPercent.Create(value: discountPercent);
 
-			result.WithErrors(errors: discountPercentResult.Errors);
-			// **************************************************
+			result.AddErrors(discountPercentResult.Errors);
 
-			// **************************************************
-			var validDateFromResult =
-				ValueObjects.ValidDateFrom.Create(value: validDateFrom);
+			var validDateFromResult = ValidDateFrom.Create(value: validDateFrom);
 
-			result.WithErrors(errors: validDateFromResult.Errors);
-			// **************************************************
+			result.AddErrors(validDateFromResult.Errors);
 
-			// **************************************************
-			var validDateToResult =
-				ValueObjects.ValidDateTo.Create(value: validDateTo);
+			var validDateToResult = ValidDateTo.Create(value: validDateTo);
 
-			result.WithErrors(errors: validDateToResult.Errors);
-			// **************************************************
+			result.AddErrors(validDateToResult.Errors);
 
-			if (result.IsFailed)
+			if (result.Errors.Any())
 			{
 				return result;
 			}
 
-			if (validDateToResult.Value < validDateFromResult.Value)
+			if (validDateToResult.Data.Value < validDateFromResult.Data.Value)
 			{
-				string errorMessage =
-					string.Format(Resources.Messages.Validations.GreaterThanOrEqualTo_TwoFields,
-					Resources.DataDictionary.ValidDateTo, Resources.DataDictionary.ValidDateFrom);
+				var errorMessage = string.Format(Validations.GreaterThanOrEqualTo_TwoFields, DataDictionary.ValidDateTo, DataDictionary.ValidDateFrom);
 
-				result.WithError(errorMessage);
+				result.AddError(errorMessage);
 			}
 
-			if (result.IsFailed)
-			{
-				return result;
-			}
+            if (result.Errors.Any())
+            {
+                return result;
+            }
 
-			var returnValue =
-				new DiscountCoupon
-				(discountPercent: discountPercentResult.Value,
-				validDateFrom: validDateFromResult.Value, validDateTo: validDateToResult.Value);
+            var returnValue = new DiscountCoupon(discountPercentResult.Data,
+				validDateFromResult.Data, validDateToResult.Data);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		private DiscountCoupon() : base()
-		{
+		private DiscountCoupon()
+        {
 		}
 
-		private DiscountCoupon
-			(ValueObjects.DiscountPercent discountPercent,
-			ValueObjects.ValidDateFrom validDateFrom, ValueObjects.ValidDateTo validDateTo) : this()
+		private DiscountCoupon(DiscountPercent discountPercent, ValidDateFrom validDateFrom, ValidDateTo validDateTo) : this()
 		{
 			ValidDateTo = validDateTo;
 			ValidDateFrom = validDateFrom;
 			DiscountPercent = discountPercent;
 		}
 
-		public ValueObjects.ValidDateTo ValidDateTo { get; private set; }
+		public ValidDateTo ValidDateTo { get; private set; } = ValidDateTo.Default;
 
-		public ValueObjects.ValidDateFrom ValidDateFrom { get; private set; }
+		public ValidDateFrom ValidDateFrom { get; private set; } = ValidDateFrom.Default;
 
-		public ValueObjects.DiscountPercent DiscountPercent { get; private set; }
+		public DiscountPercent DiscountPercent { get; private set; } = DiscountPercent.Default;
 
-		//public FluentResults.Result Update
-		//	(int? discountPercent, System.DateTime? validDateFrom, System.DateTime? validDateTo)
-		//{
-		//	var result =
-		//		new FluentResults.Result();
+	
+		public FluentResult Update
+			(int? discountPercent, DateTime? validDateFrom, DateTime? validDateTo)
+        {
+            var result = Create(discountPercent, validDateFrom, validDateTo);
 
-		//	// **************************************************
-		//	var discountPercentResult =
-		//		ValueObjects.DiscountPercent.Create(value: discountPercent);
-
-		//	result.WithErrors(errors: discountPercentResult.Errors);
-		//	// **************************************************
-
-		//	// **************************************************
-		//	var validDateFromResult =
-		//		ValueObjects.ValidDateFrom.Create(value: validDateFrom);
-
-		//	result.WithErrors(errors: validDateFromResult.Errors);
-		//	// **************************************************
-
-		//	// **************************************************
-		//	var validDateToResult =
-		//		ValueObjects.ValidDateTo.Create(value: validDateTo);
-
-		//	result.WithErrors(errors: validDateToResult.Errors);
-		//	// **************************************************
-
-		//	if (result.IsFailed)
-		//	{
-		//		return result;
-		//	}
-
-		//	if (validDateToResult.Value < validDateFromResult.Value)
-		//	{
-		//		string errorMessage =
-		//			string.Format(Resources.Messages.Validations.GreaterThanOrEqualTo_TwoFields,
-		//			Resources.DataDictionary.ValidDateTo, Resources.DataDictionary.ValidDateFrom);
-
-		//		result.WithError(errorMessage);
-		//	}
-
-		//	if (result.IsFailed)
-		//	{
-		//		return result;
-		//	}
-
-		//	ValidDateTo = validDateToResult.Value;
-		//	ValidDateFrom = validDateFromResult.Value;
-		//	DiscountPercent = discountPercentResult.Value;
-
-		//	return result;
-		//}
-
-		/// <summary>
-		/// DRY Pattern: Do not repeat yourself!
-		/// </summary>
-		public FluentResults.Result Update
-			(int? discountPercent, System.DateTime? validDateFrom, System.DateTime? validDateTo)
-		{
-			var result = Create
-				(validDateTo: validDateTo,
-				validDateFrom: validDateFrom,
-				discountPercent: discountPercent);
-
-			if (result.IsFailed)
+            if (result.Errors.Any())
 			{
-				return result.ToResult();
+				return result;
 			}
 
-			ValidDateTo = result.Value.ValidDateTo;
-			ValidDateFrom = result.Value.ValidDateFrom;
-			DiscountPercent = result.Value.DiscountPercent;
+			ValidDateTo = result.Data.ValidDateTo;
+			ValidDateFrom = result.Data.ValidDateFrom;
+			DiscountPercent = result.Data.DiscountPercent;
 
-			return result.ToResult();
+			return result;
 		}
 	}
 }

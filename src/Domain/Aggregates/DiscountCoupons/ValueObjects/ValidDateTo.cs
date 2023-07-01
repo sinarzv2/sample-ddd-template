@@ -1,52 +1,64 @@
-﻿namespace Domain.Aggregates.DiscountCoupons.ValueObjects
+﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.DiscountCoupons.ValueObjects
 {
-	public class ValidDateTo : SharedKernel.Date
+	public class ValidDateTo : ValueObject
 	{
-		#region Static Member(s)
-		public static FluentResults.Result<ValidDateTo> Create(System.DateTime? value)
+        public static ValidDateTo Default = new(DateTime.MaxValue);
+        public static FluentResult<ValidDateTo> Create(DateTime? value)
 		{
 			var result =
-				new FluentResults.Result<ValidDateTo>();
+				new FluentResult<ValidDateTo>();
 
 			if (value is null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required, Resources.DataDictionary.ValidDateTo);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.ValidDateTo);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			if (value.Value.Date < SeedWork.Utility.Today)
+			if (value.Value.Date < DateTime.Now.Date)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.GreaterThanOrEqualTo_FieldValue,
-					Resources.DataDictionary.ValidDateTo, Resources.DataDictionary.CurrentDate);
+				var errorMessage = string.Format(Validations.GreaterThanOrEqualTo_FieldValue, DataDictionary.ValidDateTo, DataDictionary.CurrentDate);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue =
-				new ValidDateTo(value: value);
+			var returnValue = new ValidDateTo(value: value);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private ValidDateTo() : base()
-		{
-		}
+        public DateTime? Value { get; }
 
-		private ValidDateTo(System.DateTime? value) : base(value: value)
-		{
-		}
-	}
+        private ValidDateTo(DateTime? value)
+        {
+            Value = value?.Date;
+        }
+
+        protected override IEnumerable<object?> GetEqualityComponents()
+        {
+            yield return Value;
+        }
+        public override string ToString()
+        {
+            if (Value is null)
+            {
+                return "-----";
+            }
+
+            var result = Value.Value.ToString("yyyy/MM/dd");
+
+            return result;
+        }
+    }
 }

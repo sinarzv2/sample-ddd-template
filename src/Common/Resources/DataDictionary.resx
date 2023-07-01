@@ -135,8 +135,20 @@
   <data name="Count" xml:space="preserve">
     <value>تعداد</value>
   </data>
+  <data name="CurrentDate" xml:space="preserve">
+    <value>تاریخ جاری</value>
+  </data>
+  <data name="DiscountCoupon" xml:space="preserve">
+    <value>کوپن تخفیف</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>درصد تخفیف</value>
+  </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>نشانی پست الکترونیکی</value>
+  </data>
+  <data name="FeatureName" xml:space="preserve">
+    <value>نام ماژول</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>خانم</value>
@@ -165,6 +177,9 @@
   <data name="NationalIdentity" xml:space="preserve">
     <value>شناسه ملی شرکت</value>
   </data>
+  <data name="PackageName" xml:space="preserve">
+    <value>نام بسته</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>کلمه عبور</value>
   </data>
@@ -174,13 +189,25 @@
   <data name="Price" xml:space="preserve">
     <value>مبلغ</value>
   </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>نام محصول</value>
+  </data>
   <data name="Province" xml:space="preserve">
     <value>استان</value>
   </data>
   <data name="RefreshToken" xml:space="preserve">
     <value>RefreshToken</value>
   </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>شماره سریال</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>نام کاربری</value>
+  </data>
+  <data name="ValidDateFrom" xml:space="preserve">
+    <value>اعتبار از تاریخ</value>
+  </data>
+  <data name="ValidDateTo" xml:space="preserve">
+    <value>اعتبار تا تاریخ</value>
   </data>
 </root>

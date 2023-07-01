@@ -1,7 +1,7 @@
 ﻿using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.Aggregates.Users.Events
+namespace Domain.Aggregates.Identity.Events
 {
     public sealed class UserPasswordChangedEvent : IDomainEvent
 	{

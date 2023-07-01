@@ -3,30 +3,26 @@ using Common.Models;
 using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
-using Domain.SeedWork;
 
-namespace Domain.Aggregates.Users.ValueObjects
+namespace Domain.Aggregates.Identity.ValueObjects
 {
-	public class Username : ValueObject
+	public class Password : SeedWork.ValueObject
 	{
-		
 		public const int MinLength = 8;
 
 		public const int MaxLength = 20;
 
 		public const string RegularExpression = "^[a-zA-Z0-9_-]{8,20}$";
-		
 
-		
-		public static FluentResult<Username> Create(string? value)
+		public static FluentResult<Password> Create(string? value)
 		{
-			var result = new FluentResult<Username>();
+			var result = new FluentResult<Password>();
 
 			value = value.Fix();
 
 			if (value is null)
 			{
-				var errorMessage = string.Format(Validations.Required, DataDictionary.Username);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.Password);
 
 				result.AddError(errorMessage);
 
@@ -35,7 +31,7 @@ namespace Domain.Aggregates.Users.ValueObjects
 
 			if (value.Length < MinLength)
 			{
-				var errorMessage = string.Format(Validations.MinLength, DataDictionary.Username, MinLength);
+				var errorMessage = string.Format(Validations.MinLength, DataDictionary.Password, MinLength);
 
 				result.AddError(errorMessage);
 
@@ -44,7 +40,7 @@ namespace Domain.Aggregates.Users.ValueObjects
 
 			if (value.Length > MaxLength)
 			{
-				var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Username, MaxLength);
+				var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Password, MaxLength);
 
 				result.AddError(errorMessage);
 
@@ -53,25 +49,25 @@ namespace Domain.Aggregates.Users.ValueObjects
 
 			if (Regex.IsMatch(value, RegularExpression) == false)
 			{
-				var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.Username);
+				var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.Password);
 
 				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue = new Username(value);
+			var returnValue = new Password(value);
 
 			result.SetData(returnValue);
 
 			return result;
 		}
 
-        private Username()
+		private Password()
         {
 		}
 
-		private Username(string value) : this()
+		private Password(string value) : this()
 		{
 			Value = value;
 		}

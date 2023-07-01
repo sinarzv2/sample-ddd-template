@@ -1,37 +1,27 @@
 ﻿using Domain.Aggregates.Features.ValueObjects;
+using Domain.SeedWork;
 
-namespace Domain.Aggregates.Packages
+namespace Domain.Aggregates.Features
 {
-	public class Feature : SeedWork.AggregateRoot
+	public class Feature : AggregateRoot
 	{
 
-		private Feature() : base()
-		{
+		private Feature()
+        {
 		}
 
-		public Feature(FeatureName name, ValueObjects.PackageName packageName, Feature parent)
+		public Feature(FeatureName name, PackageName packageName, Feature parent)
 		{
-			if (name is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(name));
-			}
 
-			if (packageName is null)
-			{
-				throw new System.ArgumentNullException(paramName: nameof(packageName));
-			}
-
-			// Parent can be null!
-
-			Name = name;
+			Name = name ?? throw new ArgumentNullException(paramName: nameof(name));
 			Parent = parent;
-			PackageName = packageName;
+			PackageName = packageName ?? throw new ArgumentNullException(paramName: nameof(packageName));
 		}
 
-		public Feature Parent { get; private set; }
+		public Feature Parent { get; }
 
-		public FeatureName Name { get; private set; }
+		public FeatureName Name { get; } = FeatureName.Default;
 
-		public ValueObjects.PackageName PackageName { get; private set; }
+		public PackageName PackageName { get; } = PackageName.Default;
 	}
 }

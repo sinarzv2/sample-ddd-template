@@ -1,55 +1,52 @@
-﻿namespace Domain.Aggregates.Packages.ValueObjects
+﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
+using Common.Utilities;
+using Domain.Aggregates.Companies.ValueObjects;
+using Domain.SeedWork;
+
+namespace Domain.Aggregates.Features.ValueObjects
 {
-	public class PackageName : SeedWork.ValueObject
+	public class PackageName : ValueObject
 	{
-		#region Constant(s)
 		public const int MaxLength = 100;
-		#endregion /Constant(s)
 
-		#region Static Member(s)
-		public static FluentResults.Result<PackageName> Create(string value)
+        public static PackageName Default = new(string.Empty);
+
+        public static FluentResult<PackageName> Create(string? value)
 		{
-			var result =
-				new FluentResults.Result<PackageName>();
+			var result = new FluentResult<PackageName>();
 
-			value =
-				Dtat.String.Fix(text: value);
+			value = value.Fix();
 
 			if (value is null)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.Required, Resources.DataDictionary.PackageName);
+				var errorMessage = string.Format(Validations.Required, DataDictionary.PackageName);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
 			if (value.Length > MaxLength)
 			{
-				string errorMessage = string.Format
-					(Resources.Messages.Validations.MaxLength,
-					Resources.DataDictionary.PackageName, MaxLength);
+				var errorMessage = string.Format(Validations.MaxLength, DataDictionary.PackageName, MaxLength);
 
-				result.WithError(errorMessage: errorMessage);
+				result.AddError(errorMessage);
 
 				return result;
 			}
 
-			var returnValue =
-				new PackageName(value: value);
+			var returnValue = new PackageName(value);
 
-			result.WithValue(value: returnValue);
+			result.SetData(returnValue);
 
 			return result;
 		}
-		#endregion /Static Member(s)
 
-		/// <summary>
-		/// For EF Core!
-		/// </summary>
-		private PackageName() : base()
-		{
+		
+		private PackageName()
+        {
 		}
 
 		protected PackageName(string value) : this()
@@ -57,10 +54,9 @@
 			Value = value;
 		}
 
-		public string Value { get; private set; }
+		public string Value { get; } = string.Empty;
 
-		protected override
-			System.Collections.Generic.IEnumerable<object> GetEqualityComponents()
+		protected override IEnumerable<object> GetEqualityComponents()
 		{
 			yield return Value;
 		}

@@ -12,7 +12,7 @@ namespace Domain.Aggregates.Cities
 			var result = new FluentResult<City>();
 
 			
-			var nameResult = Name.Create(value: name);
+			var nameResult = Name.Create(name);
 
 			result.AddErrors(nameResult.Errors);
 

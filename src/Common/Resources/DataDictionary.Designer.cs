@@ -115,11 +115,47 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تاریخ جاری.
+        /// </summary>
+        public static string CurrentDate {
+            get {
+                return ResourceManager.GetString("CurrentDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کوپن تخفیف.
+        /// </summary>
+        public static string DiscountCoupon {
+            get {
+                return ResourceManager.GetString("DiscountCoupon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to درصد تخفیف.
+        /// </summary>
+        public static string DiscountPercent {
+            get {
+                return ResourceManager.GetString("DiscountPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نشانی پست الکترونیکی.
         /// </summary>
         public static string EmailAddress {
             get {
                 return ResourceManager.GetString("EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نام ماژول.
+        /// </summary>
+        public static string FeatureName {
+            get {
+                return ResourceManager.GetString("FeatureName", resourceCulture);
             }
         }
         
@@ -205,6 +241,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نام بسته.
+        /// </summary>
+        public static string PackageName {
+            get {
+                return ResourceManager.GetString("PackageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کلمه عبور.
         /// </summary>
         public static string Password {
@@ -232,6 +277,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نام محصول.
+        /// </summary>
+        public static string ProductName {
+            get {
+                return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to استان.
         /// </summary>
         public static string Province {
@@ -250,11 +304,38 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to شماره سریال.
+        /// </summary>
+        public static string SerialNumber {
+            get {
+                return ResourceManager.GetString("SerialNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام کاربری.
         /// </summary>
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اعتبار از تاریخ.
+        /// </summary>
+        public static string ValidDateFrom {
+            get {
+                return ResourceManager.GetString("ValidDateFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اعتبار تا تاریخ.
+        /// </summary>
+        public static string ValidDateTo {
+            get {
+                return ResourceManager.GetString("ValidDateTo", resourceCulture);
             }
         }
     }
