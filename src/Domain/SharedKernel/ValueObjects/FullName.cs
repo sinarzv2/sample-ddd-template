@@ -4,6 +4,7 @@ using Domain.SharedKernel.Enumerations;
 
 namespace Domain.SharedKernel.ValueObjects
 {
+
     public class FullName : ValueObject
     {
         public static FullName Default = new(Gender.Male, FirstName.Default,LastName.Default);
@@ -48,7 +49,7 @@ namespace Domain.SharedKernel.ValueObjects
             FirstName = firstName;
         }
 
-        public LastName? LastName { get; }
+        public LastName LastName { get; } = LastName.Default;
 
         public FirstName FirstName { get; } = FirstName.Default;
 
@@ -63,7 +64,7 @@ namespace Domain.SharedKernel.ValueObjects
 
         public override string ToString()
         {
-            var result = $"{Gender?.Name} {FirstName?.Value} {LastName?.Value}".Trim();
+            var result = $"{Gender?.Name} {FirstName.Value} {LastName.Value}".Trim();
 
             return result;
         }

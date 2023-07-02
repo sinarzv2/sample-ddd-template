@@ -1,5 +1,5 @@
+using Api.Common.Middlewares;
 using Common.Models;
-using SampleTemplate.Common.Middlewares;
 using SampleTemplate.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);

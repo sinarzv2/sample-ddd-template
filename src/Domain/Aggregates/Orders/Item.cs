@@ -1,9 +1,10 @@
 ﻿using Domain.Aggregates.Orders.ValueObjects;
 using Domain.Aggregates.Products;
+using Domain.SeedWork;
 
 namespace Domain.Aggregates.Orders
 {
-    public class Item : SeedWork.Entity
+    public class Item : Entity
 	{
 		
 		private Item()

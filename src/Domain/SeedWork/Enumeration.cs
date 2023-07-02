@@ -158,7 +158,7 @@ namespace Domain.SeedWork
         /// <summary>
         /// For EF Core!
         /// </summary>
-        private System.Type GetRealType()
+        private Type GetRealType()
         {
             System.Type type = GetType();
 

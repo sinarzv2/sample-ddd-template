@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Common.Models;
 using Common.Resources.Messages;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
-namespace SampleTemplate.Common.Middlewares
+namespace Api.Common.Middlewares
 {
     public static class CustomExceptionHandlerMiddlewareExtention
     {

@@ -18,7 +18,7 @@ namespace Domain.Aggregates.Customers
 			EmailAddress = emailAddress ?? throw new ArgumentNullException(paramName: nameof(emailAddress));
 		}
 
-		public virtual FullName FullName { get; } = FullName.Default;
+		public virtual FullName FullName { get; }  =  FullName.Default;
 
 		public virtual EmailAddress EmailAddress { get; } = EmailAddress.Default;
 

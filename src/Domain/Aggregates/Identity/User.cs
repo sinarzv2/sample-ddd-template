@@ -2,6 +2,7 @@
 using Domain.Aggregates.Identity.ValueObjects;
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Aggregates.Identity
 {
@@ -51,8 +52,9 @@ namespace Domain.Aggregates.Identity
             Email = emailAddress.Value;
             PhoneNumber = phoneNumber.Value;
         }
+        
         public FullName FullName { get; init; } = FullName.Default;
-        public DateOnly BirthDate { get; init; }
+        public DateTime BirthDate { get; init; }
         public bool IsActive { get; init; }
         public string RefreshToken { get; init; } = string.Empty;
         public DateTime RefreshTokenExpiryTime { get; init; }
