@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using Application.GeneralServices.DataInitializer;
+﻿using Application.GeneralServices.DataInitializer;
 using Infrastructure.Persistance;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace SampleTemplate.Extentions
+namespace Api.Extentions
 {
     public static class ApplicationBuilderExtensions
     {

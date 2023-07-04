@@ -4,7 +4,6 @@ using Application.AccountApplication.Dto;
 using Common.DependencyLifeTime;
 using Common.Models;
 using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
 
 namespace Application.GeneralServices.JwtServices
 {

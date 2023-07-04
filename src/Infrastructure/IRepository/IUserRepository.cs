@@ -1,5 +1,4 @@
 ﻿using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
 
 namespace Infrastructure.IRepository
 {

@@ -1,5 +1,4 @@
 ﻿using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
 using Infrastructure.IRepository;
 using Infrastructure.Persistance;
 

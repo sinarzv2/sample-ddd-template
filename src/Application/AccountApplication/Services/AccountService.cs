@@ -8,7 +8,6 @@ using Common.Constant;
 using Common.Models;
 using Common.Resources.Messages;
 using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
 using Infrastructure.UnitOfWork;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;

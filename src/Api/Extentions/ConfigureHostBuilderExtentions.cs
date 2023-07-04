@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Serilog;
+﻿using Serilog;
 
-namespace SampleTemplate.Extentions
+namespace Api.Extentions
 {
     public static class ConfigureHostBuilderExtentions
     {

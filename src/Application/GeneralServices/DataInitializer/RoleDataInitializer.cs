@@ -1,5 +1,5 @@
 ﻿using Common.Constant;
-using Domain.Entities.IdentityModel;
+using Domain.Aggregates.Identity;
 using Infrastructure.UnitOfWork;
 
 namespace Application.GeneralServices.DataInitializer
@@ -17,19 +17,11 @@ namespace Application.GeneralServices.DataInitializer
         {
             if (!_unitOfWork.RoleRepository.TableNoTracking.Any(p => p.Name == ConstantRoles.Admin))
             {
-                _unitOfWork.RoleRepository.Add(new Role()
-                {
-                    Name = ConstantRoles.Admin,
-                    NormalizedName = ConstantRoles.Admin.ToUpper()
-                });
+                _unitOfWork.RoleRepository.Add(Role.Create(ConstantRoles.Admin).Data);
             }
             if (!_unitOfWork.RoleRepository.TableNoTracking.Any(p => p.Name == ConstantRoles.User))
             {
-                _unitOfWork.RoleRepository.Add(new Role()
-                {
-                    Name = ConstantRoles.User,
-                    NormalizedName = ConstantRoles.User.ToUpper()
-                });
+                _unitOfWork.RoleRepository.Add(Role.Create(ConstantRoles.User).Data);
             }
 
             _unitOfWork.CommitChangesAsync().Wait();

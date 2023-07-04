@@ -11,7 +11,6 @@ using Common.Constant;
 using Common.Models;
 using Common.Resources.Messages;
 using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

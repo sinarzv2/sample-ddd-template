@@ -5,7 +5,7 @@ namespace Domain.Aggregates.Identity.Events
 {
     public sealed class UserPasswordChangedEvent : IDomainEvent
 	{
-		public UserPasswordChangedEvent(FullName fullName, EmailAddress emailAddress)
+		public UserPasswordChangedEvent(FullName fullName, string? emailAddress)
         {
 			FullName = fullName;
 			EmailAddress = emailAddress;
@@ -13,6 +13,6 @@ namespace Domain.Aggregates.Identity.Events
 
 		public FullName FullName { get; }
 
-		public EmailAddress EmailAddress { get; }
+		public string? EmailAddress { get; }
 	}
 }

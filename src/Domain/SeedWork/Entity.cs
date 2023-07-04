@@ -1,6 +1,6 @@
 ﻿namespace Domain.SeedWork
 {
-	public abstract class Entity 
+	public abstract class Entity : IEntity
 	{
 
         protected Entity()

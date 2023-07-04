@@ -1,34 +1,27 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Application.AccountApplication.Services;
 using Common.DependencyLifeTime;
 using Common.Models;
 using Common.Resources.Messages;
 using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
 using Infrastructure.Persistance;
 using Infrastructure.Repository;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SampleTemplate.Common.Swagger;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Role = Domain.Entities.IdentityModel.Role;
+using Role = Domain.Aggregates.Identity.Role;
 
-namespace SampleTemplate.Extentions
+namespace Api.Extentions
 {
     public static class ServiceCollectionExtensions
     {

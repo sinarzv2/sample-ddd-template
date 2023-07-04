@@ -123,6 +123,9 @@
   <data name="Age" xml:space="preserve">
     <value>سن</value>
   </data>
+  <data name="Birthdate" xml:space="preserve">
+    <value>تاریخ تولد</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>شهر</value>
   </data>

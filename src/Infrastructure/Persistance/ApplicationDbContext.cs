@@ -1,10 +1,8 @@
 ﻿using Domain.Aggregates.Identity;
-using Domain.Entities.IdentityModel;
+using Domain.SeedWork;
 using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistance.Configuration.IdentityConfiguration;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +12,6 @@ namespace Infrastructure.Persistance
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private static readonly Type[] EnumerationTypes = { typeof(Gender) };
 
 
         public ApplicationDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor)
@@ -27,56 +24,66 @@ namespace Infrastructure.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            //{
-            //    modelBuilder.Entity(entityType.ClrType)
-            //        .Property<DateTime>("CreatedDate")
-            //        .IsRequired().HasDefaultValueSql("GETDATE()");
-            //    modelBuilder.Entity(entityType.ClrType)
-            //        .Property<DateTime?>("UpdatedDate")
-            //        .IsRequired(false);
-            //    modelBuilder.Entity(entityType.ClrType)
-            //        .Property<string>("CreatedBy")
-            //        .HasMaxLength(100)
-            //        .IsRequired(false);
-            //    modelBuilder.Entity(entityType.ClrType)
-            //        .Property<string>("UpdatedBy")
-            //        .IsRequired(false)
-            //        .HasMaxLength(100);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => typeof(IEntity).IsAssignableFrom(p));
+            var entityTypes =
+                modelBuilder.Model.GetEntityTypes().Where(d => types.Contains(d.ClrType));
 
-            //}
-          
+            foreach (var entityType in entityTypes )
+            {
+                modelBuilder.Entity(entityType.ClrType)
+                    .Property<DateTime>("CreatedDate")
+                    .IsRequired().HasDefaultValueSql("GETDATE()");
+                modelBuilder.Entity(entityType.ClrType)
+                    .Property<DateTime?>("UpdatedDate")
+                    .IsRequired(false);
+                modelBuilder.Entity(entityType.ClrType)
+                    .Property<string>("CreatedBy")
+                    .HasMaxLength(100)
+                    .IsRequired(false);
+                modelBuilder.Entity(entityType.ClrType)
+                    .Property<string>("UpdatedBy")
+                    .IsRequired(false)
+                    .HasMaxLength(100);
+
+            }
+
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
+          
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
-            var enumerationEntries =
-                ChangeTracker.Entries()
-                    .Where(current => EnumerationTypes.Contains(current.Entity.GetType()));
-
-            foreach (var enumerationEntry in enumerationEntries)
-            {
-                enumerationEntry.State = EntityState.Unchanged;
-            }
-
             ChangeTracker.DetectChanges();
+
             var entries = ChangeTracker
                 .Entries()
-                .Where(e =>
+                .Where(e => 
                     e.State == EntityState.Added
                     || e.State == EntityState.Modified);
 
             foreach (var entityEntry in entries)
             {
-                entityEntry.Property("UpdatedDate").CurrentValue = DateTime.Now;
-                entityEntry.Property("UpdatedBy").CurrentValue = _httpContextAccessor.HttpContext?.User.Identity?.Name;
+                if (entityEntry.Entity is Enumeration)
+                    entityEntry.State = EntityState.Unchanged;
 
-                if (entityEntry.State == EntityState.Added)
+                if (entityEntry.Entity is IEntity)
                 {
-                    entityEntry.Property("CreatedBy").CurrentValue = _httpContextAccessor.HttpContext?.User.Identity?.Name;
-                    entityEntry.Property("CreatedDate").CurrentValue = DateTime.Now;
+
+
+                    entityEntry.Property("UpdatedDate").CurrentValue = DateTime.Now;
+                    entityEntry.Property("UpdatedBy").CurrentValue =
+                        _httpContextAccessor.HttpContext?.User.Identity?.Name;
+
+                    if (entityEntry.State == EntityState.Added)
+                    {
+                        entityEntry.Property("CreatedBy").CurrentValue =
+                            _httpContextAccessor.HttpContext?.User.Identity?.Name;
+                        entityEntry.Property("CreatedDate").CurrentValue = DateTime.Now;
+                    }
                 }
             }
 

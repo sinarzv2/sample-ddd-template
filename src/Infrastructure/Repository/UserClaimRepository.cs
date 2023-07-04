@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Entities.IdentityModel;
+using Domain.Aggregates.Identity;
 using Infrastructure.IRepository;
 using Infrastructure.Models;
 using Infrastructure.Persistance;

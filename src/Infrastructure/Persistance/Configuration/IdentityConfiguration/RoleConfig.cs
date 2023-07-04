@@ -1,4 +1,6 @@
-﻿using Domain.Entities.IdentityModel;
+﻿using Common.Constant;
+using Domain.Aggregates.Identity;
+using Domain.SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,9 +11,9 @@ namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
         public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder.Property(p => p.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
-            builder.Property(p => p.Name).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.Description).HasMaxLength(100);
+            builder.Property(p => p.Name).IsRequired().HasMaxLength(Name.MaxLength);
             builder.ToTable("Roles");
+
         }
     }
 }
