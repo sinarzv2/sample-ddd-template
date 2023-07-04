@@ -1,5 +1,4 @@
 ﻿using Common.Models;
-using Domain.Aggregates.Identity.ValueObjects;
 using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +27,7 @@ namespace Domain.Aggregates.Identity
             result.SetData(returnValue);
 
             return result;
+           
         }
 
         private Role()

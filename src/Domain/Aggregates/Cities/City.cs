@@ -40,6 +40,8 @@ namespace Domain.Aggregates.Cities
 
         public Name Name { get; private set; } = Name.Default;
 
+        public Guid ProvinceId { get; init; } 
+
         public Province Province { get; init; } 
 
         public FluentResult Update(string name)

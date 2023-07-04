@@ -1,4 +1,6 @@
-﻿using Domain.Aggregates.Identity;
+﻿using Domain.Aggregates.Cities;
+using Domain.Aggregates.Identity;
+using Domain.Aggregates.Provinces;
 using Domain.SeedWork;
 using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistance.Configuration.IdentityConfiguration;
@@ -20,7 +22,9 @@ namespace Infrastructure.Persistance
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public DbSet<City> Cities { get; set; }
 
+        public DbSet<Province> Provinces { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
