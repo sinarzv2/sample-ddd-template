@@ -2,16 +2,16 @@
 using Common.Resources;
 using Common.Resources.Messages;
 using Domain.SeedWork;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.DiscountCoupons.ValueObjects
 {
-	public class ValidDateTo : ValueObject
+	public class ValidDateTo : Date
 	{
         public static ValidDateTo Default = new(DateTime.MaxValue);
         public static FluentResult<ValidDateTo> Create(DateTime? value)
 		{
-			var result =
-				new FluentResult<ValidDateTo>();
+			var result = new FluentResult<ValidDateTo>();
 
 			if (value is null)
 			{
@@ -38,27 +38,11 @@ namespace Domain.Aggregates.DiscountCoupons.ValueObjects
 			return result;
 		}
 
-        public DateTime? Value { get; }
+    
 
-        private ValidDateTo(DateTime? value)
+        private ValidDateTo(DateTime? value) : base(value)
         {
-            Value = value?.Date;
         }
 
-        protected override IEnumerable<object?> GetEqualityComponents()
-        {
-            yield return Value;
-        }
-        public override string ToString()
-        {
-            if (Value is null)
-            {
-                return "-----";
-            }
-
-            var result = Value.Value.ToString("yyyy/MM/dd");
-
-            return result;
-        }
     }
 }

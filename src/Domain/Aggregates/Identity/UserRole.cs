@@ -5,17 +5,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Aggregates.Identity
 {
-    public class UserRole:IdentityUserRole<Guid>, IAggregateRoot
+    public class UserRole:IdentityUserRole<Guid>, IEntity
     {
+      
         [NotMapped]
         [JsonIgnore]
         public Guid Id { get; init; }
-        public void ClearDomainEvents()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<IDomainEvent> DomainEvents { get; }
+    
     }
  
 }

@@ -1,6 +1,9 @@
+using System.Reflection;
 using Api.Common.Middlewares;
 using Api.Extentions;
+using Application.AccountApplication.EventHandlers;
 using Common.Models;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,8 @@ builder.Services.AddMapster();
 builder.Services.AddScrutor();
 
 builder.Services.AddDistributedCache(siteSettings.RedisSettings);
+
+builder.Services.AddMediatR(typeof(UserPasswordChangedEventHandler).GetTypeInfo().Assembly);
 
 var app = builder.Build();
 

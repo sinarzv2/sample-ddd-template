@@ -5,17 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Aggregates.Identity
 {
-    public class UserLogin: IdentityUserLogin<Guid>, IAggregateRoot
+    public class UserLogin: IdentityUserLogin<Guid>, IEntity
     {
         [NotMapped]
         [JsonIgnore]
         public Guid Id { get; init; }
-        public void ClearDomainEvents()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<IDomainEvent> DomainEvents { get; }
     }
   
 }
