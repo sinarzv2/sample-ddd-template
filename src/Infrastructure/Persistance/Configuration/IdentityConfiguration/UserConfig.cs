@@ -37,12 +37,12 @@ namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
                     .IsRequired()
                     .UsePropertyAccessMode(PropertyAccessMode.Field);
 
-                p.OwnsOne(d => d.FirstName)
-                    .Property(d => d.Value)
+                p.Property(d => d.FirstName)
                     .HasColumnName(nameof(FullName.FirstName))
                     .IsRequired()
                     .HasMaxLength(FirstName.MaxLength)
-                    .UsePropertyAccessMode(PropertyAccessMode.Field);
+                    .UsePropertyAccessMode(PropertyAccessMode.Field)
+                    .HasConversion(lastName => lastName.Value, value => FirstName.Create(value).Data);
 
                 p.Property(pp => pp.LastName)
                     .IsRequired()

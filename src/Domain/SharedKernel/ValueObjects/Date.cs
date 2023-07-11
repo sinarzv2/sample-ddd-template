@@ -1,12 +1,10 @@
 ﻿using Domain.SeedWork;
-using Domain.SharedKernel.Enumerations;
 
 namespace Domain.SharedKernel.ValueObjects
 {
     public class Date : ValueObject
     {
         
-
         public static bool operator <(Date left, Date right)
         {
             return left.Value < right.Value;

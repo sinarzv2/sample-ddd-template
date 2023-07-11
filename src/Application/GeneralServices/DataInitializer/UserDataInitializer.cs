@@ -17,7 +17,7 @@ namespace Application.GeneralServices.DataInitializer
         protected  UserManager<User> UserManager { get; }
         public void InitializeData()
         {
-            var adminUser =  UserManager.FindByNameAsync("Admin").Result;
+            var adminUser =  UserManager.FindByNameAsync("Admin123").Result;
             if (adminUser == null)
             {
                 var pass = "12345678";

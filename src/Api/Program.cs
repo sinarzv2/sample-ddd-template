@@ -34,7 +34,7 @@ builder.Services.AddScrutor();
 
 builder.Services.AddDistributedCache(siteSettings.RedisSettings);
 
-builder.Services.AddMediatR(typeof(UserPasswordChangedEventHandler).GetTypeInfo().Assembly);
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UserPasswordChangedEventHandler).Assembly));
 
 var app = builder.Build();
 
