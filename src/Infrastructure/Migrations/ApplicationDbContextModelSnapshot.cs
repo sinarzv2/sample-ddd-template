@@ -57,7 +57,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Aggregates.DiscountCoupons.DiscountCoupon", b =>
@@ -94,7 +94,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DiscountCoupons");
+                    b.ToTable("DiscountCoupons", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Aggregates.Identity.Role", b =>
@@ -466,17 +466,17 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Provinces");
+                    b.ToTable("Provinces", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44740974-0638-4462-ba9f-9c187466c489"),
+                            Id = new Guid("ad6fbb80-48ce-4788-b940-50f6d522b70b"),
                             Name = "Tehran"
                         },
                         new
                         {
-                            Id = new Guid("5cfd3cbe-359f-4a7b-87f2-2b66782c118f"),
+                            Id = new Guid("9500a965-1d6b-4f49-9993-6e8b6c405ca8"),
                             Name = "Alborz"
                         });
                 });
@@ -530,11 +530,17 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Aggregates.Identity.User", b =>
                 {
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.FullName", "FullName", b1 =>
+                    b.OwnsOne("Domain.Aggregates.Identity.User.FullName#Domain.SharedKernel.ValueObjects.FullName", "FullName", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("FirstName");
 
                             b1.Property<int>("GenderId")
                                 .HasColumnType("int")
@@ -550,7 +556,7 @@ namespace Infrastructure.Migrations
 
                             b1.HasIndex("GenderId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("Users", (string)null);
 
                             b1.HasOne("Domain.SharedKernel.Enumerations.Gender", "Gender")
                                 .WithMany()
@@ -560,29 +566,6 @@ namespace Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
-
-                            b1.OwnsOne("Domain.SharedKernel.ValueObjects.FirstName", "FirstName", b2 =>
-                                {
-                                    b2.Property<Guid>("FullNameUserId")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("uniqueidentifier");
-
-                                    b2.Property<string>("Value")
-                                        .IsRequired()
-                                        .HasMaxLength(50)
-                                        .HasColumnType("nvarchar(50)")
-                                        .HasColumnName("FirstName");
-
-                                    b2.HasKey("FullNameUserId");
-
-                                    b2.ToTable("Users");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("FullNameUserId");
-                                });
-
-                            b1.Navigation("FirstName")
-                                .IsRequired();
 
                             b1.Navigation("Gender");
                         });

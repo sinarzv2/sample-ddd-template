@@ -30,8 +30,8 @@ namespace Infrastructure.Persistance.Configuration.ProvinceConfiguration
             
 
             builder.HasData(
-                Province.Create("Tehran").Data,
-                Province.Create("Alborz").Data);
+                Province.Create("Tehran", Guid.Parse("AD6FBB80-48CE-4788-B940-50F6D522B70B")).Data,
+                Province.Create("Alborz", Guid.Parse("9500A965-1D6B-4F49-9993-6E8B6C405CA8")).Data);
 
         }
     }

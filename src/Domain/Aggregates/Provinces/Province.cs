@@ -9,7 +9,7 @@ namespace Domain.Aggregates.Provinces
 {
 	public class Province : AggregateRoot
 	{
-		public static FluentResult<Province> Create(string name)
+		public static FluentResult<Province> Create(string name, Guid? id = null)
 		{
 			var result = new FluentResult<Province>();
 
@@ -22,7 +22,7 @@ namespace Domain.Aggregates.Provinces
 				return result;
 			}
 
-			var returnValue = new Province(nameResult.Data);
+			var returnValue = new Province(nameResult.Data, id);
 
 			result.SetData(returnValue);
 
@@ -34,10 +34,12 @@ namespace Domain.Aggregates.Provinces
 			_cities = new List<City>();
 		}
 
-		private Province(Name name) : this()
-		{
-			Name = name;
-		}
+		private Province(Name name, Guid? id = null) : this()
+        {
+            if (id != null) 
+                Id = id.Value;
+            Name = name;
+        }
 
 		public Name Name { get; private set; } = Name.Default;
 

@@ -9,7 +9,7 @@
 		}
 
 		
-		public Guid Id { get; }
+		public Guid Id { get; init; }
 		
 
 		int? _requestedHashCode;

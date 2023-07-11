@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230709215725_AddDiscountCoupon")]
-    partial class AddDiscountCoupon
+    [Migration("20230711230401_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -474,12 +474,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44740974-0638-4462-ba9f-9c187466c489"),
+                            Id = new Guid("ad6fbb80-48ce-4788-b940-50f6d522b70b"),
                             Name = "Tehran"
                         },
                         new
                         {
-                            Id = new Guid("5cfd3cbe-359f-4a7b-87f2-2b66782c118f"),
+                            Id = new Guid("9500a965-1d6b-4f49-9993-6e8b6c405ca8"),
                             Name = "Alborz"
                         });
                 });
@@ -539,6 +539,12 @@ namespace Infrastructure.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("FirstName");
+
                             b1.Property<int>("GenderId")
                                 .HasColumnType("int")
                                 .HasColumnName("GenderId");
@@ -563,29 +569,6 @@ namespace Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
-
-                            b1.OwnsOne("Domain.SharedKernel.ValueObjects.FirstName", "FirstName", b2 =>
-                                {
-                                    b2.Property<Guid>("FullNameUserId")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("uniqueidentifier");
-
-                                    b2.Property<string>("Value")
-                                        .IsRequired()
-                                        .HasMaxLength(50)
-                                        .HasColumnType("nvarchar(50)")
-                                        .HasColumnName("FirstName");
-
-                                    b2.HasKey("FullNameUserId");
-
-                                    b2.ToTable("Users");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("FullNameUserId");
-                                });
-
-                            b1.Navigation("FirstName")
-                                .IsRequired();
 
                             b1.Navigation("Gender");
                         });
