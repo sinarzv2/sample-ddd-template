@@ -8,7 +8,7 @@ namespace Common.Utilities
             where T : class
         {
             if (obj is null)
-                throw new ArgumentNullException($"{name} : {typeof(T)}" , message);
+                throw new ArgumentNullException($"{name} : {typeof(T)}", message);
         }
 
         public static void NotNull<T>(T? obj, string name, string message = null)

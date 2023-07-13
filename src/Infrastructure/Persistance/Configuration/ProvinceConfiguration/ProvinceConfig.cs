@@ -20,14 +20,14 @@ namespace Infrastructure.Persistance.Configuration.ProvinceConfiguration
             builder
                 .HasIndex(p => p.Name)
                 .IsUnique();
-           
+
             builder
                 .HasMany(current => current.Cities)
                 .WithOne(current => current.Province)
                 .IsRequired()
                 .HasForeignKey(current => current.ProvinceId)
                 .OnDelete(DeleteBehavior.NoAction);
-            
+
 
             builder.HasData(
                 Province.Create("Tehran", Guid.Parse("AD6FBB80-48CE-4788-B940-50F6D522B70B")).Data,

@@ -9,5 +9,5 @@ namespace Domain.Aggregates.Identity
 
 
     }
-   
+
 }

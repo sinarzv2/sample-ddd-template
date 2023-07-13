@@ -4,7 +4,7 @@ namespace Domain.SharedKernel.ValueObjects
 {
     public class Date : ValueObject
     {
-        
+
         public static bool operator <(Date left, Date right)
         {
             return left.Value < right.Value;
@@ -29,7 +29,7 @@ namespace Domain.SharedKernel.ValueObjects
         {
         }
 
-      
+
         protected Date(DateTime? value) : this()
         {
             if (value is not null)

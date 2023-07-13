@@ -39,7 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid, UserClai
         var entityTypes =
             modelBuilder.Model.GetEntityTypes().Where(d => types.Contains(d.ClrType));
 
-        foreach (var entityType in entityTypes )
+        foreach (var entityType in entityTypes)
         {
             modelBuilder.Entity(entityType.ClrType)
                 .Property<DateTime>("CreatedDate")
@@ -61,7 +61,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid, UserClai
 
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
-          
+
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
@@ -70,7 +70,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid, UserClai
 
         var entries = ChangeTracker
             .Entries()
-            .Where(e => 
+            .Where(e =>
                 e.State == EntityState.Added
                 || e.State == EntityState.Modified);
 
@@ -110,7 +110,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid, UserClai
                 if (aggregateRoot == null) continue;
                 foreach (var domainEvent in aggregateRoot.DomainEvents)
                     await _mediator.Publish(domainEvent, cancellationToken);
-                    
+
                 aggregateRoot.ClearDomainEvents();
             }
         }

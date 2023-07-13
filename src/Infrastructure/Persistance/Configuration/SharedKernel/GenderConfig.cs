@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Domain.SharedKernel.Enumerations;
+﻿using Domain.SharedKernel.Enumerations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistance.Configuration.SharedKernel
@@ -20,7 +20,7 @@ namespace Infrastructure.Persistance.Configuration.SharedKernel
                 .Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(Gender.MaxLength);
-       
+
 
             builder.HasData(Gender.Male, Gender.Female);
 

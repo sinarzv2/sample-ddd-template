@@ -20,7 +20,7 @@ namespace Common.Utilities
         public static List<Claim> FindClaimByType(this IIdentity identity, string claimType)
         {
             var claimsIdentity = identity as ClaimsIdentity;
-            return claimsIdentity?.Claims.Where(d => d.Type ==claimType).ToList();
+            return claimsIdentity?.Claims.Where(d => d.Type == claimType).ToList();
         }
 
         public static string GetUserId(this IIdentity identity)

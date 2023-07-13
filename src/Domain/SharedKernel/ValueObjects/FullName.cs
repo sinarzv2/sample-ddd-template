@@ -7,8 +7,8 @@ namespace Domain.SharedKernel.ValueObjects
 
     public class FullName : ValueObject
     {
-        public static FullName Default = new(Gender.Male, FirstName.Default,LastName.Default);
-        public static FluentResult<FullName> Create(int? gender, string firstName, string lastName)
+        public static FullName Default = new(Gender.Male, FirstName.Default, LastName.Default);
+        public static FluentResult<FullName> Create(int? gender, string? firstName, string? lastName)
         {
             var result = new FluentResult<FullName>();
 
@@ -23,7 +23,7 @@ namespace Domain.SharedKernel.ValueObjects
             var lastNameResult = LastName.Create(lastName);
 
             result.AddErrors(lastNameResult.Errors);
-            
+
 
             if (result.Errors.Any())
             {
@@ -36,7 +36,7 @@ namespace Domain.SharedKernel.ValueObjects
 
             return result;
         }
-        
+
 
         private FullName()
         {

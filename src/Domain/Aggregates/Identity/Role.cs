@@ -2,13 +2,12 @@
 using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.AspNetCore.Identity;
-using System.Text.Json.Serialization;
 
 namespace Domain.Aggregates.Identity
 {
     public sealed class Role : IdentityRole<Guid>, IEntity
     {
-     
+
 
         public static FluentResult<Role> Create(string? name)
         {
@@ -23,7 +22,7 @@ namespace Domain.Aggregates.Identity
             result.SetData(returnValue);
 
             return result;
-           
+
         }
 
         private Role()

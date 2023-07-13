@@ -2,8 +2,8 @@
 
 namespace Infrastructure.IRepository
 {
-    public interface IRoleRepository :IRepository<Role>
+    public interface IRoleRepository : IRepository<Role>
     {
-        
+
     }
 }

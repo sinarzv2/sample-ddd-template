@@ -7,7 +7,7 @@
         public RedisSettings RedisSettings { get; set; }
         public string LoginUrl { get; set; }
         public bool UseTokenClaim { get; set; }
-       
+
     }
 
     public class RedisSettings

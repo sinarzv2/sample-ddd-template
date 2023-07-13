@@ -80,7 +80,7 @@
 
         public static string FixPersianChars(this string text)
         {
-           
+
             return text
                 .Replace("ﮎ", "ک")
                 .Replace("ﮏ", "ک")

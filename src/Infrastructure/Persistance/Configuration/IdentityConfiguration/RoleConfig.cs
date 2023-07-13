@@ -1,5 +1,4 @@
-﻿using Common.Constant;
-using Domain.Aggregates.Identity;
+﻿using Domain.Aggregates.Identity;
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

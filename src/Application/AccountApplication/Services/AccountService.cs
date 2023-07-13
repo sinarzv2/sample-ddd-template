@@ -1,12 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.AccountApplication.Dto;
-using Application.GeneralServices.JwtServices;
-using Common.Constant;
+﻿using Application.GeneralServices.JwtServices;
 using Common.Models;
-using Common.Resources.Messages;
 using Domain.Aggregates.Identity;
 using Infrastructure.UnitOfWork;
 using MapsterMapper;

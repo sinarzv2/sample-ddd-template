@@ -4,13 +4,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.AccountApplication.EventHandlers
 {
-	public sealed class UserPasswordChangedEventHandler : INotificationHandler<UserPasswordChangedEvent>
+    public sealed class UserPasswordChangedEventHandler : INotificationHandler<UserPasswordChangedEvent>
     {
         private readonly ILogger<UserPasswordChangedEventHandler> _logger;
         public UserPasswordChangedEventHandler(ILogger<UserPasswordChangedEventHandler> logger)
         {
             _logger = logger;
-		}
+        }
 
 
         public Task Handle(UserPasswordChangedEvent notification, CancellationToken cancellationToken)

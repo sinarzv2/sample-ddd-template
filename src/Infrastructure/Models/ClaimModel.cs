@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Infrastructure.Models
+﻿namespace Infrastructure.Models
 {
     public class ClaimModel
     {

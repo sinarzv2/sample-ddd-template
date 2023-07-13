@@ -8,5 +8,5 @@ namespace Domain.Aggregates.Identity
         public new Guid Id { get; set; }
 
     }
-  
+
 }

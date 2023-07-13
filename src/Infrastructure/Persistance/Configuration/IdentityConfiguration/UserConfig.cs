@@ -1,6 +1,5 @@
 ﻿using Domain.Aggregates.Identity;
 using Domain.Aggregates.Identity.ValueObjects;
-using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -51,7 +50,7 @@ namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
                     .HasMaxLength(LastName.MaxLength)
                     .HasConversion(lastName => lastName.Value, value => LastName.Create(value).Data);
             });
-          
+
         }
     }
 

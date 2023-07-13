@@ -5,57 +5,57 @@ using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.Cities
 {
-	public sealed class City : AggregateRoot
-	{
-		public static FluentResult<City> Create(Province province, string name)
-		{
-			var result = new FluentResult<City>();
+    public sealed class City : AggregateRoot
+    {
+        public static FluentResult<City> Create(Province province, string name)
+        {
+            var result = new FluentResult<City>();
 
-			
-			var nameResult = Name.Create(name);
 
-			result.AddErrors(nameResult.Errors);
+            var nameResult = Name.Create(name);
 
-			if (result.Errors.Any())
-			{
-				return result;
-			}
+            result.AddErrors(nameResult.Errors);
 
-			var returnValue = new City(province,  nameResult.Data);
+            if (result.Errors.Any())
+            {
+                return result;
+            }
 
-			result.SetData(returnValue);
+            var returnValue = new City(province, nameResult.Data);
 
-			return result;
-		}
+            result.SetData(returnValue);
 
-		private City()
+            return result;
+        }
+
+        private City()
         {
         }
 
-		private City(Province province, Name name) : this()
-		{
-			Name = name;
-			Province = province;
-		}
+        private City(Province province, Name name) : this()
+        {
+            Name = name;
+            Province = province;
+        }
 
         public Name Name { get; private set; } = Name.Default;
 
-        public Guid ProvinceId { get; init; } 
+        public Guid ProvinceId { get; init; }
 
-        public Province Province { get; init; } 
+        public Province Province { get; init; }
 
         public FluentResult Update(string name)
-		{
-			var result = Create(Province, name);
+        {
+            var result = Create(Province, name);
 
-			if (result.Errors.Any())
-			{
-				return result;
-			}
+            if (result.Errors.Any())
+            {
+                return result;
+            }
 
-			Name = result.Data.Name;
+            Name = result.Data.Name;
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

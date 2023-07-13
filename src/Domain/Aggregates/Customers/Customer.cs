@@ -5,48 +5,48 @@ using Domain.SharedKernel.ValueObjects;
 namespace Domain.Aggregates.Customers
 {
     public class Customer : AggregateRoot
-	{
-		protected Customer()
+    {
+        protected Customer()
         {
-			_relations = new List<Relation>();
-		}
+            _relations = new List<Relation>();
+        }
 
-		public Customer(FullName fullName, EmailAddress emailAddress, NationalCode nationalCode) : this()
-		{
+        public Customer(FullName fullName, EmailAddress emailAddress, NationalCode nationalCode) : this()
+        {
             FullName = fullName ?? throw new ArgumentNullException(paramName: nameof(fullName));
-			NationalCode = nationalCode ?? throw new ArgumentNullException(paramName: nameof(nationalCode));
-			EmailAddress = emailAddress ?? throw new ArgumentNullException(paramName: nameof(emailAddress));
-		}
+            NationalCode = nationalCode ?? throw new ArgumentNullException(paramName: nameof(nationalCode));
+            EmailAddress = emailAddress ?? throw new ArgumentNullException(paramName: nameof(emailAddress));
+        }
 
-		public virtual FullName FullName { get; }  =  FullName.Default;
+        public virtual FullName FullName { get; } = FullName.Default;
 
-		public virtual EmailAddress EmailAddress { get; } = EmailAddress.Default;
+        public virtual EmailAddress EmailAddress { get; } = EmailAddress.Default;
 
-		public virtual NationalCode NationalCode { get; } = NationalCode.Default;
+        public virtual NationalCode NationalCode { get; } = NationalCode.Default;
 
-		
-		private readonly List<Relation> _relations;
 
-		public virtual IReadOnlyList<Relation> Relations => _relations;
-       
+        private readonly List<Relation> _relations;
 
-		public void AssignToCompany(Company company)
-		{
-			if (company is null)
-			{
-				throw new ArgumentNullException(paramName: nameof(company));
-			}
+        public virtual IReadOnlyList<Relation> Relations => _relations;
 
-			var hasAny = _relations.Any(current => current.Company == company);
 
-			if (hasAny)
-			{
-				return;
-			}
+        public void AssignToCompany(Company company)
+        {
+            if (company is null)
+            {
+                throw new ArgumentNullException(paramName: nameof(company));
+            }
 
-			var relation = new Relation(this, company);
+            var hasAny = _relations.Any(current => current.Company == company);
 
-			_relations.Add(relation);
-		}
-	}
+            if (hasAny)
+            {
+                return;
+            }
+
+            var relation = new Relation(this, company);
+
+            _relations.Add(relation);
+        }
+    }
 }

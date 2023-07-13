@@ -1,6 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using Common.Resources.Messages;
-using Common.Utilities;
+﻿using Common.Utilities;
+using System.Text.Json.Serialization;
 
 namespace Common.Models
 {
@@ -99,7 +98,8 @@ namespace Common.Models
         {
             Data = data;
         }
-    }
 
+
+    }
 
 }

@@ -1,9 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Common.Models;
+﻿using Common.Models;
 using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
+using System.Text.RegularExpressions;
 
 namespace Domain.SharedKernel.ValueObjects
 {
@@ -65,7 +65,7 @@ namespace Domain.SharedKernel.ValueObjects
             return result;
         }
 
-        private PhoneNumber() 
+        private PhoneNumber()
         {
         }
 

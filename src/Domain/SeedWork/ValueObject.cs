@@ -2,7 +2,7 @@
 {
     public abstract class ValueObject
     {
-       
+
         public static bool operator ==(ValueObject? leftObject, ValueObject? rightObject)
         {
             if (leftObject is null && rightObject is null)
@@ -27,7 +27,7 @@
         {
             return !(leftObject == rightObject);
         }
-       
+
 
         protected abstract IEnumerable<object?> GetEqualityComponents();
 

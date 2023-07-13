@@ -8,7 +8,7 @@ namespace Domain.SharedKernel.ValueObjects
 {
     public class LastName : ValueObject
     {
-       
+
         public const int MaxLength = 50;
 
         public static LastName Default = new(string.Empty);

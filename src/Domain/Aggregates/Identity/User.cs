@@ -1,10 +1,10 @@
 ﻿using Common.Models;
+using Domain.Aggregates.Identity.Events;
 using Domain.Aggregates.Identity.ValueObjects;
 using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
-using Domain.Aggregates.Identity.Events;
 
 namespace Domain.Aggregates.Identity
 {
@@ -18,8 +18,8 @@ namespace Domain.Aggregates.Identity
         public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
 
 
-        public static FluentResult<User> Create(string username, string password, string emailAddress,
-            string phoneNumber, int? gender, string firstName, string lastName, DateTime? birthDate)
+        public static FluentResult<User> Create(string? username, string? password, string? emailAddress,
+            string? phoneNumber, int? gender, string? firstName, string? lastName, DateTime? birthDate)
         {
             var result = new FluentResult<User>();
 

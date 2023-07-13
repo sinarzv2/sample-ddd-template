@@ -1,15 +1,15 @@
-﻿using System.Net.Mail;
-using Common.Models;
+﻿using Common.Models;
 using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
+using System.Net.Mail;
 
 namespace Domain.SharedKernel.ValueObjects
 {
     public class EmailAddress : ValueObject
     {
-       
+
         public const int MaxLength = 250;
 
         public const int VerificationKeyFixLength = 32;
@@ -88,7 +88,7 @@ namespace Domain.SharedKernel.ValueObjects
 
         public string Value { get; } = string.Empty;
 
-        public bool IsVerified { get; } 
+        public bool IsVerified { get; }
 
         public string VerificationKey { get; } = string.Empty;
 

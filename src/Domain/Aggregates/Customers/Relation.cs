@@ -3,22 +3,22 @@ using Domain.SeedWork;
 
 namespace Domain.Aggregates.Customers
 {
-	public class Relation : Entity
-	{
-	
-		protected Relation()
+    public class Relation : Entity
+    {
+
+        protected Relation()
         {
-		}
+        }
 
-		public Relation(Customer customer, Company company) : this()
-		{
+        public Relation(Customer customer, Company company) : this()
+        {
             Company = company ?? throw new ArgumentNullException(paramName: nameof(company));
-			Customer = customer ?? throw new ArgumentNullException(paramName: nameof(customer));
-		}
+            Customer = customer ?? throw new ArgumentNullException(paramName: nameof(customer));
+        }
 
-		public Customer Customer { get; init; } 
+        public Customer Customer { get; init; }
 
-		public Company Company { get; init; }
+        public Company Company { get; init; }
 
     }
 }

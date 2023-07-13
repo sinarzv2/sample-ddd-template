@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Aggregates.Identity;
+﻿using Domain.Aggregates.Identity;
 using Infrastructure.IRepository;
 using Infrastructure.Models;
 using Infrastructure.Persistance;
@@ -25,13 +21,13 @@ namespace Infrastructure.Repository
             });
 
             var roleClaims = from userRole in DbContext.UserRoles
-                join roleClaim in DbContext.RoleClaims on userRole.RoleId equals roleClaim.RoleId
-                where userRole.UserId == userId && roleClaim.ClaimType == type
-                select new
-                {
-                    Type = roleClaim.ClaimType,
-                    Value = roleClaim.ClaimValue
-                };
+                             join roleClaim in DbContext.RoleClaims on userRole.RoleId equals roleClaim.RoleId
+                             where userRole.UserId == userId && roleClaim.ClaimType == type
+                             select new
+                             {
+                                 Type = roleClaim.ClaimType,
+                                 Value = roleClaim.ClaimValue
+                             };
             var allClaim = await userClaims.Union(roleClaims).Select(s => new ClaimModel()
             {
                 Type = s.Type,

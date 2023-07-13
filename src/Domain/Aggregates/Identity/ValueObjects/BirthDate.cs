@@ -1,14 +1,14 @@
 ﻿using Common.Models;
-using Common.Resources.Messages;
 using Common.Resources;
+using Common.Resources.Messages;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.Aggregates.Identity.ValueObjects
 {
     public class BirthDate : Date
     {
-        public static DateTime MinValue = new(1920, 1,1);
-        public static DateTime MaxValue = new(2020, 1,1);
+        public static DateTime MinValue = new(1920, 1, 1);
+        public static DateTime MaxValue = new(2020, 1, 1);
 
         public static BirthDate Default = new(MinValue);
         public static FluentResult<BirthDate> Create(DateTime? value)
@@ -24,7 +24,7 @@ namespace Domain.Aggregates.Identity.ValueObjects
                 return result;
             }
 
-            if (value.Value.Date < MinValue || value.Value.Date > MaxValue)
+            if (value.Value.Date < MinValue.Date || value.Value.Date > MaxValue.Date)
             {
                 var errorMessage = string.Format(Validations.Range, DataDictionary.Birthdate, MinValue, MaxValue);
 

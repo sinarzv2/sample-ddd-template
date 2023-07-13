@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Common.Constant;
+﻿using Common.Constant;
 using Domain.Aggregates.Identity;
 using Domain.SharedKernel.Enumerations;
 using Microsoft.AspNetCore.Identity;
@@ -14,10 +12,10 @@ namespace Application.GeneralServices.DataInitializer
             UserManager = userManager;
         }
 
-        protected  UserManager<User> UserManager { get; }
+        protected UserManager<User> UserManager { get; }
         public void InitializeData()
         {
-            var adminUser =  UserManager.FindByNameAsync("Admin123").Result;
+            var adminUser = UserManager.FindByNameAsync("Admin123").Result;
             if (adminUser == null)
             {
                 var pass = "12345678";
@@ -31,7 +29,7 @@ namespace Application.GeneralServices.DataInitializer
                 if (result.Succeeded)
                 {
                     var resultUserRole = UserManager.AddToRoleAsync(user, ConstantRoles.Admin).Result;
-                    if(!resultUserRole.Succeeded)
+                    if (!resultUserRole.Succeeded)
                         throw new Exception(string.Join(" | ", resultUserRole.Errors.Select(d => d.Description)));
                 }
                 else

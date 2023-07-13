@@ -1,9 +1,12 @@
-﻿using System.Globalization;
-using System.Net;
-using System.Text.Json;
+﻿using Application.Common.Exceptions;
 using Common.Models;
 using Common.Resources.Messages;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
+using System.Net;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Api.Common.Middlewares
 {
@@ -33,12 +36,18 @@ namespace Api.Common.Middlewares
         {
             string message = null;
             var httpStatusCode = HttpStatusCode.InternalServerError;
+            var jsonSerializerOptions = new JsonSerializerOptions()
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
             try
             {
                 await _next(context);
             }
 
-           
+
             catch (SecurityTokenExpiredException exception)
             {
                 _logger.LogError(exception, exception.Message);
@@ -51,6 +60,16 @@ namespace Api.Common.Middlewares
                 SetUnAuthorizeResponse(exception);
                 await WriteToResponseAsync();
             }
+            catch (MultiplyMessageException exception)
+            {
+                var result = new FluentResult();
+                result.AddErrors(exception.Messages);
+                var json = JsonSerializer.Serialize(result, jsonSerializerOptions);
+
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(json);
+            }
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
@@ -62,7 +81,8 @@ namespace Api.Common.Middlewares
                         ["Exception"] = exception.Message,
                         ["StackTrace"] = exception.StackTrace,
                     };
-                    message = JsonSerializer.Serialize(dic);
+
+                    message = JsonSerializer.Serialize(dic, jsonSerializerOptions);
                 }
                 else
                 {
@@ -77,7 +97,7 @@ namespace Api.Common.Middlewares
 
                 var result = new FluentResult();
                 result.AddError(message);
-                var json = JsonSerializer.Serialize(result);
+                var json = JsonSerializer.Serialize(result, jsonSerializerOptions);
 
                 context.Response.StatusCode = (int)httpStatusCode;
                 context.Response.ContentType = "application/json";

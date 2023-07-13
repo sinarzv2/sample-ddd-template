@@ -9,6 +9,6 @@ namespace Infrastructure.Repository
         public RoleRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
-        
+
     }
 }

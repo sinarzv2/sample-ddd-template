@@ -8,11 +8,11 @@ namespace Domain.SharedKernel.ValueObjects
 {
     public class FirstName : ValueObject
     {
-        
+
         public const int MaxLength = 50;
-        
+
         public static FirstName Default = new(string.Empty);
-        
+
         public static FluentResult<FirstName> Create(string? value)
         {
             var result = new FluentResult<FirstName>();
@@ -44,7 +44,7 @@ namespace Domain.SharedKernel.ValueObjects
 
             return result;
         }
-        
+
 
         private FirstName()
         {

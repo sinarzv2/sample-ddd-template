@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Application.AccountApplication.Dto;
+﻿using Application.AccountApplication.Dto;
 using Common.Constant;
 using Common.Models;
 using Common.Resources.Messages;
@@ -14,10 +6,14 @@ using Domain.Aggregates.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Application.GeneralServices.JwtServices
 {
-    public class JwtService :IJwtService
+    public class JwtService : IJwtService
     {
         private readonly SignInManager<User> _signInManager;
         private readonly SiteSettings _siteSettings;
@@ -31,7 +27,7 @@ namespace Application.GeneralServices.JwtServices
             var secretKey = _siteSettings.JwtSettings.SecretKey;
             var encryptionkey = _siteSettings.JwtSettings.EncryptKey;
             var claims = await GetClaimsAsync(user);
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),SecurityAlgorithms.HmacSha256Signature);
+            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha256Signature);
             var encryptingCredentials = new EncryptingCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(encryptionkey)), SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);
             var descriptor = new SecurityTokenDescriptor()
             {
@@ -44,7 +40,7 @@ namespace Application.GeneralServices.JwtServices
                 SigningCredentials = signingCredentials,
                 EncryptingCredentials = encryptingCredentials
             };
-     
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
             var token = new TokenModel(securityToken)
@@ -95,10 +91,10 @@ namespace Application.GeneralServices.JwtServices
         private async Task<IEnumerable<Claim>> GetClaimsAsync(User user)
         {
             var result = await _signInManager.ClaimsFactory.CreateAsync(user);
-            return _siteSettings.UseTokenClaim ?  result.Claims : 
+            return _siteSettings.UseTokenClaim ? result.Claims :
                 result.Claims.Where(d => d.Type != ConstantClaim.Permission && d.Type != ClaimTypes.Role);
         }
     }
 
-    
+
 }

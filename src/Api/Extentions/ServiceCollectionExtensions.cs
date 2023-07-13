@@ -1,7 +1,6 @@
-﻿using System.Reflection;
-using System.Text;
-using System.Text.Json;
+﻿using Application.AccountApplication.EventHandlers;
 using Application.AccountApplication.Services;
+using Application.Common;
 using Common.DependencyLifeTime;
 using Common.Models;
 using Common.Resources.Messages;
@@ -10,6 +9,7 @@ using Infrastructure.Persistance;
 using Infrastructure.Repository;
 using Mapster;
 using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +19,9 @@ using Microsoft.OpenApi.Models;
 using SampleTemplate.Common.Swagger;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
+using System.Text;
+using System.Text.Json;
 using Role = Domain.Aggregates.Identity.Role;
 
 namespace Api.Extentions
@@ -208,6 +211,13 @@ namespace Api.Extentions
             {
                 services.AddDistributedMemoryCache();
             }
+
+        }
+
+        public static void AddCustomMediateR(this IServiceCollection services)
+        {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UserPasswordChangedEventHandler).Assembly));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidateCommandBehavior<,>));
 
         }
 

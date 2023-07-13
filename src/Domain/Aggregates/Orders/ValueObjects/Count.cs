@@ -1,7 +1,6 @@
 ﻿using Common.Models;
 using Common.Resources;
 using Common.Resources.Messages;
-using Domain.Aggregates.Companies.ValueObjects;
 using Domain.SeedWork;
 
 namespace Domain.Aggregates.Orders.ValueObjects

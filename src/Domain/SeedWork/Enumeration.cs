@@ -4,7 +4,7 @@ namespace Domain.SeedWork
 {
     public abstract class Enumeration : IComparable
     {
-        
+
         public static IEnumerable<T> GetAll<T>() where T : Enumeration
         {
             var result = typeof(T).GetFields(BindingFlags.Public |
@@ -34,7 +34,7 @@ namespace Domain.SeedWork
             return matchingItem;
         }
 
-       
+
         public static bool TryGetFromValueOrName<TEnumeration>
             (string valueOrName, out TEnumeration enumeration) where TEnumeration : Enumeration
         {
@@ -44,7 +44,7 @@ namespace Domain.SeedWork
                 TryParse(item => item.Value == value, out enumeration);
         }
 
-       
+
         public static TEnumeration? FromValue<TEnumeration>(int value) where TEnumeration : Enumeration
         {
             var matchingItem =
@@ -52,10 +52,10 @@ namespace Domain.SeedWork
             return matchingItem;
         }
 
-       
-     
 
-        protected Enumeration() 
+
+
+        protected Enumeration()
         {
         }
 

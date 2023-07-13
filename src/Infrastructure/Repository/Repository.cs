@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Infrastructure.IRepository;
+﻿using Infrastructure.IRepository;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repository
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
-    
+
     {
-        protected  ApplicationDbContext DbContext { get; }
+        protected ApplicationDbContext DbContext { get; }
 
         public DbSet<TEntity> Entities { get; }
         public virtual IQueryable<TEntity> Table => Entities;
@@ -22,7 +17,7 @@ namespace Infrastructure.Repository
         public Repository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
-            Entities = DbContext.Set<TEntity>(); 
+            Entities = DbContext.Set<TEntity>();
         }
 
         #region Async Method
@@ -45,7 +40,7 @@ namespace Infrastructure.Repository
         }
         public async Task UpdateAsync(TEntity entity)
         {
-           
+
             await Task.Run(() => Entities.Update(entity));
         }
         public async Task UpdateRangeAsync(IEnumerable<TEntity> entities)
@@ -71,7 +66,7 @@ namespace Infrastructure.Repository
         {
             await Task.Run(() => Entities.RemoveRange(entities));
         }
-        
+
         #endregion
 
         #region Sync Methods
@@ -83,22 +78,22 @@ namespace Infrastructure.Repository
         public virtual void Add(TEntity entity)
         {
             Entities.Add(entity);
-          
+
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities)
         {
             Entities.AddRange(entities);
-           
+
         }
 
         public virtual void Update(TEntity entity)
         {
-            
+
             Entities.Update(entity);
         }
 
-        
+
 
         public virtual void UpdateRange(IEnumerable<TEntity> entities)
         {
@@ -109,8 +104,8 @@ namespace Infrastructure.Repository
             }
         }
 
-       
-        
+
+
 
         public virtual void Delete(TEntity entity)
         {
@@ -119,21 +114,21 @@ namespace Infrastructure.Repository
             Entities.Remove(entity);
         }
 
-       
+
 
         public void DeleteById(object id)
         {
-            var entity =  GetById(id);
+            var entity = GetById(id);
             Delete(entity);
         }
 
-       
+
 
         public virtual void DeleteRange(IEnumerable<TEntity> entities)
         {
             Entities.RemoveRange(entities);
         }
-       
+
 
         #endregion
 
