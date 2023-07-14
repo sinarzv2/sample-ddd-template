@@ -79,6 +79,15 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نام کاربری وارد شده در سیستم وجود دارد..
+        /// </summary>
+        public static string DublicateUsername {
+            get {
+                return ResourceManager.GetString("DublicateUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نشانی پست الکترونیکی قبلا تایید شده است!.
         /// </summary>
         public static string EmailAddressAlreadyVerified {

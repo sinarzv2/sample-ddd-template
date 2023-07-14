@@ -1,5 +1,5 @@
 ﻿using Application.AccountApplication.Command;
-using Application.GeneralServices;
+using Application.Common;
 using Common.Constant;
 using Common.Resources;
 using Domain.Aggregates.Identity.ValueObjects;
@@ -7,14 +7,18 @@ using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using FluentValidation;
 using System.Text.RegularExpressions;
+using Application.AccountApplication.Services;
+using Common.Resources.Messages;
 
 namespace Application.AccountApplication.Validators
 {
     public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
     {
-        public RegisterUserValidator()
+        public RegisterUserValidator(IUserService userService)
         {
+
             RuleFor(u => u.UserName)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(ConstantValidation.Required)
                 .MinimumLength(Username.MinLength)
@@ -23,6 +27,8 @@ namespace Application.AccountApplication.Validators
                     .WithMessage(ConstantValidation.MaxLength)
                 .Matches(new Regex(Username.RegularExpression))
                     .WithMessage(ConstantValidation.RegularExpression)
+                .MustAsync(async (username, _) => !await userService.ExistUserByUsername(username))
+                    .WithMessage(Errors.DublicateUsername)
                 .WithName(DataDictionary.Username);
 
             RuleFor(u => u.Password)
@@ -40,6 +46,8 @@ namespace Application.AccountApplication.Validators
                 .NotEmpty()
                     .WithMessage(ConstantValidation.Required)
                 .MaximumLength(EmailAddress.MaxLength)
+                    .WithMessage(ConstantValidation.MaxLength)
+                .EmailAddress()
                     .WithMessage(ConstantValidation.RegularExpression)
                 .WithName(DataDictionary.EmailAddress);
 

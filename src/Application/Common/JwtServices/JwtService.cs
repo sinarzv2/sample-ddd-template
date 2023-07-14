@@ -1,4 +1,8 @@
-﻿using Application.AccountApplication.Dto;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using Application.AccountApplication.Dto;
 using Common.Constant;
 using Common.Models;
 using Common.Resources.Messages;
@@ -6,12 +10,8 @@ using Domain.Aggregates.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace Application.GeneralServices.JwtServices
+namespace Application.Common.JwtServices
 {
     public class JwtService : IJwtService
     {

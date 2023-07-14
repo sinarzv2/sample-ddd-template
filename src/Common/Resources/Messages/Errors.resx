@@ -123,6 +123,9 @@
   <data name="AuthorizationFaild" xml:space="preserve">
     <value>شما مجوز دسترسی ندارید.</value>
   </data>
+  <data name="DublicateUsername" xml:space="preserve">
+    <value>نام کاربری وارد شده در سیستم وجود دارد.</value>
+  </data>
   <data name="EmailAddressAlreadyVerified" xml:space="preserve">
     <value>نشانی پست الکترونیکی قبلا تایید شده است!</value>
   </data>

@@ -2,7 +2,7 @@
 using Domain.Aggregates.Identity;
 using Infrastructure.UnitOfWork;
 
-namespace Application.GeneralServices.DataInitializer
+namespace Application.Common.DataInitializer
 {
     public class RoleDataInitializer : IDataInitializer
     {

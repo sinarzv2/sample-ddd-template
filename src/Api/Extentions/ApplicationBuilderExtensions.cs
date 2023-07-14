@@ -1,4 +1,4 @@
-﻿using Application.GeneralServices.DataInitializer;
+﻿using Application.Common.DataInitializer;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;

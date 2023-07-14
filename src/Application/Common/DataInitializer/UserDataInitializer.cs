@@ -3,7 +3,7 @@ using Domain.Aggregates.Identity;
 using Domain.SharedKernel.Enumerations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.GeneralServices.DataInitializer
+namespace Application.Common.DataInitializer
 {
     public class UserDataInitializer : IDataInitializer
     {

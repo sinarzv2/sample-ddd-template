@@ -16,12 +16,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SampleTemplate.Common.Swagger;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using Api.Common.Swagger;
 using Role = Domain.Aggregates.Identity.Role;
 
 namespace Api.Extentions
@@ -173,7 +173,7 @@ namespace Api.Extentions
         public static void AddScrutor(this IServiceCollection services)
         {
             services.Scan(scan => scan
-                .FromAssemblyOf<AccountService>()
+                .FromAssemblyOf<UserService>()
                 .AddClasses(classes => classes.AssignableTo<ITransientService>())
                 .AsImplementedInterfaces()
                 .WithTransientLifetime()

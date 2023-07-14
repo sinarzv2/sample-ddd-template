@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Application.GeneralServices
+namespace Application.Common
 {
     public class GeneralValidators
     {
@@ -8,5 +8,6 @@ namespace Application.GeneralServices
         {
             return d => d != null && Enumeration.FromValue<T>(d.Value) != null;
         }
+
     }
 }

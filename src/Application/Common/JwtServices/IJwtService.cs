@@ -1,10 +1,10 @@
-﻿using Application.AccountApplication.Dto;
+﻿using System.Security.Claims;
+using Application.AccountApplication.Dto;
 using Common.DependencyLifeTime;
 using Common.Models;
 using Domain.Aggregates.Identity;
-using System.Security.Claims;
 
-namespace Application.GeneralServices.JwtServices
+namespace Application.Common.JwtServices
 {
     public interface IJwtService : IScopedService
     {
