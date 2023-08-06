@@ -3,16 +3,19 @@ using Common.Models;
 using Domain.Aggregates.Identity;
 using Domain.SeedWork;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace Application.AccountApplication.Command
 {
     public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
     {
         private readonly UserManager<User> _userManager;
+        private readonly JwtSettings _jwtSettings;
 
-        public RegisterUserCommandHandler(UserManager<User> userManager)
+        public RegisterUserCommandHandler(UserManager<User> userManager, IOptionsSnapshot<SiteSettings> siteSetting)
         {
             _userManager = userManager;
+            _jwtSettings = siteSetting.Value.JwtSettings;
         }
 
         public async Task<FluentResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -20,7 +23,7 @@ namespace Application.AccountApplication.Command
             var result = new FluentResult();
 
             var userResult = User.Create(request.UserName, request.Password, request.Email, request.PhoneNumber,
-                request.Gender, request.FirstName, request.LastName, request.BirthDate);
+                request.Gender, request.FirstName, request.LastName, request.BirthDate, _jwtSettings.ExpirationRefreshTimeDays);
             if (!userResult.IsSuccess)
             {
                 result.AddErrors(userResult.Errors);

@@ -8,6 +8,8 @@ namespace Application.AccountApplication.Command
 
         public string? Password { get; init; }
 
+        public string? ConfirmPassword { get; init; }
+
         public string? PhoneNumber { get; init; }
 
         public string? FirstName { get; init; }

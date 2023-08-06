@@ -25,5 +25,15 @@ namespace Api.Controllers.V1
                 return BadRequest(result);
             return NoContent();
         }
+
+        [HttpPost(ConstantRoute.Action)]
+        [SwaggerOperation("Login")]
+        public async Task<IActionResult> Login([FromForm]LoginCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            if (!result.IsSuccess)
+                return BadRequest(result);
+            return Ok(result.Data);
+        }
     }
 }

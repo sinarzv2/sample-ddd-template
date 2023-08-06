@@ -135,6 +135,9 @@
   <data name="CompanyName" xml:space="preserve">
     <value>نام شرکت</value>
   </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>تایید کلمه عبور</value>
+  </data>
   <data name="Count" xml:space="preserve">
     <value>تعداد</value>
   </data>

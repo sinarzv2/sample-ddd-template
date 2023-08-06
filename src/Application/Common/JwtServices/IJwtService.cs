@@ -1,8 +1,8 @@
-﻿using System.Security.Claims;
-using Application.AccountApplication.Dto;
+﻿using Application.AccountApplication.ViewModels;
 using Common.DependencyLifeTime;
 using Common.Models;
 using Domain.Aggregates.Identity;
+using System.Security.Claims;
 
 namespace Application.Common.JwtServices
 {

@@ -61,6 +61,15 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کلمه عبور و تایید کلیمه عبور برابر نیستند..
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} وارد شده معتبر نمی باشد!.
         /// </summary>
         public static string EmailAddress {

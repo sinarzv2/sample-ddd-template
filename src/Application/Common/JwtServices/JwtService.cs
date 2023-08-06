@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.AccountApplication.Dto;
+using Application.AccountApplication.ViewModels;
 using Common.Constant;
 using Common.Models;
 using Common.Resources.Messages;
@@ -43,10 +44,7 @@ namespace Application.Common.JwtServices
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
-            var token = new TokenModel(securityToken)
-            {
-                RefreshToken = GenerateRefresToken()
-            };
+            var token = new TokenModel(securityToken);
             return token;
         }
 
@@ -80,13 +78,7 @@ namespace Application.Common.JwtServices
             return result;
         }
 
-        private string GenerateRefresToken()
-        {
-            var randomNumber = new byte[32];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
+        
 
         private async Task<IEnumerable<Claim>> GetClaimsAsync(User user)
         {

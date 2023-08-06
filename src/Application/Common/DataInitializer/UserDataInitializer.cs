@@ -1,18 +1,22 @@
 ﻿using Common.Constant;
+using Common.Models;
 using Domain.Aggregates.Identity;
 using Domain.SharedKernel.Enumerations;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace Application.Common.DataInitializer
 {
     public class UserDataInitializer : IDataInitializer
     {
-        public UserDataInitializer(UserManager<User> userManager)
+        public UserDataInitializer(UserManager<User> userManager, IOptionsSnapshot<SiteSettings> siteSettings)
         {
             UserManager = userManager;
+            JwtSettings = siteSettings.Value.JwtSettings;
         }
 
         protected UserManager<User> UserManager { get; }
+        protected JwtSettings JwtSettings { get; }
         public void InitializeData()
         {
             var adminUser = UserManager.FindByNameAsync("Admin123").Result;
@@ -20,11 +24,12 @@ namespace Application.Common.DataInitializer
             {
                 var pass = "12345678";
                 var userResult = User.Create("Admin123", pass, "admin@admin.com", "09354831413", Gender.Male.Value, "Admin",
-                    "Admin", new DateTime(1991, 5, 29));
+                    "Admin", new DateTime(1991, 5, 29), JwtSettings.ExpirationRefreshTimeDays);
                 if (!userResult.IsSuccess)
                     throw new Exception(string.Join(" | ", userResult.Errors.Select(d => d)));
 
                 var user = userResult.Data;
+
                 var result = UserManager.CreateAsync(user, pass).Result;
                 if (result.Succeeded)
                 {

@@ -13,7 +13,7 @@ namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
             builder.Property(p => p.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             builder.Property(p => p.UserName).IsRequired().HasMaxLength(Username.MaxLength);
             builder.Property(p => p.PasswordHash).IsRequired().HasMaxLength(500);
-            builder.Property(p => p.RefreshToken).HasMaxLength(100);
+           
             builder.ToTable("Users");
 
             builder
@@ -51,6 +51,20 @@ namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
                     .HasConversion(lastName => lastName.Value, value => LastName.Create(value).Data);
             });
 
+            builder.OwnsOne(p => p.RefreshToken, p =>
+            {
+
+                p.Property(d => d.Token)
+                    .HasColumnName(nameof(RefreshToken))
+                    .IsRequired()
+                    .HasMaxLength(RefreshToken.MaxLength)
+                    .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+                p.Property(pp => pp.ExpiryTime)
+                    .IsRequired()
+                    .UsePropertyAccessMode(PropertyAccessMode.Field)
+                    .HasColumnName("RefreshTokenExpiryTime");
+            });
         }
     }
 

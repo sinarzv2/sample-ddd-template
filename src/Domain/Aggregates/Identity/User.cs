@@ -19,7 +19,7 @@ namespace Domain.Aggregates.Identity
 
 
         public static FluentResult<User> Create(string? username, string? password, string? emailAddress,
-            string? phoneNumber, int? gender, string? firstName, string? lastName, DateTime? birthDate)
+            string? phoneNumber, int? gender, string? firstName, string? lastName, DateTime? birthDate, int refreshTokenExpireTime)
         {
             var result = new FluentResult<User>();
 
@@ -54,10 +54,11 @@ namespace Domain.Aggregates.Identity
             var returnValue =
                 new User(usernameResult.Data,
                 emailAddressResult.Data, phoneNumberResult.Data,
-                fullNameResult.Data, birthdateResult.Data, true);
+                fullNameResult.Data, birthdateResult.Data, true, refreshTokenExpireTime);
+
+            
 
             result.SetData(returnValue);
-
             return result;
         }
         private User()
@@ -65,7 +66,7 @@ namespace Domain.Aggregates.Identity
             _domainEvents = new List<IDomainEvent>();
         }
 
-        private User(Username username, EmailAddress emailAddress, PhoneNumber phoneNumber, FullName fullName, BirthDate birthDate, bool isActive) : this()
+        private User(Username username, EmailAddress emailAddress, PhoneNumber phoneNumber, FullName fullName, BirthDate birthDate, bool isActive, int refreshTokenExpireTime) : this()
         {
             FullName = fullName;
             UserName = username.Value;
@@ -73,13 +74,13 @@ namespace Domain.Aggregates.Identity
             PhoneNumber = phoneNumber.Value;
             BirthDate = birthDate;
             IsActive = isActive;
+            SetNewRefreshToken(refreshTokenExpireTime);
         }
 
         public FullName FullName { get; init; } = FullName.Default;
         public BirthDate BirthDate { get; init; } = BirthDate.Default;
         public bool IsActive { get; init; }
-        public string RefreshToken { get; init; } = string.Empty;
-        public DateTime RefreshTokenExpiryTime { get; init; }
+        public RefreshToken RefreshToken { get; private set; }
 
         public FluentResult ChangePassword(string newPassword)
         {
@@ -106,6 +107,20 @@ namespace Domain.Aggregates.Identity
             _domainEvents.Clear();
         }
 
+        public FluentResult SetNewRefreshToken(int expirationRefreshTimeDays)
+        {
+            var result = new FluentResult();
+            var refreshTokenResult = RefreshToken.Create(expirationRefreshTimeDays);
+
+            if (refreshTokenResult.Errors.Any())
+            {
+                result.AddErrors(refreshTokenResult.Errors);
+
+                return result;
+            }
+            RefreshToken = refreshTokenResult.Data;
+            return result;
+        }
     }
 }
 

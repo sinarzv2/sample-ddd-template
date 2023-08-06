@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Application.AccountApplication.Services;
 using Common.Resources.Messages;
 
+
 namespace Application.AccountApplication.Validators
 {
     public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
@@ -41,6 +42,13 @@ namespace Application.AccountApplication.Validators
                 .Matches(new Regex(Password.RegularExpression))
                     .WithMessage(ConstantValidation.RegularExpression)
                 .WithName(DataDictionary.Password);
+
+            RuleFor(u => u.ConfirmPassword)
+                .NotEmpty()
+                    .WithMessage(ConstantValidation.Required)
+                .Must((model,confirmPassword)=> model.Password == confirmPassword)
+                    .WithMessage(Validations.ConfirmPassword)
+                .WithName(DataDictionary.ConfirmPassword);
 
             RuleFor(u => u.Email)
                 .NotEmpty()

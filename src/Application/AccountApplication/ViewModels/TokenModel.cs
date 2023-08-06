@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
 
-namespace Application.AccountApplication.Dto
+namespace Application.AccountApplication.ViewModels
 {
     public class TokenModel
     {
@@ -9,10 +9,10 @@ namespace Application.AccountApplication.Dto
         public string AccessToken { get; set; }
 
         [JsonPropertyName("refresh_token")]
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
 
         [JsonPropertyName("token_type")]
-        public string TokenType { get; set; }
+        public string? TokenType { get; set; }
 
         [JsonPropertyName("expires_in")]
         public int ExpiresIn { get; set; }
