@@ -1,5 +1,5 @@
-﻿using Application.AccountApplication.EventHandlers;
-using Application.AccountApplication.Services;
+﻿using Api.Common.Swagger;
+using Application.AccountApplication.EventHandlers;
 using Application.Common;
 using Common.DependencyLifeTime;
 using Common.Models;
@@ -21,7 +21,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Api.Common.Swagger;
+using Application.Common.JwtServices;
 using Role = Domain.Aggregates.Identity.Role;
 
 namespace Api.Extentions
@@ -173,7 +173,7 @@ namespace Api.Extentions
         public static void AddScrutor(this IServiceCollection services)
         {
             services.Scan(scan => scan
-                .FromAssemblyOf<UserService>()
+                .FromAssemblyOf<JwtService>()
                 .AddClasses(classes => classes.AssignableTo<ITransientService>())
                 .AsImplementedInterfaces()
                 .WithTransientLifetime()

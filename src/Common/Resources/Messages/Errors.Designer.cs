@@ -79,6 +79,15 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to خطا در دیسریالایز کردن.
+        /// </summary>
+        public static string Deserilize {
+            get {
+                return ResourceManager.GetString("Deserilize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام کاربری وارد شده در سیستم وجود دارد..
         /// </summary>
         public static string DublicateUsername {

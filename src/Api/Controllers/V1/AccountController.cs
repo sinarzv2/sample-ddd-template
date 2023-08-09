@@ -28,7 +28,7 @@ namespace Api.Controllers.V1
 
         [HttpPost(ConstantRoute.Action)]
         [SwaggerOperation("Login")]
-        public async Task<IActionResult> Login([FromForm]LoginCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login([FromForm] LoginCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
             if (!result.IsSuccess)

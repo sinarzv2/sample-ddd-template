@@ -7,15 +7,16 @@ using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using FluentValidation;
 using System.Text.RegularExpressions;
-using Application.AccountApplication.Services;
+using Application.AccountApplication.Queries;
 using Common.Resources.Messages;
+using MediatR;
 
 
 namespace Application.AccountApplication.Validators
 {
     public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
     {
-        public RegisterUserValidator(IUserService userService)
+        public RegisterUserValidator(IMediator mediator)
         {
 
             RuleFor(u => u.UserName)
@@ -28,7 +29,12 @@ namespace Application.AccountApplication.Validators
                     .WithMessage(ConstantValidation.MaxLength)
                 .Matches(new Regex(Username.RegularExpression))
                     .WithMessage(ConstantValidation.RegularExpression)
-                .MustAsync(async (username, _) => !await userService.ExistUserByUsername(username))
+                .MustAsync(async (username, _) =>
+                {
+                    var query = new ExistUserByUsernameQuery(username);
+                    var existUserByUsernameResult = await mediator.Send(query);
+                    return !existUserByUsernameResult.Data;
+                })
                     .WithMessage(Errors.DublicateUsername)
                 .WithName(DataDictionary.Username);
 

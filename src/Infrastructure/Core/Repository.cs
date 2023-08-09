@@ -1,9 +1,8 @@
-﻿using Infrastructure.IRepository;
-using Infrastructure.Persistance;
+﻿using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Repository
+namespace Infrastructure.Core
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 

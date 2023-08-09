@@ -9,7 +9,8 @@ namespace Domain.Aggregates.Identity.ValueObjects
     public class RefreshToken : ValueObject
     {
         public const int MaxLength = 44;
-        public static FluentResult<RefreshToken> Create(int expirationRefreshTimeDays)
+        public const int ExpirationRefreshTimeDays = 7;
+        public static FluentResult<RefreshToken> Create()
         {
             var result = new FluentResult<RefreshToken>();
 
@@ -23,7 +24,7 @@ namespace Domain.Aggregates.Identity.ValueObjects
 
                 return result;
             }
-            var refreshToken = new RefreshToken(Generate(), DateTime.Now.AddDays(expirationRefreshTimeDays));
+            var refreshToken = new RefreshToken(Generate(), DateTime.Now.AddDays(ExpirationRefreshTimeDays));
             result.SetData(refreshToken);
             return result;
         }

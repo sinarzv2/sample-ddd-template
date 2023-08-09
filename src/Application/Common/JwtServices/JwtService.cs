@@ -1,9 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using Application.AccountApplication.Dto;
-using Application.AccountApplication.ViewModels;
+﻿using Application.AccountApplication.Dtos;
 using Common.Constant;
 using Common.Models;
 using Common.Resources.Messages;
@@ -11,6 +6,9 @@ using Domain.Aggregates.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Application.Common.JwtServices
 {
@@ -23,7 +21,7 @@ namespace Application.Common.JwtServices
             _signInManager = signInManager;
             _siteSettings = siteSetting.Value;
         }
-        public async Task<TokenModel> GenerateAsync(User user)
+        public async Task<TokenDto> GenerateAsync(User user)
         {
             var secretKey = _siteSettings.JwtSettings.SecretKey;
             var encryptionkey = _siteSettings.JwtSettings.EncryptKey;
@@ -44,7 +42,7 @@ namespace Application.Common.JwtServices
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
-            var token = new TokenModel(securityToken);
+            var token = new TokenDto(securityToken);
             return token;
         }
 
@@ -78,7 +76,7 @@ namespace Application.Common.JwtServices
             return result;
         }
 
-        
+
 
         private async Task<IEnumerable<Claim>> GetClaimsAsync(User user)
         {

@@ -1,9 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
 
-namespace Application.AccountApplication.ViewModels
+namespace Application.AccountApplication.Dtos
 {
-    public class TokenModel
+    public class TokenDto
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; set; }
@@ -17,7 +17,7 @@ namespace Application.AccountApplication.ViewModels
         [JsonPropertyName("expires_in")]
         public int ExpiresIn { get; set; }
 
-        public TokenModel(JwtSecurityToken securityToken)
+        public TokenDto(JwtSecurityToken securityToken)
         {
             AccessToken = new JwtSecurityTokenHandler().WriteToken(securityToken);
             TokenType = "Bearer";

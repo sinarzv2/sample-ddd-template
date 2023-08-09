@@ -1,10 +1,10 @@
-﻿using Common.Resources;
+﻿using System.ComponentModel.DataAnnotations;
+using Common.Resources;
 using Common.Resources.Messages;
-using System.ComponentModel.DataAnnotations;
 
-namespace Application.AccountApplication.Dto
+namespace Application.AccountApplication.Dtos
 {
-    public class RefreshTokenRequest
+    public class RefreshTokenRequestDto
     {
         [Required(ErrorMessageResourceType = typeof(Validations), ErrorMessageResourceName = "Required")]
         [Display(ResourceType = typeof(DataDictionary), Name = "AccessToken")]

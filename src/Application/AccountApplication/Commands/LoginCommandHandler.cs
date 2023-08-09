@@ -1,5 +1,4 @@
-﻿using Application.AccountApplication.Dto;
-using Application.AccountApplication.ViewModels;
+﻿using Application.AccountApplication.Dtos;
 using Application.Common.JwtServices;
 using Common.Models;
 using Common.Resources.Messages;
@@ -7,28 +6,25 @@ using Domain.Aggregates.Identity;
 using Domain.SeedWork;
 using Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 
 namespace Application.AccountApplication.Command;
 
-public class LoginCommandHandler : ICommandHandler<LoginCommand,TokenModel>
+public class LoginCommandHandler : ICommandHandler<LoginCommand,TokenDto>
 {
     private readonly UserManager<User> _userManager;
     private readonly IJwtService _jwtService;
-    private readonly JwtSettings _jwtSettings;
     private readonly IUnitOfWork _unitOfWork;
 
-    public LoginCommandHandler(UserManager<User> userManager, IJwtService jwtService, IOptionsSnapshot<SiteSettings> siteSetting, IUnitOfWork unitOfWork)
+    public LoginCommandHandler(UserManager<User> userManager, IJwtService jwtService, IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
         _jwtService = jwtService;
         _unitOfWork = unitOfWork;
-        _jwtSettings = siteSetting.Value.JwtSettings;
     }
 
-    public async Task<FluentResult<TokenModel>> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<FluentResult<TokenDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var result = new FluentResult<TokenModel>();
+        var result = new FluentResult<TokenDto>();
         var user = await _userManager.FindByNameAsync(request.UserName!);
         if (user == null)
         {
@@ -44,7 +40,7 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand,TokenModel>
         }
 
         var tokenModel = await _jwtService.GenerateAsync(user);
-        var refreshTokenResult = user.SetNewRefreshToken(_jwtSettings.ExpirationRefreshTimeDays);
+        var refreshTokenResult = user.SetNewRefreshToken();
         if (!refreshTokenResult.IsSuccess)
         {
             result.AddErrors(refreshTokenResult.Errors);

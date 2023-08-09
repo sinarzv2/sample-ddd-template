@@ -1,6 +1,7 @@
 ﻿using Domain.Aggregates.Identity;
+using Infrastructure.Core;
 using Infrastructure.IRepository;
-using Infrastructure.Models;
+using Infrastructure.Models.Account;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 

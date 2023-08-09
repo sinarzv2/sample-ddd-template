@@ -42,7 +42,7 @@ namespace Domain.Aggregates.Cities
 
         public Guid ProvinceId { get; init; }
 
-        public Province Province { get; init; }
+        public Province Province { get; init; } = default!;
 
         public FluentResult Update(string name)
         {

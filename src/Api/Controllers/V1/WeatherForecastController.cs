@@ -1,10 +1,10 @@
+using Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers.V1
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [ApiVersion("1")]
+    public class WeatherForecastController : BaseV1Controller
     {
         private static readonly string[] Summaries = new[]
         {
@@ -19,6 +19,8 @@ namespace Api.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
+
+        [CustomAuthorize("WeatherForecast.Get")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

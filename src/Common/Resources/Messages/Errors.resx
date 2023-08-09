@@ -123,6 +123,9 @@
   <data name="AuthorizationFaild" xml:space="preserve">
     <value>شما مجوز دسترسی ندارید.</value>
   </data>
+  <data name="Deserilize" xml:space="preserve">
+    <value>خطا در دیسریالایز کردن</value>
+  </data>
   <data name="DublicateUsername" xml:space="preserve">
     <value>نام کاربری وارد شده در سیستم وجود دارد.</value>
   </data>

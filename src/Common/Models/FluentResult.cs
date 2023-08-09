@@ -20,8 +20,7 @@ namespace Common.Models
         public void AddError(string message)
         {
             message = message.CleanString();
-            if (message == null)
-                return;
+
             if (_errors.Contains(message))
                 return;
             _errors.Add(message);
@@ -38,8 +37,7 @@ namespace Common.Models
         public void RemoveError(string message)
         {
             message = message.CleanString();
-            if (message == null)
-                return;
+
             _errors.Remove(message);
             if (!_errors.Any())
                 IsSuccess = true;
@@ -53,8 +51,6 @@ namespace Common.Models
         public void AddSuccess(string message)
         {
             message = message.CleanString();
-            if (message == null)
-                return;
             if (_successes.Contains(message))
                 return;
             _successes.Add(message);
@@ -69,8 +65,6 @@ namespace Common.Models
         public void RemoveSuccess(string message)
         {
             message = message.CleanString();
-            if (message == null)
-                return;
             _successes.Remove(message);
         }
 
@@ -81,10 +75,9 @@ namespace Common.Models
     }
 
     public class FluentResult<TData> : FluentResult
-        where TData : class
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TData Data { get; private set; }
+        public TData? Data { get; private set; }
 
 
         public FluentResult<TData> Success(TData data, string message)
