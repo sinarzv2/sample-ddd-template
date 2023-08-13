@@ -149,6 +149,7 @@ namespace Api.Extentions
 
                 options.DocumentFilter<SetVersionInPaths>();
 
+
                 options.DocInclusionPredicate((docName, apiDesc) =>
                 {
                     if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
@@ -222,4 +223,6 @@ namespace Api.Extentions
         }
 
     }
+
+   
 }

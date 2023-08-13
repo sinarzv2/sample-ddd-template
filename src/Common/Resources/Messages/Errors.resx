@@ -132,6 +132,9 @@
   <data name="EmailAddressAlreadyVerified" xml:space="preserve">
     <value>نشانی پست الکترونیکی قبلا تایید شده است!</value>
   </data>
+  <data name="InvalidCurrentPassword" xml:space="preserve">
+    <value>کلمه عبور فعلی اشتباه است.</value>
+  </data>
   <data name="InvalidRefreshToken" xml:space="preserve">
     <value>رفرش توکن معتبر نمی باشد.</value>
   </data>
@@ -139,7 +142,7 @@
     <value>توکن معتبر نمی باشد.</value>
   </data>
   <data name="InvalidUsernameOrPassword" xml:space="preserve">
-    <value>نام کاربری یا رمز عبور اشتباه است.</value>
+    <value>نام کاربری یا کلمه عبور اشتباه است.</value>
   </data>
   <data name="InvalidVerificationKey" xml:space="preserve">
     <value>کد فعال‌سازی صحیح نمی‌باشد!</value>

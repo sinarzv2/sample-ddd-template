@@ -1,4 +1,4 @@
-﻿using Application.AccountApplication.Command;
+﻿using Application.AccountApplication.Commands;
 using Common.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +34,16 @@ namespace Api.Controllers.V1
             if (!result.IsSuccess)
                 return BadRequest(result);
             return Ok(result.Data);
+        }
+
+        [HttpPost(ConstantRoute.Action)]
+        [SwaggerOperation("Change Password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            if (!result.IsSuccess)
+                return BadRequest(result);
+            return NoContent();
         }
     }
 }

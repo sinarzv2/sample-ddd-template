@@ -106,6 +106,15 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کلمه عبور فعلی اشتباه است..
+        /// </summary>
+        public static string InvalidCurrentPassword {
+            get {
+                return ResourceManager.GetString("InvalidCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رفرش توکن معتبر نمی باشد..
         /// </summary>
         public static string InvalidRefreshToken {
@@ -124,7 +133,7 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to نام کاربری یا رمز عبور اشتباه است..
+        ///   Looks up a localized string similar to نام کاربری یا کلمه عبور اشتباه است..
         /// </summary>
         public static string InvalidUsernameOrPassword {
             get {

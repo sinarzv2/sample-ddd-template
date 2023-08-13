@@ -10,6 +10,7 @@ public static class ConstantValidation
     public static readonly string RegularExpression = string.Format(Validations.RegularExpression, "{PropertyName}");
     public static readonly string Range = string.Format(Validations.Range, "{PropertyName}", "{From}", "{To}");
     public static readonly string InvalidCode = string.Format(Validations.InvalidCode, "{PropertyName}");
+    public static readonly string ContainNumber = string.Format(Validations.ContainNumber, "{PropertyName}");
 
     public static string FixLengthNumeric(int fixLength) => string.Format(Validations.FixLengthNumeric, "{PropertyName}", fixLength);
 

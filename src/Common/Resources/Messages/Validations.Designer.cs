@@ -70,6 +70,15 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مقدار فیلد {0} باید حداقل شامل یک رقم از 0 تا 9 باشد!.
+        /// </summary>
+        public static string ContainNumber {
+            get {
+                return ResourceManager.GetString("ContainNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} وارد شده معتبر نمی باشد!.
         /// </summary>
         public static string EmailAddress {

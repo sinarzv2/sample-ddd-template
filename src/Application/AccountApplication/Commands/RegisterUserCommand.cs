@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Application.AccountApplication.Command
+namespace Application.AccountApplication.Commands
 {
     public class RegisterUserCommand : ICommand
     {

@@ -120,6 +120,9 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>کلمه عبور و تایید کلیمه عبور برابر نیستند.</value>
   </data>
+  <data name="ContainNumber" xml:space="preserve">
+    <value>مقدار فیلد {0} باید حداقل شامل یک رقم از 0 تا 9 باشد!</value>
+  </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>{0} وارد شده معتبر نمی باشد!</value>
   </data>

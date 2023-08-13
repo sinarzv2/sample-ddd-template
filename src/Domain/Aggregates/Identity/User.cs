@@ -82,7 +82,7 @@ namespace Domain.Aggregates.Identity
         public bool IsActive { get; init; }
         public RefreshToken RefreshToken { get; private set; } = RefreshToken.Create().Data;
 
-        public FluentResult ChangePassword(string newPassword)
+        public FluentResult ChangePassword(string newPassword,string hashPassword)
         {
             var result = new FluentResult();
 
@@ -95,7 +95,7 @@ namespace Domain.Aggregates.Identity
                 return result;
             }
 
-            PasswordHash = newPasswordResult.Data.Value;
+            PasswordHash = hashPassword;
 
             _domainEvents.Add(new UserPasswordChangedEvent(FullName, Email));
 

@@ -144,6 +144,9 @@
   <data name="CurrentDate" xml:space="preserve">
     <value>تاریخ جاری</value>
   </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>کلمه عبور فعلی</value>
+  </data>
   <data name="DiscountCoupon" xml:space="preserve">
     <value>کوپن تخفیف</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="NationalIdentity" xml:space="preserve">
     <value>شناسه ملی شرکت</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>کلمه عبور جدید</value>
   </data>
   <data name="PackageName" xml:space="preserve">
     <value>نام بسته</value>

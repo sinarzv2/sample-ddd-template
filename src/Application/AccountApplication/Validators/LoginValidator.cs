@@ -1,4 +1,4 @@
-﻿using Application.AccountApplication.Command;
+﻿using Application.AccountApplication.Commands;
 using Common.Constant;
 using Common.Resources;
 using FluentValidation;

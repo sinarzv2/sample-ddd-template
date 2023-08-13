@@ -1,4 +1,5 @@
-﻿using Application.AccountApplication.Dtos;
+﻿
+using Application.AccountApplication.Dtos;
 using Application.Common.JwtServices;
 using Common.Models;
 using Common.Resources.Messages;
@@ -7,10 +8,11 @@ using Domain.SeedWork;
 using Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.AccountApplication.Command;
+namespace Application.AccountApplication.Commands;
 
 public class LoginCommandHandler : ICommandHandler<LoginCommand,TokenDto>
 {
+
     private readonly UserManager<User> _userManager;
     private readonly IJwtService _jwtService;
     private readonly IUnitOfWork _unitOfWork;

@@ -77,7 +77,7 @@ namespace Common.Models
     public class FluentResult<TData> : FluentResult
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TData? Data { get; private set; }
+        public TData Data { get; private set; } = default!;
 
 
         public FluentResult<TData> Success(TData data, string message)

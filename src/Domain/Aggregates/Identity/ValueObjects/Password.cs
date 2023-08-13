@@ -47,6 +47,24 @@ namespace Domain.Aggregates.Identity.ValueObjects
                 return result;
             }
 
+            if (value.Length > MaxLength)
+            {
+                var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Password, MaxLength);
+
+                result.AddError(errorMessage);
+
+                return result;
+            }
+
+            if (!value.Any(char.IsDigit))
+            {
+                var errorMessage = string.Format(Validations.ContainNumber, DataDictionary.Password);
+
+                result.AddError(errorMessage);
+
+                return result;
+            }
+
             if (Regex.IsMatch(value, RegularExpression) == false)
             {
                 var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.Password);

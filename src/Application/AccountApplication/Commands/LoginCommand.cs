@@ -1,7 +1,7 @@
 ﻿using Application.AccountApplication.Dtos;
 using Domain.SeedWork;
 
-namespace Application.AccountApplication.Command;
+namespace Application.AccountApplication.Commands;
 
 public class LoginCommand : ICommand<TokenDto>
 {

@@ -142,6 +142,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کلمه عبور فعلی.
+        /// </summary>
+        public static string CurrentPassword {
+            get {
+                return ResourceManager.GetString("CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کوپن تخفیف.
         /// </summary>
         public static string DiscountCoupon {
@@ -255,6 +264,15 @@ namespace Common.Resources {
         public static string NationalIdentity {
             get {
                 return ResourceManager.GetString("NationalIdentity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کلمه عبور جدید.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
             }
         }
         

@@ -4,7 +4,7 @@ using Domain.Aggregates.Identity;
 using Domain.SeedWork;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.AccountApplication.Command
+namespace Application.AccountApplication.Commands
 {
     public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
     {
