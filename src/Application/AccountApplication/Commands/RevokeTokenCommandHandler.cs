@@ -28,7 +28,7 @@ namespace Application.AccountApplication.Commands
                 return result;
             }
 
-            user.RefreshToken.ClearToken();
+            user.RevokeToken();
             await _unitOfWork.CommitChangesAsync(cancellationToken);
             return result;
         }

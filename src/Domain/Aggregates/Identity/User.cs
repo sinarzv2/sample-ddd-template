@@ -123,6 +123,10 @@ namespace Domain.Aggregates.Identity
         }
 
 
+        public void RevokeToken()
+        {
+            RefreshToken.ClearToken();
+        }
     }
 }
 
