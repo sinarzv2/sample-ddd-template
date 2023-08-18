@@ -1,6 +1,8 @@
-﻿using Application.AccountApplication.Commands;
+﻿using Api.Filters;
+using Application.AccountApplication.Commands;
 using Common.Constant;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -41,6 +43,27 @@ namespace Api.Controllers.V1
         public async Task<IActionResult> ChangePassword(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
+            if (!result.IsSuccess)
+                return BadRequest(result);
+            return NoContent();
+        }
+
+        [HttpPost(ConstantRoute.Action)]
+        [SwaggerOperation("Refresh Token")]
+        public async Task<IActionResult> Refresh(RefreshTokenCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            if (!result.IsSuccess)
+                return BadRequest(result);
+            return Ok(result);
+        }
+
+        [HttpPost($"{ConstantRoute.Action}/{{userid}}")]
+        [CustomAuthorize("Account.Revoke")]
+        [SwaggerOperation("Revoke Token")]
+        public async Task<IActionResult> Revoke([FromRoute] Guid userid, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new RevokeTokenCommand(userid), cancellationToken);
             if (!result.IsSuccess)
                 return BadRequest(result);
             return NoContent();

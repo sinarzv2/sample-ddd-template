@@ -28,8 +28,11 @@ namespace Domain.Aggregates.Identity.ValueObjects
             result.SetData(refreshToken);
             return result;
         }
-
-        public string Token { get; init; } = string.Empty;
+        public void ClearToken()
+        {
+            Token = string.Empty;
+        }
+        public string Token { get; private set; } = string.Empty;
         public DateTime ExpiryTime { get; init; }
 
         private RefreshToken()

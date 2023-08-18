@@ -62,18 +62,27 @@ namespace Application.Common.JwtServices
                 ValidateLifetime = false,
                 TokenDecryptionKey = new SymmetricSecurityKey(encryptionkey)
             };
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out var securityToken);
+                var jwtSecurityToken = securityToken as JwtSecurityToken;
+                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.Aes128KW,
+                        StringComparison.InvariantCultureIgnoreCase))
+                {
+                    result.AddError(Errors.InvalidToken);
+                    return result;
+                }
+                result.SetData(principal);
+                return result;
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out var securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.Aes128KW,
-                    StringComparison.InvariantCultureIgnoreCase))
+            }
+            catch (Exception)
             {
                 result.AddError(Errors.InvalidToken);
                 return result;
             }
-            result.SetData(principal);
-            return result;
+           
         }
 
 

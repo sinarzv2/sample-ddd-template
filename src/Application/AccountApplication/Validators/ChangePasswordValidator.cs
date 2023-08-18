@@ -5,7 +5,6 @@ using Common.Resources.Messages;
 using Domain.Aggregates.Identity.ValueObjects;
 using FluentValidation;
 using System.Text.RegularExpressions;
-using Application.AccountApplication.Services;
 
 namespace Application.AccountApplication.Validators
 {

@@ -213,6 +213,9 @@
   <data name="SerialNumber" xml:space="preserve">
     <value>شماره سریال</value>
   </data>
+  <data name="UserId" xml:space="preserve">
+    <value>شناسه کاربر</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>نام کاربری</value>
   </data>
