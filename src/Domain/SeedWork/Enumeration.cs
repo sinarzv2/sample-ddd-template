@@ -160,7 +160,7 @@ namespace Domain.SeedWork
         /// </summary>
         private Type GetRealType()
         {
-            System.Type type = GetType();
+            Type type = GetType();
 
             if (type.ToString().Contains("Castle.Proxies."))
             {

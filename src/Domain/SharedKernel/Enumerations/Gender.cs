@@ -42,7 +42,7 @@ namespace Domain.SharedKernel.Enumerations
         }
 
 
-        private Gender(int value, string name) : base(value: value, name: name)
+        private Gender(int value, string name) : base(value, name)
         {
         }
     }
