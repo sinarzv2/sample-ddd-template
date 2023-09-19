@@ -1,7 +1,6 @@
 ﻿using Domain.Aggregates.Identity;
-using Infrastructure.Core;
 
-namespace Infrastructure.IRepository
+namespace Domain.IRepository
 {
     public interface IRoleRepository : IRepository<Role>
     {

@@ -52,7 +52,7 @@ namespace Api.Filters
                 });
                 if (permissionsResult.IsSuccess)
                 {
-                    var isPermitted = permissionsResult.Data.Any(d => d.Value == _permission);
+                    var isPermitted = permissionsResult.Data.Any(d => d.ClaimValue == _permission);
                     if (isPermitted) return;
 
                     apiResult.AddError(Errors.AuthorizationFaild);

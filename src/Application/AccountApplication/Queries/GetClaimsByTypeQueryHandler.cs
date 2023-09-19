@@ -2,12 +2,12 @@
 using Common.Models;
 using Domain.Aggregates.Identity;
 using Domain.SeedWork;
-using Infrastructure.UnitOfWork;
 using MapsterMapper;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 using Application.AccountApplication.Dtos;
 using Common.Resources.Messages;
+using Application.UnitOfWork;
 
 namespace Application.AccountApplication.Queries
 {

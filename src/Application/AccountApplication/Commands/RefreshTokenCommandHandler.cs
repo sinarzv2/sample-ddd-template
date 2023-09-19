@@ -1,10 +1,10 @@
 ﻿using Application.AccountApplication.Dtos;
 using Application.Common.JwtServices;
+using Application.UnitOfWork;
 using Common.Models;
 using Common.Resources.Messages;
 using Domain.Aggregates.Identity;
 using Domain.SeedWork;
-using Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.AccountApplication.Commands

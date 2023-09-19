@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Domain.IRepository;
 
 namespace Infrastructure.Core
 {

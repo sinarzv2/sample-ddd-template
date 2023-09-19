@@ -1,7 +1,7 @@
 ﻿using Common.DependencyLifeTime;
-using Infrastructure.IRepository;
+using Domain.IRepository;
 
-namespace Infrastructure.UnitOfWork
+namespace Application.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable, IScopedService
     {

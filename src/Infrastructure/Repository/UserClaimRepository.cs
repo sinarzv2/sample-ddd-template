@@ -1,7 +1,6 @@
 ﻿using Domain.Aggregates.Identity;
+using Domain.IRepository;
 using Infrastructure.Core;
-using Infrastructure.IRepository;
-using Infrastructure.Models.Account;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ namespace Infrastructure.Repository
         {
         }
 
-        public async Task<List<ClaimModel>> GetClaimsByType(Guid userId, string type)
+        public async Task<List<UserClaim>> GetClaimsByType(Guid userId, string type)
         {
             var userClaims = DbContext.UserClaims.Where(d => d.UserId == userId && d.ClaimType == type).Select(s => new
             {
@@ -29,10 +28,10 @@ namespace Infrastructure.Repository
                                  Type = roleClaim.ClaimType,
                                  Value = roleClaim.ClaimValue
                              };
-            var allClaim = await userClaims.Union(roleClaims).Select(s => new ClaimModel()
+            var allClaim = await userClaims.Union(roleClaims).Select(s => new UserClaim()
             {
-                Type = s.Type,
-                Value = s.Value
+                ClaimType = s.Type,
+                ClaimValue = s.Value
             }).ToListAsync();
             return allClaim;
         }

@@ -1,6 +1,6 @@
-﻿using Common.Constant;
+﻿using Application.UnitOfWork;
+using Common.Constant;
 using Domain.Aggregates.Identity;
-using Infrastructure.UnitOfWork;
 
 namespace Application.Common.DataInitializer
 {

@@ -1,9 +1,9 @@
-﻿using Common.Models;
+﻿using Application.UnitOfWork;
+using Common.Models;
 using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.Aggregates.Identity;
 using Domain.SeedWork;
-using Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 

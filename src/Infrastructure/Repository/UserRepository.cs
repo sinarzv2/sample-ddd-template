@@ -1,6 +1,6 @@
 ﻿using Domain.Aggregates.Identity;
+using Domain.IRepository;
 using Infrastructure.Core;
-using Infrastructure.IRepository;
 using Infrastructure.Persistance;
 
 namespace Infrastructure.Repository

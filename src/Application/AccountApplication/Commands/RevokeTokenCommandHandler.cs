@@ -1,8 +1,8 @@
-﻿using Common.Models;
+﻿using Application.UnitOfWork;
+using Common.Models;
 using Common.Resources.Messages;
 using Domain.Aggregates.Identity;
 using Domain.SeedWork;
-using Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.AccountApplication.Commands
