@@ -61,20 +61,20 @@ namespace Common.Resources.Messages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to شماره تلفن همراه با موفقیت تایید گردید..
-        /// </summary>
-        public static string CellPhoneNumberVerified {
-            get {
-                return ResourceManager.GetString("CellPhoneNumberVerified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to نشانی پست الکترونیکی با موفقیت تایید گردید..
         /// </summary>
         public static string EmailAddressVerified {
             get {
                 return ResourceManager.GetString("EmailAddressVerified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to شماره تلفن همراه با موفقیت تایید گردید..
+        /// </summary>
+        public static string PhoneNumberVerified {
+            get {
+                return ResourceManager.GetString("PhoneNumberVerified", resourceCulture);
             }
         }
         

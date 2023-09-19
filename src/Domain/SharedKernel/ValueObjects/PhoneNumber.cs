@@ -108,7 +108,7 @@ namespace Domain.SharedKernel.ValueObjects
             }
 
             var newObject = new PhoneNumber(Value, true, VerificationKey);
-
+            result.AddSuccess(Successes.PhoneNumberVerified);
             result.SetData(newObject);
 
             return result;

@@ -111,7 +111,7 @@ namespace Domain.SharedKernel.ValueObjects
             }
 
             var newObject = new EmailAddress(Value, true, VerificationKey);
-
+            result.AddSuccess(Successes.EmailAddressVerified);
             result.SetData(newObject);
 
             return result;

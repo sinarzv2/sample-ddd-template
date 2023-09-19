@@ -12,23 +12,13 @@ namespace Domain.Test.SharedKernel.ValueObjects
         [InlineData("     ")]
         public void Create_SendNullOrEmpty_ResultIsNotSuccess(string value)
         {
-            
             var result = FirstName.Create(value);
-
-            // **************************************************
-            Assert.False(result.IsSuccess);
-            // **************************************************
-
-            // **************************************************
             var errorMessage = string.Format(Validations.Required, DataDictionary.FirstName);
-            
-            Assert.Equal(errorMessage, result.Errors[0]);
-            // **************************************************
 
-            // **************************************************
+            Assert.False(result.IsSuccess);
+            Assert.Equal(errorMessage, result.Errors[0]);
             Assert.Single(result.Errors);
             Assert.Empty(result.Successes);
-            // **************************************************
         }
 
 
@@ -41,18 +31,10 @@ namespace Domain.Test.SharedKernel.ValueObjects
         { 
             var result = FirstName.Create(value);
 
-            // **************************************************
             Assert.True(result.IsSuccess);
-            // **************************************************
-
-            // **************************************************
             Assert.Equal("Ali", actual: result.Data.Value);
-            // **************************************************
-
-            // **************************************************
             Assert.Empty(result.Errors);
             Assert.Empty(result.Successes);
-            // **************************************************
         }
 
 
@@ -63,18 +45,10 @@ namespace Domain.Test.SharedKernel.ValueObjects
         {
             var result = FirstName.Create(value);
 
-            // **************************************************
             Assert.True(result.IsSuccess);
-            // **************************************************
-
-            // **************************************************
             Assert.Equal("Ali Reza", actual: result.Data.Value);
-            // **************************************************
-
-            // **************************************************
             Assert.Empty(result.Errors);
             Assert.Empty(result.Successes);
-            // **************************************************
         }
 
        

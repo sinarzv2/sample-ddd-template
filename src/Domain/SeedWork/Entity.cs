@@ -25,7 +25,7 @@
             {
                 if (_requestedHashCode.HasValue == false)
                 {
-                    _requestedHashCode = this.Id.GetHashCode() ^ 31;
+                    _requestedHashCode = Id.GetHashCode() ^ 31;
                 }
 
                 // XOR for random distribution. See:
