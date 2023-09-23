@@ -3,10 +3,11 @@ using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
 using System.Text.RegularExpressions;
+using Domain.SeedWork;
 
 namespace Domain.SharedKernel.ValueObjects
 {
-    public class NationalCode : SeedWork.ValueObject
+    public class NationalCode : ValueObject
     {
         public const int FixLength = 10;
 

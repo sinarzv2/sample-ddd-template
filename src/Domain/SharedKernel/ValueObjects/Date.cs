@@ -2,6 +2,7 @@
 
 namespace Domain.SharedKernel.ValueObjects
 {
+
     public class Date : ValueObject
     {
 
