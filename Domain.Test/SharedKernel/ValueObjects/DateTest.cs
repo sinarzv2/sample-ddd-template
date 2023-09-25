@@ -8,6 +8,7 @@ namespace Domain.Test.SharedKernel.ValueObjects
         [Fact]
         public void LessThan_Compare_ReturnTrue()
         {
+
             var date1 = MockHelper.PrivateMock<Date>(DateTime.Now);
 
             var date2 = MockHelper.PrivateMock<Date>(DateTime.Now.Date.AddDays(2));
