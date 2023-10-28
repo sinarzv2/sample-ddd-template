@@ -37,8 +37,5 @@ namespace Domain.Test.SharedKernel.ValueObjects
             Assert.True(date2 >= date3);
             Assert.False(date2 > date3);
         }
-
-       
-
     }
 }
