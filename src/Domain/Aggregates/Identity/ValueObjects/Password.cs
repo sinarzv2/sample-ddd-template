@@ -47,14 +47,6 @@ namespace Domain.Aggregates.Identity.ValueObjects
                 return result;
             }
 
-            if (value.Length > MaxLength)
-            {
-                var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Password, MaxLength);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
 
             if (!value.Any(char.IsDigit))
             {
