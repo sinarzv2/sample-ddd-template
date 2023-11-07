@@ -17,6 +17,11 @@ namespace Domain.Aggregates.Identity
 
             result.AddErrors(nameResult.Errors);
 
+            if (result.IsSuccess == false)
+            {
+                return result;
+            }
+
             var returnValue = new Role(nameResult.Data);
 
             result.SetData(returnValue);

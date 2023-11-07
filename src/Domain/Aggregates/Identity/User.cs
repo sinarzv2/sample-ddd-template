@@ -45,6 +45,8 @@ namespace Domain.Aggregates.Identity
 
             var fullNameResult = FullName.Create(gender, firstName, lastName);
 
+            result.AddErrors(fullNameResult.Errors);
+
             if (result.IsSuccess == false)
             {
                 return result;

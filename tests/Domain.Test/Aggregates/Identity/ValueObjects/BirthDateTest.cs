@@ -1,7 +1,6 @@
 ﻿using Common.Resources;
 using Common.Resources.Messages;
 using Common.Utilities;
-using Domain.Aggregates.DiscountCoupons.ValueObjects;
 using Domain.Aggregates.Identity.ValueObjects;
 
 namespace Domain.Test.Aggregates.Identity.ValueObjects
