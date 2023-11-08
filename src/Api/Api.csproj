@@ -7,20 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Asp.Versioning.Mvc" Version="7.1.0" />
 	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjectionFixed" Version="5.1.2" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	  <PackageReference Include="Scrutor" Version="4.2.2" />
 	  <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-	  <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+	  <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.1" />
 	  <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
 	  <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
-	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>

@@ -12,7 +12,6 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -22,6 +21,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using Application.Common.JwtServices;
+using Asp.Versioning;
 using Role = Domain.Aggregates.Identity.Role;
 
 namespace Api.Extentions;

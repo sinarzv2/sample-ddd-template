@@ -1,5 +1,6 @@
 ﻿using Api.Filters;
 using Application.AccountApplication.Commands;
+using Asp.Versioning;
 using Common.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
