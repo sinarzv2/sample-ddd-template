@@ -2,29 +2,28 @@
 using Common.Constant;
 using Domain.Aggregates.Identity;
 
-namespace Application.Common.DataInitializer
+namespace Application.Common.DataInitializer;
+
+public class RoleDataInitializer : IDataInitializer
 {
-    public class RoleDataInitializer : IDataInitializer
+    private readonly IUnitOfWork _unitOfWork;
+
+    public RoleDataInitializer(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
+        _unitOfWork = unitOfWork;
+    }
 
-        public RoleDataInitializer(IUnitOfWork unitOfWork)
+    public void InitializeData()
+    {
+        if (!_unitOfWork.RoleRepository.TableNoTracking.Any(p => p.Name == ConstantRoles.Admin))
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork.RoleRepository.Add(Role.Create(ConstantRoles.Admin).Data);
+        }
+        if (!_unitOfWork.RoleRepository.TableNoTracking.Any(p => p.Name == ConstantRoles.User))
+        {
+            _unitOfWork.RoleRepository.Add(Role.Create(ConstantRoles.User).Data);
         }
 
-        public void InitializeData()
-        {
-            if (!_unitOfWork.RoleRepository.TableNoTracking.Any(p => p.Name == ConstantRoles.Admin))
-            {
-                _unitOfWork.RoleRepository.Add(Role.Create(ConstantRoles.Admin).Data);
-            }
-            if (!_unitOfWork.RoleRepository.TableNoTracking.Any(p => p.Name == ConstantRoles.User))
-            {
-                _unitOfWork.RoleRepository.Add(Role.Create(ConstantRoles.User).Data);
-            }
-
-            _unitOfWork.CommitChangesAsync().Wait();
-        }
+        _unitOfWork.CommitChangesAsync().Wait();
     }
 }

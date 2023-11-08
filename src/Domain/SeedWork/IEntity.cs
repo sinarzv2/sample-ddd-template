@@ -1,7 +1,6 @@
-﻿namespace Domain.SeedWork
+﻿namespace Domain.SeedWork;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        Guid Id { get; }
-    }
+    Guid Id { get; }
 }

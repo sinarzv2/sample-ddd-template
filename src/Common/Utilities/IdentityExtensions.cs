@@ -2,43 +2,42 @@
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace Common.Utilities
+namespace Common.Utilities;
+
+public static class IdentityExtensions
 {
-    public static class IdentityExtensions
+    public static string? FindFirstValue(this ClaimsIdentity identity, string claimType)
     {
-        public static string? FindFirstValue(this ClaimsIdentity identity, string claimType)
-        {
-            return identity.FindFirst(claimType)?.Value;
-        }
+        return identity.FindFirst(claimType)?.Value;
+    }
 
-        public static string? FindFirstValue(this IIdentity identity, string claimType)
-        {
-            var claimsIdentity = identity as ClaimsIdentity;
-            return claimsIdentity?.FindFirstValue(claimType);
-        }
+    public static string? FindFirstValue(this IIdentity identity, string claimType)
+    {
+        var claimsIdentity = identity as ClaimsIdentity;
+        return claimsIdentity?.FindFirstValue(claimType);
+    }
 
-        public static List<Claim>? FindClaimByType(this IIdentity identity, string claimType)
-        {
-            var claimsIdentity = identity as ClaimsIdentity;
-            return claimsIdentity?.Claims.Where(d => d.Type == claimType).ToList();
-        }
+    public static List<Claim>? FindClaimByType(this IIdentity identity, string claimType)
+    {
+        var claimsIdentity = identity as ClaimsIdentity;
+        return claimsIdentity?.Claims.Where(d => d.Type == claimType).ToList();
+    }
 
-        public static string? GetUserId(this IIdentity identity)
-        {
-            return identity.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
+    public static string? GetUserId(this IIdentity identity)
+    {
+        return identity.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
 
-        public static T? GetUserId<T>(this IIdentity identity) where T : IConvertible
-        {
-            var userId = identity.GetUserId();
-            return userId != null && userId.HasValue()
-                ? (T)Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture)
-                : default(T);
-        }
+    public static T? GetUserId<T>(this IIdentity identity) where T : IConvertible
+    {
+        var userId = identity.GetUserId();
+        return userId != null && userId.HasValue()
+            ? (T)Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture)
+            : default(T);
+    }
 
-        public static string? GetUserName(this IIdentity identity)
-        {
-            return identity.FindFirstValue(ClaimTypes.Name);
-        }
+    public static string? GetUserName(this IIdentity identity)
+    {
+        return identity.FindFirstValue(ClaimTypes.Name);
     }
 }

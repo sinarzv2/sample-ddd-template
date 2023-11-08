@@ -2,15 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
+namespace Infrastructure.Persistance.Configuration.IdentityConfiguration;
+
+public class UserTokenConfig : IEntityTypeConfiguration<UserToken>
 {
-
-    public class UserTokenConfig : IEntityTypeConfiguration<UserToken>
+    public void Configure(EntityTypeBuilder<UserToken> builder)
     {
-        public void Configure(EntityTypeBuilder<UserToken> builder)
-        {
-            builder.ToTable("UserTokens");
-        }
+        builder.ToTable("UserTokens");
     }
-
 }

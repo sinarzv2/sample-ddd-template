@@ -24,205 +24,202 @@ using System.Text.Json;
 using Application.Common.JwtServices;
 using Role = Domain.Aggregates.Identity.Role;
 
-namespace Api.Extentions
+namespace Api.Extentions;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("SqlServer"));
+            //options.LogTo(Console.WriteLine);
+        });
+    }
+    public static void AddCustomIdentity(this IServiceCollection service, IdentitySettings settings)
+    {
+        service.AddIdentity<User, Role>(identityOptions =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("SqlServer"));
-                //options.LogTo(Console.WriteLine);
-            });
-        }
-        public static void AddCustomIdentity(this IServiceCollection service, IdentitySettings settings)
+                identityOptions.Password.RequireDigit = settings.PasswordRequireDigit;
+                identityOptions.Password.RequiredLength = settings.PasswordRequiredLength;
+                identityOptions.Password.RequireNonAlphanumeric = settings.PasswordRequireNonAlphanumic;
+                identityOptions.Password.RequireUppercase = settings.PasswordRequireUppercase;
+                identityOptions.Password.RequireLowercase = settings.PasswordRequireLowercase;
+                identityOptions.User.RequireUniqueEmail = settings.RequireUniqueEmail;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+    }
+
+
+    public static void AddJwtAuthentication(this IServiceCollection service, JwtSettings jwtSettings)
+    {
+        service.AddAuthentication(option =>
         {
-            service.AddIdentity<User, Role>(identityOptions =>
-                {
-                    identityOptions.Password.RequireDigit = settings.PasswordRequireDigit;
-                    identityOptions.Password.RequiredLength = settings.PasswordRequiredLength;
-                    identityOptions.Password.RequireNonAlphanumeric = settings.PasswordRequireNonAlphanumic;
-                    identityOptions.Password.RequireUppercase = settings.PasswordRequireUppercase;
-                    identityOptions.Password.RequireLowercase = settings.PasswordRequireLowercase;
-                    identityOptions.User.RequireUniqueEmail = settings.RequireUniqueEmail;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-        }
-
-
-        public static void AddJwtAuthentication(this IServiceCollection service, JwtSettings jwtSettings)
+            option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
         {
-            service.AddAuthentication(option =>
+            var secretkey = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
+            var encryptKey = Encoding.UTF8.GetBytes(jwtSettings.EncryptKey);
+
+            var validationParameters = new TokenValidationParameters
             {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+                ClockSkew = TimeSpan.Zero,
+                RequireSignedTokens = true,
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(secretkey),
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+
+                ValidateAudience = true,
+                ValidAudience = jwtSettings.Audience,
+
+                ValidateIssuer = true,
+                ValidIssuer = jwtSettings.Issuer,
+
+                TokenDecryptionKey = new SymmetricSecurityKey(encryptKey)
+            };
+
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = validationParameters;
+            options.Events = new JwtBearerEvents
             {
-                var secretkey = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-                var encryptKey = Encoding.UTF8.GetBytes(jwtSettings.EncryptKey);
-
-                var validationParameters = new TokenValidationParameters
+                OnAuthenticationFailed = context =>
                 {
-                    ClockSkew = TimeSpan.Zero,
-                    RequireSignedTokens = true,
-
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(secretkey),
-
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-
-                    ValidateAudience = true,
-                    ValidAudience = jwtSettings.Audience,
-
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtSettings.Issuer,
-
-                    TokenDecryptionKey = new SymmetricSecurityKey(encryptKey)
-                };
-
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = validationParameters;
-                options.Events = new JwtBearerEvents
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+                    var apiResult = new FluentResult();
+                    apiResult.AddError(Errors.AuthenticationFailed);
+                    var result = JsonSerializer.Serialize(apiResult);
+                    return context.Response.WriteAsync(result);
+                },
+                OnChallenge = context =>
                 {
-                    OnAuthenticationFailed = context =>
+                    context.HandleResponse();
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+                    var apiResult = new FluentResult();
+                    apiResult.AddError(Errors.YouAreNotLoggedIn);
+                    var result = JsonSerializer.Serialize(apiResult);
+                    return context.Response.WriteAsync(result);
+                }
+            };
+        });
+    }
+    public static void AddSwagger(this IServiceCollection services, SiteSettings siteSettings)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo() { Version = "v1", Title = " Version1" });
+            options.SwaggerDoc("v2", new OpenApiInfo() { Version = "v2", Title = " Version2" });
+
+            options.IgnoreObsoleteActions();
+            options.IgnoreObsoleteProperties();
+
+            options.EnableAnnotations();
+
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows()
+                {
+                    Password = new OpenApiOAuthFlow()
                     {
-                        context.Response.StatusCode = 401;
-                        context.Response.ContentType = "application/json";
-                        var apiResult = new FluentResult();
-                        apiResult.AddError(Errors.AuthenticationFailed);
-                        var result = JsonSerializer.Serialize(apiResult);
-                        return context.Response.WriteAsync(result);
-                    },
-                    OnChallenge = context =>
-                    {
-                        context.HandleResponse();
-                        context.Response.StatusCode = 401;
-                        context.Response.ContentType = "application/json";
-                        var apiResult = new FluentResult();
-                        apiResult.AddError(Errors.YouAreNotLoggedIn);
-                        var result = JsonSerializer.Serialize(apiResult);
-                        return context.Response.WriteAsync(result);
+                        TokenUrl = new Uri(siteSettings.LoginUrl, UriKind.Relative)
                     }
+                }
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { new OpenApiSecurityScheme()
+                {
+                    Reference = new OpenApiReference(){Type = ReferenceType.SecurityScheme,Id = "Bearer"}
+                }, new string[] { } }
+            });
+
+
+            options.OperationFilter<RemoveVersionParameters>();
+
+            options.DocumentFilter<SetVersionInPaths>();
+
+
+            options.DocInclusionPredicate((docName, apiDesc) =>
+            {
+                if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+                var versions = methodInfo?.DeclaringType?
+                    .GetCustomAttributes<ApiVersionAttribute>(true)
+                    .SelectMany(attr => attr.Versions);
+
+                return (versions ?? Array.Empty<ApiVersion>()).Any(v => $"v{v}" == docName);
+            });
+        });
+    }
+
+    public static void AddMapster(this IServiceCollection services)
+    {
+        var config = new TypeAdapterConfig();
+
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
+
+    }
+    public static void AddScrutor(this IServiceCollection services)
+    {
+        services.Scan(scan => scan
+            .FromAssemblyOf<JwtService>()
+            .AddClasses(classes => classes.AssignableTo<ITransientService>())
+            .AsImplementedInterfaces()
+            .WithTransientLifetime()
+
+            .AddClasses(classes => classes.AssignableTo<IScopedService>())
+            .AsImplementedInterfaces()
+            .WithScopedLifetime()
+
+            .FromAssemblyOf<UserRepository>()
+            .AddClasses(classes => classes.AssignableTo<ITransientService>())
+            .AsImplementedInterfaces()
+            .WithTransientLifetime()
+
+            .AddClasses(classes => classes.AssignableTo<IScopedService>())
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+    }
+
+    public static void AddDistributedCache(this IServiceCollection services, RedisSettings redisSettings)
+    {
+        if (redisSettings.IsEnabled)
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.InstanceName = redisSettings.InstanceName;
+                options.ConfigurationOptions = new ConfigurationOptions()
+                {
+                    Password = redisSettings.Password
                 };
-            });
-        }
-        public static void AddSwagger(this IServiceCollection services, SiteSettings siteSettings)
-        {
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo() { Version = "v1", Title = " Version1" });
-                options.SwaggerDoc("v2", new OpenApiInfo() { Version = "v2", Title = " Version2" });
-
-                options.IgnoreObsoleteActions();
-                options.IgnoreObsoleteProperties();
-
-                options.EnableAnnotations();
-
-
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows()
-                    {
-                        Password = new OpenApiOAuthFlow()
-                        {
-                            TokenUrl = new Uri(siteSettings.LoginUrl, UriKind.Relative)
-                        }
-                    }
-                });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    { new OpenApiSecurityScheme()
-                    {
-                        Reference = new OpenApiReference(){Type = ReferenceType.SecurityScheme,Id = "Bearer"}
-                    }, new string[] { } }
-                });
-
-
-                options.OperationFilter<RemoveVersionParameters>();
-
-                options.DocumentFilter<SetVersionInPaths>();
-
-
-                options.DocInclusionPredicate((docName, apiDesc) =>
-                {
-                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
-
-                    var versions = methodInfo?.DeclaringType?
-                        .GetCustomAttributes<ApiVersionAttribute>(true)
-                        .SelectMany(attr => attr.Versions);
-
-                    return (versions ?? Array.Empty<ApiVersion>()).Any(v => $"v{v}" == docName);
-                });
+                options.ConnectionMultiplexerFactory = async () => await ConnectionMultiplexer.ConnectAsync(redisSettings.Connection);
             });
         }
 
-        public static void AddMapster(this IServiceCollection services)
+        else
         {
-            var config = new TypeAdapterConfig();
-
-            services.AddSingleton(config);
-            services.AddScoped<IMapper, ServiceMapper>();
-
-        }
-        public static void AddScrutor(this IServiceCollection services)
-        {
-            services.Scan(scan => scan
-                .FromAssemblyOf<JwtService>()
-                .AddClasses(classes => classes.AssignableTo<ITransientService>())
-                .AsImplementedInterfaces()
-                .WithTransientLifetime()
-
-                .AddClasses(classes => classes.AssignableTo<IScopedService>())
-                .AsImplementedInterfaces()
-                .WithScopedLifetime()
-
-                .FromAssemblyOf<UserRepository>()
-                .AddClasses(classes => classes.AssignableTo<ITransientService>())
-                .AsImplementedInterfaces()
-                .WithTransientLifetime()
-
-                .AddClasses(classes => classes.AssignableTo<IScopedService>())
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
-        }
-
-        public static void AddDistributedCache(this IServiceCollection services, RedisSettings redisSettings)
-        {
-            if (redisSettings.IsEnabled)
-            {
-                services.AddStackExchangeRedisCache(options =>
-                {
-                    options.InstanceName = redisSettings.InstanceName;
-                    options.ConfigurationOptions = new ConfigurationOptions()
-                    {
-                        Password = redisSettings.Password
-                    };
-                    options.ConnectionMultiplexerFactory = async () => await ConnectionMultiplexer.ConnectAsync(redisSettings.Connection);
-                });
-            }
-
-            else
-            {
-                services.AddDistributedMemoryCache();
-            }
-
-        }
-
-        public static void AddCustomMediateR(this IServiceCollection services)
-        {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UserPasswordChangedEventHandler).Assembly));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidateCommandBehavior<,>));
-
+            services.AddDistributedMemoryCache();
         }
 
     }
 
-   
+    public static void AddCustomMediateR(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UserPasswordChangedEventHandler).Assembly));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidateCommandBehavior<,>));
+
+    }
+
 }

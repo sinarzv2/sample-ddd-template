@@ -1,10 +1,9 @@
 ﻿using Common.DependencyLifeTime;
 
-namespace Application.AccountApplication.Services
+namespace Application.AccountApplication.Services;
+
+public interface IUserService : IScopedService
 {
-    public interface IUserService : IScopedService
-    {
-        Task<bool> ExistUserByUsername(string username);
+    Task<bool> ExistUserByUsername(string username);
         
-    }
 }

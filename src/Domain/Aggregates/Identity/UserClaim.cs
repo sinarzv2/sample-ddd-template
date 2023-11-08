@@ -1,13 +1,11 @@
 ﻿using Domain.SeedWork;
 using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Aggregates.Identity
+namespace Domain.Aggregates.Identity;
+
+public class UserClaim : IdentityUserClaim<Guid>, IEntity
 {
-    public class UserClaim : IdentityUserClaim<Guid>, IEntity
-    {
-        public new Guid Id { get; init; }
+    public new Guid Id { get; init; }
 
-
-    }
 
 }

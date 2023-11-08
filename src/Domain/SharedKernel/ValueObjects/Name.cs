@@ -4,65 +4,64 @@ using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
 
-namespace Domain.SharedKernel.ValueObjects
+namespace Domain.SharedKernel.ValueObjects;
+
+public class Name : ValueObject
 {
-    public class Name : ValueObject
+    public const int MaxLength = 50;
+
+    public static Name Default = new(string.Empty);
+
+    public static FluentResult<Name> Create(string? value)
     {
-        public const int MaxLength = 50;
+        var result = new FluentResult<Name>();
 
-        public static Name Default = new(string.Empty);
+        value = value.Fix();
 
-        public static FluentResult<Name> Create(string? value)
+        if (value is null)
         {
-            var result = new FluentResult<Name>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.Name);
 
-            value = value.Fix();
-
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.Name);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (value.Length > MaxLength)
-            {
-                var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Name, MaxLength);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new Name(value: value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-
-        private Name()
+        if (value.Length > MaxLength)
         {
+            var errorMessage = string.Format(Validations.MaxLength, DataDictionary.Name, MaxLength);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
-        private Name(string value) : this()
-        {
-            Value = value;
-        }
+        var returnValue = new Name(value: value);
 
-        public string Value { get; } = string.Empty;
+        result.SetData(returnValue);
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        return result;
+    }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+
+    private Name()
+    {
+    }
+
+    private Name(string value) : this()
+    {
+        Value = value;
+    }
+
+    public string Value { get; } = string.Empty;
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

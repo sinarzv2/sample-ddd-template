@@ -1,9 +1,8 @@
 ﻿using Domain.Aggregates.Identity;
 
-namespace Domain.IRepository
+namespace Domain.IRepository;
+
+public interface IUserClaimRepository : IRepository<UserClaim>
 {
-    public interface IUserClaimRepository : IRepository<UserClaim>
-    {
-        Task<List<UserClaim>> GetClaimsByType(Guid userId, string type);
-    }
+    Task<List<UserClaim>> GetClaimsByType(Guid userId, string type);
 }

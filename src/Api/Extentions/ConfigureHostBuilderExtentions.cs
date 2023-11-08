@@ -1,15 +1,14 @@
 ﻿using Serilog;
 
-namespace Api.Extentions
+namespace Api.Extentions;
+
+public static class ConfigureHostBuilderExtentions
 {
-    public static class ConfigureHostBuilderExtentions
+    public static void UseCustomSerilog(this ConfigureHostBuilder host)
     {
-        public static void UseCustomSerilog(this ConfigureHostBuilder host)
+        host.UseSerilog((context, configuration) =>
         {
-            host.UseSerilog((context, configuration) =>
-            {
-                configuration.ReadFrom.Configuration(context.Configuration);
-            });
-        }
+            configuration.ReadFrom.Configuration(context.Configuration);
+        });
     }
 }

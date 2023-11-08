@@ -4,65 +4,64 @@ using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
 
-namespace Domain.SharedKernel.ValueObjects
+namespace Domain.SharedKernel.ValueObjects;
+
+public class LastName : ValueObject
 {
-    public class LastName : ValueObject
+
+    public const int MaxLength = 50;
+
+    public static LastName Default = new(string.Empty);
+
+    public static FluentResult<LastName> Create(string? value)
     {
+        var result = new FluentResult<LastName>();
 
-        public const int MaxLength = 50;
+        value = value.Fix();
 
-        public static LastName Default = new(string.Empty);
-
-        public static FluentResult<LastName> Create(string? value)
+        if (value is null)
         {
-            var result = new FluentResult<LastName>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.LastName);
 
-            value = value.Fix();
-
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.LastName);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (value.Length > MaxLength)
-            {
-                var errorMessage = string.Format(Validations.MaxLength, DataDictionary.LastName, MaxLength);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new LastName(value: value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-        private LastName()
+        if (value.Length > MaxLength)
         {
+            var errorMessage = string.Format(Validations.MaxLength, DataDictionary.LastName, MaxLength);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
-        private LastName(string value) : this()
-        {
-            Value = value;
-        }
+        var returnValue = new LastName(value: value);
 
-        public string Value { get; } = string.Empty;
+        result.SetData(returnValue);
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        return result;
+    }
 
-        public override string ToString()
-        {
-            return string.IsNullOrWhiteSpace(Value) ? "-----" : Value;
-        }
+    private LastName()
+    {
+    }
+
+    private LastName(string value) : this()
+    {
+        Value = value;
+    }
+
+    public string Value { get; } = string.Empty;
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return string.IsNullOrWhiteSpace(Value) ? "-----" : Value;
     }
 }

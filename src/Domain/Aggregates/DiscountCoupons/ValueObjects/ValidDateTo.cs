@@ -3,45 +3,44 @@ using Common.Resources;
 using Common.Resources.Messages;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.Aggregates.DiscountCoupons.ValueObjects
+namespace Domain.Aggregates.DiscountCoupons.ValueObjects;
+
+public class ValidDateTo : Date
 {
-    public class ValidDateTo : Date
+    public static ValidDateTo Default = new(DateTime.MaxValue);
+    public static FluentResult<ValidDateTo> Create(DateTime? value)
     {
-        public static ValidDateTo Default = new(DateTime.MaxValue);
-        public static FluentResult<ValidDateTo> Create(DateTime? value)
+        var result = new FluentResult<ValidDateTo>();
+
+        if (value is null)
         {
-            var result = new FluentResult<ValidDateTo>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.ValidDateTo);
 
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.ValidDateTo);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (value.Value.Date < DateTime.Now.Date)
-            {
-                var errorMessage = string.Format(Validations.GreaterThanOrEqualTo_FieldValue, DataDictionary.ValidDateTo, DataDictionary.CurrentDate);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new ValidDateTo(value: value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-
-
-        private ValidDateTo(DateTime? value) : base(value)
+        if (value.Value.Date < DateTime.Now.Date)
         {
+            var errorMessage = string.Format(Validations.GreaterThanOrEqualTo_FieldValue, DataDictionary.ValidDateTo, DataDictionary.CurrentDate);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
+        var returnValue = new ValidDateTo(value: value);
+
+        result.SetData(returnValue);
+
+        return result;
     }
+
+
+
+    private ValidDateTo(DateTime? value) : base(value)
+    {
+    }
+
 }

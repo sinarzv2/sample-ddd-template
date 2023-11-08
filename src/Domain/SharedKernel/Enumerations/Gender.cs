@@ -3,48 +3,46 @@ using Common.Resources;
 using Common.Resources.Messages;
 using Domain.SeedWork;
 
-namespace Domain.SharedKernel.Enumerations
+namespace Domain.SharedKernel.Enumerations;
+
+public class Gender : Enumeration
 {
-    public class Gender : Enumeration
+    public const int MaxLength = 10;
+
+    public static readonly Gender Male = new(0, DataDictionary.Male);
+    public static readonly Gender Female = new(1, DataDictionary.Female);
+
+    public static FluentResult<Gender> GetByValue(int? value)
     {
-        public const int MaxLength = 10;
+        var result = new FluentResult<Gender>();
 
-        public static readonly Gender Male = new(0, DataDictionary.Male);
-        public static readonly Gender Female = new(1, DataDictionary.Female);
-
-        public static FluentResult<Gender> GetByValue(int? value)
+        if (value is null)
         {
-            var result = new FluentResult<Gender>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.Gender);
 
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.Gender);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var gender = FromValue<Gender>(value.Value);
-
-            if (gender is null)
-            {
-                var errorMessage = string.Format(Validations.InvalidCode, DataDictionary.Gender);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            result.SetData(gender);
+            result.AddError(errorMessage);
 
             return result;
         }
 
+        var gender = FromValue<Gender>(value.Value);
 
-        private Gender(int value, string name) : base(value, name)
+        if (gender is null)
         {
+            var errorMessage = string.Format(Validations.InvalidCode, DataDictionary.Gender);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
+
+        result.SetData(gender);
+
+        return result;
+    }
+
+
+    private Gender(int value, string name) : base(value, name)
+    {
     }
 }
-

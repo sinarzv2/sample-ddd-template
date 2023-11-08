@@ -3,73 +3,72 @@ using Common.Resources;
 using Common.Resources.Messages;
 using Domain.SeedWork;
 
-namespace Domain.SharedKernel.ValueObjects
+namespace Domain.SharedKernel.ValueObjects;
+
+public class Price : ValueObject
 {
-    public class Price : ValueObject
+    public const int Minimum = 0;
+
+    public const int Maximum = 10_000_000;
+
+    public static Price Default = new(0);
+
+    public static FluentResult<Price> Create(int value)
     {
-        public const int Minimum = 0;
+        var result = new FluentResult<Price>();
 
-        public const int Maximum = 10_000_000;
-
-        public static Price Default = new(0);
-
-        public static FluentResult<Price> Create(int value)
+        if (value < Minimum || value > Maximum)
         {
-            var result = new FluentResult<Price>();
+            var errorMessage = string.Format(Validations.Range, DataDictionary.Price, Minimum, Maximum);
 
-            if (value < Minimum || value > Maximum)
-            {
-                var errorMessage = string.Format(Validations.Range, DataDictionary.Price, Minimum, Maximum);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new Price(value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-        public static FluentResult<Price> operator +(Price left, Price right)
-        {
-            var value = left.Value + right.Value;
+        var returnValue = new Price(value);
 
-            var result = Create(value);
+        result.SetData(returnValue);
 
-            return result;
-        }
+        return result;
+    }
 
-        public static FluentResult<Price> operator -(Price left, Price right)
-        {
-            var value = left.Value - right.Value;
+    public static FluentResult<Price> operator +(Price left, Price right)
+    {
+        var value = left.Value + right.Value;
 
-            var result = Create(value);
+        var result = Create(value);
 
-            return result;
-        }
+        return result;
+    }
 
-        private Price()
-        {
-        }
+    public static FluentResult<Price> operator -(Price left, Price right)
+    {
+        var value = left.Value - right.Value;
 
-        protected Price(int value) : this()
-        {
-            Value = value;
-        }
+        var result = Create(value);
 
-        public int Value { get; }
+        return result;
+    }
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+    private Price()
+    {
+    }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+    protected Price(int value) : this()
+    {
+        Value = value;
+    }
+
+    public int Value { get; }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

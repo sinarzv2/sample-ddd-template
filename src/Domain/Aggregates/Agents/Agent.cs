@@ -1,20 +1,19 @@
 ﻿using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.Aggregates.Agents
+namespace Domain.Aggregates.Agents;
+
+public class Agent : AggregateRoot
 {
-    public class Agent : AggregateRoot
+
+    private Agent()
     {
-
-        private Agent()
-        {
-        }
-
-        public Agent(FullName fullName) : this()
-        {
-            FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
-        }
-
-        public FullName FullName { get; } = FullName.Default;
     }
+
+    public Agent(FullName fullName) : this()
+    {
+        FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
+    }
+
+    public FullName FullName { get; } = FullName.Default;
 }

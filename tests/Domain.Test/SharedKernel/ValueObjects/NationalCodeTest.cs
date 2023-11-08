@@ -3,65 +3,64 @@ using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.Test.SharedKernel.ValueObjects
+namespace Domain.Test.SharedKernel.ValueObjects;
+
+public class NationalCodeTest
 {
-    public class NationalCodeTest
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("     ")]
+    public void Create_SendNullOrEmpty_ResultIsNotSuccess(string value)
     {
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("     ")]
-        public void Create_SendNullOrEmpty_ResultIsNotSuccess(string value)
-        {
-            var result = NationalCode.Create(value);
+        var result = NationalCode.Create(value);
 
-            Assert.False(result.IsSuccess);
+        Assert.False(result.IsSuccess);
 
-            var errorMessage = string.Format(Validations.Required, DataDictionary.NationalCode);
+        var errorMessage = string.Format(Validations.Required, DataDictionary.NationalCode);
 
-            Assert.Equal(errorMessage, result.Errors[0]);
-        }
+        Assert.Equal(errorMessage, result.Errors[0]);
+    }
 
 
 
 
-        [Theory]
-        [InlineData("  12345  ")]
-        [InlineData("  123451234512345  ")]
-        public void Create_SendWrongLength_ResultIsNotSuccess(string value)
-        {
-            var result = NationalCode.Create(value);
+    [Theory]
+    [InlineData("  12345  ")]
+    [InlineData("  123451234512345  ")]
+    public void Create_SendWrongLength_ResultIsNotSuccess(string value)
+    {
+        var result = NationalCode.Create(value);
 
-            Assert.False(result.IsSuccess);
+        Assert.False(result.IsSuccess);
 
-            var errorMessage = string.Format(Validations.FixLengthNumeric, DataDictionary.NationalCode, NationalCode.FixLength);
+        var errorMessage = string.Format(Validations.FixLengthNumeric, DataDictionary.NationalCode, NationalCode.FixLength);
 
-            Assert.Equal(errorMessage, result.Errors[0]);
-        }
-
-
-        [Theory]
-        [InlineData("1234512345")]
-        [InlineData("  1234512345  ")]
-        public void Create_SendCorrectNationalCode_ResultIsSuccess(string value)
-        {
-            var result = NationalCode.Create(value);
-
-            Assert.True(result.IsSuccess);
-            Assert.Equal("1234512345", result.Data.Value);
-        }
+        Assert.Equal(errorMessage, result.Errors[0]);
+    }
 
 
-        [Fact]
-        public void Create_SendWrongFormat_ResultIsNotSuccess()
-        {
-            var result = NationalCode.Create(value: "aaaaaaaaaa");
+    [Theory]
+    [InlineData("1234512345")]
+    [InlineData("  1234512345  ")]
+    public void Create_SendCorrectNationalCode_ResultIsSuccess(string value)
+    {
+        var result = NationalCode.Create(value);
 
-            Assert.False(result.IsSuccess);
+        Assert.True(result.IsSuccess);
+        Assert.Equal("1234512345", result.Data.Value);
+    }
 
-            var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.NationalCode);
 
-            Assert.Equal(errorMessage.CleanString(), result.Errors[0]);
-        }
+    [Fact]
+    public void Create_SendWrongFormat_ResultIsNotSuccess()
+    {
+        var result = NationalCode.Create(value: "aaaaaaaaaa");
+
+        Assert.False(result.IsSuccess);
+
+        var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.NationalCode);
+
+        Assert.Equal(errorMessage.CleanString(), result.Errors[0]);
     }
 }

@@ -3,57 +3,56 @@ using Common.Resources;
 using Common.Resources.Messages;
 using Domain.SeedWork;
 
-namespace Domain.Aggregates.Orders.ValueObjects
+namespace Domain.Aggregates.Orders.ValueObjects;
+
+public class Count : ValueObject
 {
-    public class Count : ValueObject
+    public const int Minimum = 1;
+
+    public const int Maximum = 10;
+
+    public static Count Default = new(0);
+
+    public static FluentResult<Count> Create(int value)
     {
-        public const int Minimum = 1;
+        var result = new FluentResult<Count>();
 
-        public const int Maximum = 10;
-
-        public static Count Default = new(0);
-
-        public static FluentResult<Count> Create(int value)
+        if (value < Minimum || value > Maximum)
         {
-            var result = new FluentResult<Count>();
+            var errorMessage = string.Format(Validations.Range, DataDictionary.Count, Minimum, Maximum);
 
-            if (value < Minimum || value > Maximum)
-            {
-                var errorMessage = string.Format(Validations.Range, DataDictionary.Count, Minimum, Maximum);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new Count(value: value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
+        var returnValue = new Count(value: value);
+
+        result.SetData(returnValue);
+
+        return result;
+    }
 
 
-        private Count()
-        {
-        }
 
-        protected Count(int value) : this()
-        {
-            Value = value;
-        }
+    private Count()
+    {
+    }
 
-        public int Value { get; }
+    protected Count(int value) : this()
+    {
+        Value = value;
+    }
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+    public int Value { get; }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

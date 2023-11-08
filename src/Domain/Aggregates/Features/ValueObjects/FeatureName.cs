@@ -4,67 +4,66 @@ using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
 
-namespace Domain.Aggregates.Features.ValueObjects
+namespace Domain.Aggregates.Features.ValueObjects;
+
+public class FeatureName : ValueObject
 {
-    public class FeatureName : ValueObject
+
+    public const int MaxLength = 100;
+
+
+    public static FeatureName Default = new(string.Empty);
+
+    public static FluentResult<FeatureName> Create(string? value)
     {
+        var result = new FluentResult<FeatureName>();
 
-        public const int MaxLength = 100;
+        value = value.Fix();
 
-
-        public static FeatureName Default = new(string.Empty);
-
-        public static FluentResult<FeatureName> Create(string? value)
+        if (value is null)
         {
-            var result = new FluentResult<FeatureName>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.FeatureName);
 
-            value = value.Fix();
-
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.FeatureName);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (value.Length > MaxLength)
-            {
-                var errorMessage = string.Format(Validations.MaxLength, DataDictionary.FeatureName, MaxLength);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new FeatureName(value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-
-        private FeatureName()
+        if (value.Length > MaxLength)
         {
+            var errorMessage = string.Format(Validations.MaxLength, DataDictionary.FeatureName, MaxLength);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
-        protected FeatureName(string value) : this()
-        {
-            Value = value;
-        }
+        var returnValue = new FeatureName(value);
 
-        public string Value { get; } = string.Empty;
+        result.SetData(returnValue);
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        return result;
+    }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+
+    private FeatureName()
+    {
+    }
+
+    protected FeatureName(string value) : this()
+    {
+        Value = value;
+    }
+
+    public string Value { get; } = string.Empty;
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

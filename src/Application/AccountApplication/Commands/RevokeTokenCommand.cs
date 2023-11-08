@@ -1,13 +1,12 @@
 ﻿using Domain.SeedWork;
 
-namespace Application.AccountApplication.Commands
+namespace Application.AccountApplication.Commands;
+
+public class RevokeTokenCommand : ICommand
 {
-    public class RevokeTokenCommand : ICommand
+    public RevokeTokenCommand(Guid userId)
     {
-        public RevokeTokenCommand(Guid userId)
-        {
-            UserId = userId;
-        }
-        public Guid UserId { get; init; }
+        UserId = userId;
     }
+    public Guid UserId { get; init; }
 }

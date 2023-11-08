@@ -1,10 +1,9 @@
 ﻿using Domain.Aggregates.Identity;
 
-namespace Domain.IRepository
+namespace Domain.IRepository;
+
+public interface IUserRepository : IRepository<User>
 {
-    public interface IUserRepository : IRepository<User>
-    {
 
 
-    }
 }

@@ -4,65 +4,64 @@ using Common.Resources.Messages;
 using Common.Utilities;
 using Domain.SeedWork;
 
-namespace Domain.Aggregates.Features.ValueObjects
+namespace Domain.Aggregates.Features.ValueObjects;
+
+public class PackageName : ValueObject
 {
-    public class PackageName : ValueObject
+    public const int MaxLength = 100;
+
+    public static PackageName Default = new(string.Empty);
+
+    public static FluentResult<PackageName> Create(string? value)
     {
-        public const int MaxLength = 100;
+        var result = new FluentResult<PackageName>();
 
-        public static PackageName Default = new(string.Empty);
+        value = value.Fix();
 
-        public static FluentResult<PackageName> Create(string? value)
+        if (value is null)
         {
-            var result = new FluentResult<PackageName>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.PackageName);
 
-            value = value.Fix();
-
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.PackageName);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (value.Length > MaxLength)
-            {
-                var errorMessage = string.Format(Validations.MaxLength, DataDictionary.PackageName, MaxLength);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new PackageName(value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-
-        private PackageName()
+        if (value.Length > MaxLength)
         {
+            var errorMessage = string.Format(Validations.MaxLength, DataDictionary.PackageName, MaxLength);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
-        protected PackageName(string value) : this()
-        {
-            Value = value;
-        }
+        var returnValue = new PackageName(value);
 
-        public string Value { get; } = string.Empty;
+        result.SetData(returnValue);
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        return result;
+    }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+
+    private PackageName()
+    {
+    }
+
+    protected PackageName(string value) : this()
+    {
+        Value = value;
+    }
+
+    public string Value { get; } = string.Empty;
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

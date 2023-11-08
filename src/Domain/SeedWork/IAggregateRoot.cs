@@ -1,9 +1,8 @@
-﻿namespace Domain.SeedWork
-{
-    public interface IAggregateRoot : IEntity
-    {
-        void ClearDomainEvents();
+﻿namespace Domain.SeedWork;
 
-        IReadOnlyList<IDomainEvent> DomainEvents { get; }
-    }
+public interface IAggregateRoot : IEntity
+{
+    void ClearDomainEvents();
+
+    IReadOnlyList<IDomainEvent> DomainEvents { get; }
 }

@@ -2,15 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistance.Configuration.IdentityConfiguration
+namespace Infrastructure.Persistance.Configuration.IdentityConfiguration;
+
+public class UserRoleConfig : IEntityTypeConfiguration<UserRole>
 {
-
-    public class UserRoleConfig : IEntityTypeConfiguration<UserRole>
+    public void Configure(EntityTypeBuilder<UserRole> builder)
     {
-        public void Configure(EntityTypeBuilder<UserRole> builder)
-        {
-            builder.ToTable("UserRoles");
-        }
+        builder.ToTable("UserRoles");
     }
-
 }

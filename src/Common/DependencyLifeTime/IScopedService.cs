@@ -1,6 +1,5 @@
-﻿namespace Common.DependencyLifeTime
+﻿namespace Common.DependencyLifeTime;
+
+public interface IScopedService
 {
-    public interface IScopedService
-    {
-    }
 }

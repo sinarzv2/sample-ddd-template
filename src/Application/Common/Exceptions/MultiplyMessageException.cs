@@ -1,11 +1,10 @@
-﻿namespace Application.Common.Exceptions
+﻿namespace Application.Common.Exceptions;
+
+public class MultiplyMessageException : Exception
 {
-    public class MultiplyMessageException : Exception
+    public List<string> Messages { get; set; }
+    public MultiplyMessageException(List<string> messages)
     {
-        public List<string> Messages { get; set; }
-        public MultiplyMessageException(List<string> messages)
-        {
-            Messages = messages;
-        }
+        Messages = messages;
     }
 }

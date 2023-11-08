@@ -5,77 +5,76 @@ using Common.Utilities;
 using System.Text.RegularExpressions;
 using Domain.SeedWork;
 
-namespace Domain.SharedKernel.ValueObjects
+namespace Domain.SharedKernel.ValueObjects;
+
+public class NationalCode : ValueObject
 {
-    public class NationalCode : ValueObject
+    public const int FixLength = 10;
+
+    public const string RegularExpression = "^[0-9]{10}$";
+
+
+    public static NationalCode Default = new(string.Empty);
+
+    public static FluentResult<NationalCode> Create(string? value)
     {
-        public const int FixLength = 10;
+        var result = new FluentResult<NationalCode>();
 
-        public const string RegularExpression = "^[0-9]{10}$";
+        value = value.Fix();
 
-
-        public static NationalCode Default = new(string.Empty);
-
-        public static FluentResult<NationalCode> Create(string? value)
+        if (value is null)
         {
-            var result = new FluentResult<NationalCode>();
+            var errorMessage = string.Format(Validations.Required, DataDictionary.NationalCode);
 
-            value = value.Fix();
-
-            if (value is null)
-            {
-                var errorMessage = string.Format(Validations.Required, DataDictionary.NationalCode);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (value.Length != FixLength)
-            {
-                var errorMessage = string.Format(Validations.FixLengthNumeric, DataDictionary.NationalCode, FixLength);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            if (Regex.IsMatch(value, RegularExpression) == false)
-            {
-                var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.NationalCode);
-
-                result.AddError(errorMessage);
-
-                return result;
-            }
-
-            var returnValue = new NationalCode(value: value);
-
-            result.SetData(returnValue);
+            result.AddError(errorMessage);
 
             return result;
         }
 
-
-        private NationalCode()
+        if (value.Length != FixLength)
         {
+            var errorMessage = string.Format(Validations.FixLengthNumeric, DataDictionary.NationalCode, FixLength);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
-        protected NationalCode(string value) : this()
+        if (Regex.IsMatch(value, RegularExpression) == false)
         {
-            Value = value;
+            var errorMessage = string.Format(Validations.RegularExpression, DataDictionary.NationalCode);
+
+            result.AddError(errorMessage);
+
+            return result;
         }
 
-        public string Value { get; } = string.Empty;
+        var returnValue = new NationalCode(value: value);
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        result.SetData(returnValue);
 
-        public override string ToString()
-        {
-            return Value;
-        }
+        return result;
+    }
+
+
+    private NationalCode()
+    {
+    }
+
+    protected NationalCode(string value) : this()
+    {
+        Value = value;
+    }
+
+    public string Value { get; } = string.Empty;
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }
