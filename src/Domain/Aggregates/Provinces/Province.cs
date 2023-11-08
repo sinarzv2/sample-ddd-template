@@ -9,7 +9,7 @@ namespace Domain.Aggregates.Provinces;
 
 public class Province : AggregateRoot
 {
-    public static FluentResult<Province> Create(string name, Guid? id = null)
+    public static FluentResult<Province> Create(string? name, Guid? id = null)
     {
         var result = new FluentResult<Province>();
 
@@ -47,7 +47,7 @@ public class Province : AggregateRoot
 
     public virtual IReadOnlyList<City> Cities => _cities;
 
-    public FluentResult Update(string name)
+    public FluentResult Update(string? name)
     {
         var result = Create(name);
 
@@ -61,7 +61,7 @@ public class Province : AggregateRoot
         return result;
     }
 
-    public FluentResult<City> AddCity(string cityName)
+    public FluentResult<City> AddCity(string? cityName)
     {
         var result = new FluentResult<City>();
 
@@ -92,7 +92,7 @@ public class Province : AggregateRoot
         return result;
     }
 
-    public FluentResult RemoveCity(string cityName)
+    public FluentResult RemoveCity(string? cityName)
     {
         var result = new FluentResult();
 

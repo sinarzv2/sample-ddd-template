@@ -1,4 +1,6 @@
 ﻿using Common.Models;
+using Common.Resources;
+using Common.Resources.Messages;
 using Domain.Aggregates.Provinces;
 using Domain.SeedWork;
 using Domain.SharedKernel.ValueObjects;
@@ -7,10 +9,16 @@ namespace Domain.Aggregates.Cities;
 
 public sealed class City : AggregateRoot
 {
-    public static FluentResult<City> Create(Province province, string name)
+    public static FluentResult<City> Create(Province? province, string? name)
     {
         var result = new FluentResult<City>();
 
+        if (province is null)
+        {
+            var errorMessage = string.Format(Validations.Required, DataDictionary.Province);
+
+            result.AddError(errorMessage);
+        }
 
         var nameResult = Name.Create(name);
 
@@ -21,7 +29,7 @@ public sealed class City : AggregateRoot
             return result;
         }
 
-        var returnValue = new City(province, nameResult.Data);
+        var returnValue = new City(province!, nameResult.Data);
 
         result.SetData(returnValue);
 
@@ -44,7 +52,7 @@ public sealed class City : AggregateRoot
 
     public Province Province { get; init; } = default!;
 
-    public FluentResult Update(string name)
+    public FluentResult Update(string? name)
     {
         var result = Create(Province, name);
 
